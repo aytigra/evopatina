@@ -11,3 +11,17 @@
 /log/*
 !/log/.keep
 /tmp
+
+#ignore vagrant local settings
+/.vagrant
+
+# Ignore simplecov generated files
+coverage
+
+# Ignore other things
+*swp
+*~
+.project
+.DS_Store
+.idea
+.secret
