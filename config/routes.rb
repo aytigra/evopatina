@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  root 'weeks#index'
+  get 'weeks/index'
+
+  devise_for :users, controllers: { registrations: "users/registrations" }
+  devise_scope :user do
+    get 'confirm', to: 'users/registrations#confirm'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
