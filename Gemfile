@@ -57,8 +57,10 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'site_prism'
   gem 'database_cleaner'
   gem 'faker'
-  gem 'selenium-webdriver'
   gem 'simplecov', require: false
+  gem 'webmock'
 end

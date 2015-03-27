@@ -46,6 +46,7 @@ sudo -u postgres createdb -O vagrant activerecord_unittest2
 install 'Nokogiri dependencies' libxml2 libxml2-dev libxslt1-dev
 install 'ExecJS runtime' nodejs
 
+install 'QT dependencies' qt4-dev-tools libqt4-dev libqt4-core libqt4-gui
 # Needed for docs generation.
 update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
 

@@ -2,10 +2,15 @@ require 'rails_helper'
 
 RSpec.describe WeeksController, type: :controller do
 
-  describe "GET #index" do
-    it "returns http success" do
+  describe "anonymous user" do
+    before :each do
+      # This simulates an anonymous user
+      login_with nil
+    end
+
+    it "should be redirected to signin" do
       get :index
-      expect(response).to have_http_status(:success)
+      expect( response ).to redirect_to( new_user_session_path )
     end
   end
 
