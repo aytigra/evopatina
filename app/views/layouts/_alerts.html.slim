@@ -1,7 +1,7 @@
-div
+div id="flash"
   - flash.each do |name, msg|
     - if msg.is_a?(String)
       div class="alert alert-#{name.to_s == 'notice' ? 'success' : 'danger'} alert-dismissible" role="alert"
         button type="button" class="close" data-dismiss="alert" aria-label="Close"
           span aria-hidden="true" &times;
-        = msg
+        span = msg

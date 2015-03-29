@@ -9,7 +9,9 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rspec'
-require 'site_prism' 
+require 'site_prism'
+Dir[ Rails.root.join *%w(spec pages *) ].each{ |f| require f }
+
 require 'webmock/rspec'
 require 'devise'
 
