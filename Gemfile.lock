@@ -117,6 +117,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     hike (1.2.3)
     hitimes (1.2.2)
+    http_accept_language (2.0.5)
     i18n (0.7.0)
     jbuilder (2.2.12)
       activesupport (>= 3.0.0, < 5)
@@ -299,6 +300,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   guard-rspec
+  http_accept_language
   jbuilder (~> 2.0)
   jquery-rails
   momentjs-rails (>= 2.8.1)

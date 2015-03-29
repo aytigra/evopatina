@@ -10,6 +10,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
 gem 'slim'
+gem 'http_accept_language'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
