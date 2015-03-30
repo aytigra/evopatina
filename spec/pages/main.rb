@@ -10,6 +10,9 @@ class FlashSection < SitePrism::Section
   element :msg, ".alert>span"
 end
 
+class SectorsSection < SitePrism::Section
+  elements :names, "div span"
+end
 
 class MainPage < SitePrism::Page
   set_url '/'
@@ -17,6 +20,7 @@ class MainPage < SitePrism::Page
 
   section :header, HeaderSection, ".navbar"
   section :flash, FlashSection, "#flash"
+  section :sectors, SectorsSection, "#sectors"
 end
 
 class LoginPage < SitePrism::Page

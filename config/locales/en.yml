@@ -4,3 +4,23 @@ en:
       lang: "Language"
       ru: "Russian"
       en: "English"
+
+  sector:
+    id_1:
+      name: "body"
+      description: "Development of the physical body, health improvement, martial arts"
+    id_2:
+      name: "intellect"
+      description: "Development of intellectual abilities, erudition"
+    id_3:
+      name: "mind"
+      description: "Mental development, freedom from negative emotions and experience of enlightened perceptions"
+    id_4:
+      name: "wealth"
+      description: "Access to a variety of impressions and comfort, security, independence and the ability to give"
+    id_5:
+      name: "friends"
+      description: "Forming a circle of interesting, close friends"
+    id_6:
+      name: "entertainment"
+      description: "Impressions, pleasure - sex, traveling, movies, books, music, chat, etc."

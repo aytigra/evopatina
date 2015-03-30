@@ -15,12 +15,14 @@ feature "user visits main page", type: :feature do
     end
 
     it "redirects to main page after log in" do
-      login_page.email.set user.email
-      login_page.password.set user.password
-      login_page.button.click
+      login_page.tap do |lp|
+        lp.email.set user.email
+        lp.password.set user.password
+        lp.button.click
+      end
 
       expect(main_page).to be_displayed
-      expect(main_page.flash.msg.text).to eq "Signed in successfully."
+      expect(main_page.flash.msg.text).to eq I18n.translate("devise.sessions.signed_in")
       expect(main_page.header.user_name.text).to eq user.email
     end
   end
@@ -31,9 +33,13 @@ feature "user visits main page", type: :feature do
       main_page.load
     end
 
-    it "shows main page with user" do
+    it "shows main page with authorised user" do
       expect(main_page).to be_displayed
       expect(main_page.header.user_name.text).to eq user.email
+    end
+
+    it "shows sectors header" do
+      expect(main_page.sectors.names.map {|name| name.text}[2]).to eq I18n.translate("sector.id_3.name")
     end
   end
 end
