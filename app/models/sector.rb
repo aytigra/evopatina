@@ -27,8 +27,8 @@ class Sector
 
   def self.hash(values = {})
     res = {}
-    KEYS.each do |s|
-      res[s.id] = values[s.id] || 0
+    KEYS.each do |i|
+      res[i] = values[i] || 0
     end
     res
   end
