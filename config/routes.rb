@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'weeks#index'
   get 'weeks/index'
+  get 'weeks/:id', to: 'weeks#show', as: 'week'
+  patch 'weeks/update_lapa'
 
   devise_for :users, controllers: { registrations: "users/registrations" }
   devise_scope :user do

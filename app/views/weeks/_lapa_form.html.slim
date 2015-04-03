@@ -1,0 +1,9 @@
+div  class="collapse" id="lapa_form_#{week.id}"
+  = form_for(week, url: {controller: 'weeks', action: 'update_lapa'}, html: {class: 'form-horizontal'}) do |f|
+    div class="row"
+      -Sector.all.each do |sector|
+        div class="col-sm-2 #{week.lapa[sector.id] == 0 ? "has-error" : ""}"
+          = text_field_tag "week[lapa][#{sector.id}]", week.lapa[sector.id], class: 'form-control input-sm'
+
+      = hidden_field_tag 'week[id]', week.id
+    p Set your lapa - target progress by week for each sector #{f.submit 'save', class: 'btn btn-xs btn-primary text-right'}

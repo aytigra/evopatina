@@ -10,3 +10,7 @@ div id="main-container" class="container-fluid"
           small class='glyphicon glyphicon-arrow-up'
           | &nbsp;
           span class='hidden-xs' title=sector.description.html_safe data-toggle='tooltip' data-placement='bottom' = sector.name
+
+  = render @current_week
+  hr
+  = render 'list'

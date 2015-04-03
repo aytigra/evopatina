@@ -1,0 +1,20 @@
+div class='row'
+  div class='col-md-12'
+    /! week info
+    div class='row'
+      p class='text-center bg-info'
+        small = week.date.to_s(:date) + ' - ' + week.date.end_of_week.to_s(:date)
+        button class='btn btn-xs pull-right' data-toggle="collapse" data-target="#lapa_form_#{week.id}" aria-expanded="false" aria-controls="lapa_form_#{week.id}"
+          span class="glyphicon glyphicon-cog" aria-hidden="true"
+        - if week.lapa_unset?
+            span class='pull-right text-danger'
+              span class="glyphicon glyphicon-alert" aria-hidden="true"
+              span &nbsp;lapa not set ->
+    = render 'weeks/lapa_form', week: week
+    /! week progres
+    div class='row'
+      - Sector.all.each do |sector|
+        div class='col-md-2'
+          div class='progress'
+            div class='progress-bar progress-bar-success' role='progressbar' style="width: #{week.progress_ratio(sector.id)}%;"
+              div class='text-left text-muted' = number_to_human(week.progress[sector.id]) + '/' + number_to_human(week.lapa[sector.id])
