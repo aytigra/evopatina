@@ -1,10 +1,11 @@
 - @weeks.each do |week|
     div class='row'
-      p class="text-center bg-#{week == @current_week ? 'success' : 'info'}"
-        small = week.date.to_s(:date) + ' - ' + week.date.end_of_week.to_s(:date)
-    div class='row'
+      p class="list-head text-center bg-#{week == @current_week ? 'success' : 'info'}"
+        = link_to week do 
+          small = week_begin_end_text(week)
+    div class='row list-row'
       - Sector.all.each do |sector|
         div class='col-xs-2'
-          div class='progress'
-            div class='progress-bar progress-bar-success' role='progressbar' style="width: #{week.progress_ratio(sector.id)}%;"
-              div class='text-left text-muted' = number_to_human(week.progress[sector.id]) + '/' + number_to_human(week.lapa[sector.id])
+          div class='list-progress progress'
+            div class='progress-bar progress-bar-success' role='progressbar' style="width: #{week.ratio(sector.id)}%;"
+              div class='text-left text-muted' = week_ratio_text(week, sector.id)

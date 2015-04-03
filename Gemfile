@@ -24,6 +24,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'bootstrap-sass', '~> 3.3.3'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
+gem 'nprogress-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

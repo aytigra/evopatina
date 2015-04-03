@@ -149,6 +149,7 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    nprogress-rails (0.1.6.6)
     orm_adapter (0.5.0)
     pg (0.18.1)
     pry (0.10.1)
@@ -304,6 +305,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   momentjs-rails (>= 2.8.1)
+  nprogress-rails
   pg
   pry-rails
   puma

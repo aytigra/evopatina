@@ -25,7 +25,7 @@ class Week < ActiveRecord::Base
     lapa.any? { |s, l|  l == 0 }
   end
 
-  def progress_ratio(sector_id)
+  def ratio(sector_id)
     if lapa[sector_id] > 0 && progress[sector_id] > 0
       ((progress[sector_id] / lapa[sector_id]) * 100).to_i
     else

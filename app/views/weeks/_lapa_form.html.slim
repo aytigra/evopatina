@@ -3,6 +3,7 @@ div  class="collapse" id="lapa_form_#{week.id}"
     div class="row"
       -Sector.all.each do |sector|
         div class="col-sm-2 #{week.lapa[sector.id] == 0 ? "has-error" : ""}"
+          div class="#{sector.icon} visible-xs-block pull-left" aria-hidden="true"
           = text_field_tag "week[lapa][#{sector.id}]", week.lapa[sector.id], class: 'form-control input-sm'
 
       = hidden_field_tag 'week[id]', week.id

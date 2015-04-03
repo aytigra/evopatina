@@ -57,14 +57,14 @@ RSpec.describe Week, type: :model do
       @week.progress[3] = 1
       @week.lapa[3] = 0
 
-      expect(@week.progress_ratio(3)).to eq 0
+      expect(@week.ratio(3)).to eq 0
     end
 
     it "maths percentage" do
       @week.progress[3] = 3.5
       @week.lapa[3] = 7
 
-      expect(@week.progress_ratio(3)).to eq 50
+      expect(@week.ratio(3)).to eq 50
     end
   end
 
