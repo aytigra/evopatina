@@ -10,13 +10,14 @@ div id="main-container" class="container-fluid"
           small class='glyphicon glyphicon-arrow-up'
           | &nbsp;
           span class='hidden-xs' title=sector.description.html_safe data-toggle='tooltip' data-placement='bottom' = sector.name
-
+  /!tabs
   div role="tabpanel" id='week-action-toggle'
     ul role="tablist" class="nav nav-pills"
       li class='active' role="presentation" style='width:49%'
          a href="#week-current" role="tab" data-toggle="pill" aria-controls="week-current" actions
       li role="presentation" style='width:49%'
          a href="#weeks-list" role="tab"  data-toggle="pill" aria-controls="weeks-list" weeks
+
   div class="tab-content"
     div id='week-current' role="tabpanel" class="tab-pane active"
       = render @current_week

@@ -26,11 +26,7 @@ class WeeksController < ApplicationController
     if week
       @current_week = week
     else
-      current_week_start = Time.zone.now.beginning_of_week.to_date
       @current_week = Week.last_week(current_user)
-      if @current_week.date != current_week_start
-        @current_week = Week.create(date: current_week_start, lapa: @current_week.lapa, progress: Sector.hash, user: current_user)
-      end
     end
     @after_weeks = Week.where(user: current_user).where('date >= ?', @current_week.date).by_date.limit(5)
     after_weeks_count = @after_weeks.length

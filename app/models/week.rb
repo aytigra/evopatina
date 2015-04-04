@@ -15,8 +15,9 @@ class Week < ActiveRecord::Base
 
   def self.last_week(user)
     week = self.where(user: user).by_date.limit(1).first rescue nil
-    if week == nil
-      week = self.create(date: Time.zone.now, lapa: Sector.hash, progress: Sector.hash, user: user)
+    if week == nil || week.date != Date.today.at_beginning_of_week
+      lapa = week == nil ? Sector.hash : week.lapa
+      week = self.create(date: Date.today, lapa: lapa, progress: Sector.hash, user: user)
     end
     week
   end
