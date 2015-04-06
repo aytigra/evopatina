@@ -37,10 +37,9 @@ class WeeksController < ApplicationController
     @prev_week = @before_weeks[0]
   end
 
-  def update_lapa
-    input = lapa_params
-    week = Week.find_by_id(input[:id])
-    week.lapa = Sector.hash input[:lapa] if week
+  def update
+    week = Week.find_by_id(url_id)
+    week.lapa = Sector.hash lapa_params if week
     respond_to do |format|
       if week && week.save
         format.html { redirect_to :back }
@@ -51,9 +50,8 @@ class WeeksController < ApplicationController
   end
 
   def lapa_params
-    lapa_params = {lapa: {}, id: 0}
-    params[:week][:lapa].each { |k,v| lapa_params[:lapa][k.to_i] = v.to_f}
-    lapa_params[:id] = params[:week][:id].to_i
+    lapa_params = {}
+    params[:week][:lapa].each { |k,v| lapa_params[k.to_i] = v.to_f}
     lapa_params
   end
 
