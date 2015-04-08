@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :activities
+
+  resources :subsectors
+
   root 'weeks#index'
   get 'weeks/index'
   get 'weeks/:id', to: 'weeks#show', as: 'week'

@@ -1,0 +1,33 @@
+<%= form_for(@subsector) do |f| %>
+  <% if @subsector.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@subsector.errors.count, "error") %> prohibited this subsector from being saved:</h2>
+
+      <ul>
+      <% @subsector.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :sector_id %><br>
+    <%= f.number_field :sector_id %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

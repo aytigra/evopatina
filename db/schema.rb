@@ -11,10 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330062552) do
+ActiveRecord::Schema.define(version: 20150408060604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.integer  "subsector_id", null: false
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "activities", ["subsector_id"], name: "index_activities_on_subsector_id", using: :btree
+
+  create_table "subsectors", force: :cascade do |t|
+    t.integer  "user_id",     null: false
+    t.integer  "sector_id",   null: false
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "subsectors", ["sector_id"], name: "index_subsectors_on_sector_id", using: :btree
+  add_index "subsectors", ["user_id"], name: "index_subsectors_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -51,4 +73,6 @@ ActiveRecord::Schema.define(version: 20150330062552) do
   add_index "weeks", ["date"], name: "index_weeks_on_date", using: :btree
   add_index "weeks", ["user_id"], name: "index_weeks_on_user_id", using: :btree
 
+  add_foreign_key "activities", "subsectors"
+  add_foreign_key "subsectors", "users"
 end

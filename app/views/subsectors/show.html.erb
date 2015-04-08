@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @subsector.user %>
+</p>
+
+<p>
+  <strong>Sector:</strong>
+  <%= @subsector.sector_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subsector.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @subsector.description %>
+</p>
+
+<%= link_to 'Edit', edit_subsector_path(@subsector) %> |
+<%= link_to 'Back', subsectors_path %>
