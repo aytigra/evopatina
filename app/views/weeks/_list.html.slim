@@ -1,7 +1,7 @@
 - @weeks.each do |week|
     div class='row'
       p class="list-head text-center bg-#{week == @current_week ? 'success' : 'info'}"
-        = link_to week do 
+        = link_to week, id: "week_link_#{week.id}" do 
           small = week_begin_end_text(week)
     div class='row list-row'
       - Sector.all.each do |sector|

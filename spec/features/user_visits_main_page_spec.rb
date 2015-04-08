@@ -5,6 +5,7 @@ feature "user visits main page", type: :feature do
   let(:main_page) { MainPage.new }
   let(:login_page) { LoginPage.new }
 
+
   context "when user not authorised" do
     before do
       main_page.load
@@ -23,7 +24,7 @@ feature "user visits main page", type: :feature do
 
       expect(main_page).to be_displayed
       expect(main_page.flash.msg.text).to eq I18n.translate("devise.sessions.signed_in")
-      expect(main_page.header.user_name.text).to eq user.email
+      expect(main_page.navbar.user_name.text).to eq user.email
     end
   end
 
@@ -35,7 +36,7 @@ feature "user visits main page", type: :feature do
 
     it "shows main page with authorised user" do
       expect(main_page).to be_displayed
-      expect(main_page.header.user_name.text).to eq user.email
+      expect(main_page.navbar.user_name.text).to eq user.email
     end
 
     it "shows sectors header" do

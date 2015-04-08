@@ -13,14 +13,14 @@ div id="main-container" class="container-fluid"
   /!tabs
   div role="tabpanel" id='week-action-toggle'
     ul role="tablist" class="nav nav-pills"
-      li class='active' role="presentation" style='width:49%'
-          a href="#week-current" role="tab" data-toggle="pill" aria-controls="week-current"
+      li class='active' role="presentation" style='width:49%' id="weeks-current-tab"
+          a href="#week-current" role="tab" data-toggle="pill" aria-controls="week-current" 
             small class='glyphicon glyphicon-th-list'
-      li role="presentation" style='width:49%'
+      li role="presentation" style='width:49%' id="weeks-list-tab"
           a href="#weeks-list" role="tab"  data-toggle="pill" aria-controls="weeks-list"
             small class='glyphicon glyphicon-th'
 
-  div class="tab-content"
+  div class="tab-content" id='week-action-content'
     div id='week-current' role="tabpanel" class="tab-pane active"
       = render @current_week
     div id='weeks-list' role="tabpanel" class="tab-pane"

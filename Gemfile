@@ -59,7 +59,8 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'site_prism'
   gem 'database_cleaner'
   gem 'faker'

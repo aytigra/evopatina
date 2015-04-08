@@ -2,18 +2,18 @@
 div class='row'
   p class='text-center bg-success'
     - if @prev_week
-      = link_to @prev_week do
+      = link_to @prev_week, id: "prev-week-link" do
         button class='btn btn-small pull-left'
           span class="glyphicon glyphicon-arrow-left" aria-hidden="true"
 
     - if @next_week
-      = link_to @next_week do
+      = link_to @next_week, id: "next-week-link" do
         button class='btn btn-small pull-right'
           span class="glyphicon glyphicon-arrow-right" aria-hidden="true"
 
-    span = week_begin_end_text(week)
+    span id='week-dates' = week_begin_end_text(week)
     span &nbsp;
-    button class='btn btn-small' data-toggle="collapse" data-target="#lapa_form_#{week.id}" aria-expanded="false" aria-controls="lapa_form_#{week.id}"
+    button class='btn btn-small lapa-settings' data-toggle="collapse" data-target="#lapa_form_#{week.id}" aria-expanded="false" aria-controls="lapa_form_#{week.id}"
       
       span class="glyphicon glyphicon-cog" aria-hidden="true"
     - if week.lapa_unset?
