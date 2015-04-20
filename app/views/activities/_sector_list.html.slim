@@ -1,0 +1,5 @@
+- activities.each do |subsector_id, subsector|
+  div class='row' 
+    div = subsector[:name]
+    - subsector[:activities].each do |activity|
+      = render activity

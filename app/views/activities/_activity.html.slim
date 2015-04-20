@@ -1,0 +1,5 @@
+div class='row'
+  span = activity.name
+  span = link_to 'Show', activity
+  span = link_to 'Edit', edit_activity_path(activity)
+  span = link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' }
