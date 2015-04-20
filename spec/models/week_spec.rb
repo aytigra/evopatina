@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Week, type: :model do
   let!(:user) { create(:user) }
-  let (:hash) { hash = {}; Sector::KEYS.each {|i| hash[i] = 0}; hash }
+  let (:hash) { hash = {}; Sector.keys.each {|i| hash[i] = 0}; hash }
 
   context "last week" do
 

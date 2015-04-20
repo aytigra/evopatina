@@ -16,10 +16,14 @@ class Sector
     @id = id
   end
 
+  def self.keys
+    self::KEYS
+  end
+
   def self.all
     return @@all if @@all.size == 6
 
-    KEYS.each do |id|
+    self.keys.each do |id|
       @@all << self.new(id)
     end
     @@all
@@ -27,7 +31,7 @@ class Sector
 
   def self.hash(values = {})
     res = {}
-    KEYS.each do |i|
+    self.keys.each do |i|
       res[i] = values[i] || 0
     end
     res

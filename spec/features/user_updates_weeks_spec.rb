@@ -10,7 +10,7 @@ feature "user updates week", type: :feature do
     let!(:prev_week) { create(:old_week, user: user) }
     let!(:prev_prev_week) { create(:older_week, user: user) }
     let(:main_page) { MainPage.new }
-    let(:hash) { hash = {}; Sector::KEYS.each {|i| hash[i] = 8}; hash }
+    let(:hash) { hash = {}; Sector.keys.each {|i| hash[i] = 8}; hash }
 
 
     before do

@@ -111,7 +111,7 @@ RSpec.describe WeeksController, type: :controller do
     let!(:user) { create(:user) }
     let!(:current_week) { create(:current_week, user: user) }
     let!(:prev_week) { create(:old_week, user: user) }
-    let(:hash) { hash = {}; Sector::KEYS.each {|i| hash[i] = 1}; hash }
+    let(:hash) { hash = {}; Sector.keys.each {|i| hash[i] = 1}; hash }
 
     context "existing week" do
       before :each do
