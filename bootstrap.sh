@@ -47,6 +47,12 @@ install 'Nokogiri dependencies' libxml2 libxml2-dev libxslt1-dev
 install 'ExecJS runtime' nodejs
 
 install 'QT dependencies' qt4-dev-tools libqt4-dev libqt4-core libqt4-gui
+
+echo "Install and re-link node and npm..."
+sudo apt-get -y -qq install build-essential nodejs npm
+sudo npm install -g forever
+sudo ln -s "$(which nodejs)" /usr/bin/node
+
 # Needed for docs generation.
 update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
