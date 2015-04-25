@@ -19,7 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 gem 'react-rails', github: 'reactjs/react-rails'
 gem 'sprockets-coffee-react'
@@ -28,6 +28,7 @@ gem 'bootstrap-sass', '~> 3.3.3'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 gem 'nprogress-rails'
+gem 'js-routes', github: 'railsware/js-routes'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
