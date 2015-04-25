@@ -4,12 +4,14 @@ var webpack = require('webpack');
 module.exports = {
   context: __dirname,
   entry: {
-    main:  "./webpack/main.coffee",
+    weeks:  './app/frontend/javascripts/weeks.coffee',
   },
   output: {
     path: path.join(__dirname, 'app', 'assets', 'javascripts'),
-    filename: "main.js",
-    publicPath: "/js/"
+    filename: "bundle-weeks.js",
+    publicPath: "/js/",
+    devtoolModuleFilenameTemplate: '[resourcePath]',
+    devtoolFallbackModuleFilenameTemplate: '[resourcePath]?[hash]'
   },
   resolve: {
     extensions: ["", ".jsx", ".cjsx", ".coffee", ".js"]
