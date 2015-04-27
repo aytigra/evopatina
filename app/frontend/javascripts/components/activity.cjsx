@@ -3,7 +3,7 @@ Activity = React.createClass
   render: ->
     <div className='row'>
       <span>{@props.activity.name}</span>
-      <a href='link_to edit_activity_path(activity) do'>
+      <a href={Routes.edit_activity_path(@props.activity.id)}>
         <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
       </a>
       <a href='link_to activity, method: :delete, data: { confirm: Are you sure? } do'>

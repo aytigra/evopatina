@@ -16,5 +16,6 @@
 //= require bootstrap-datetimepicker
 //= require nprogress
 //= require nprogress-turbolinks
+//= require js-routes
 //= require jquery_ujs
 //= require turbolinks
