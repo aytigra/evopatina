@@ -21,7 +21,11 @@ module.exports = {
       { test: /\.js$/, loader: 'babel-loader'},
       { test: /\.jsx$/, loader: "jsx-loader?insertPragma=React.DOM" },
       { test: /\.cjsx$/, loaders: ["coffee", "cjsx"]},
-      { test: /\.coffee$/,   loader: "coffee-loader"}
+      { test: /\.coffee$/,   loader: "coffee-loader"},
+      {
+        test: path.join(__dirname, 'app', 'frontend', 'javascripts', 'weeks_init.js'),
+        loader: 'expose?weeksInit'
+      }
     ]
   },
   plugins: [
