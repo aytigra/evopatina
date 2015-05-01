@@ -21,16 +21,11 @@ div class='row'
           span class="glyphicon glyphicon-alert" aria-hidden="true"
 /! week lapa form
 = render 'weeks/lapa_form', week: week
-/! week progres
-div class='row'
-  - Sector.all.each do |sector|
-    div class='sector-content col-lg-2 col-md-4 col-sm-6 col-xs-12'
-      div class='row'
-        div class="#{sector.icon} hidden-lg pull-left" aria-hidden="true"
-        div class='progress'
-          div class='progress-bar progress-bar-success' role='progressbar' style="width: #{week.ratio(sector.id)}%;"
-            div class='text-left text-muted' = week_ratio_text(week, sector.id)
 
-      div id="sector-list-#{sector.id}"
-        javascript:
-          window.weeksInit.setStoreInitialState("#{sector.id}", #{raw(@activities[sector.id].to_json)});
+
+div class='row' id="week-container"
+  javascript:
+    window.weeksInit.setStoreSectors(#{raw(render('/weeks/sectors.json', sectors: @sectors))});
+    window.weeksInit.setStoreCurrentWeek(#{raw(render('/weeks/week.json', week: @current_week))});
+    window.weeksInit.setStoreSubsectors(#{raw(render('/subsectors/subsectors.json', subsectors: @subsectors))});
+    window.weeksInit.setStoreActivities(#{raw(render('/activities/activities.json', activities: @activities))});
