@@ -35,7 +35,10 @@ class WeeksController < ApplicationController
     @next_week = nil
     @next_week = @after_weeks[after_weeks_count - 2] if after_weeks_count >= 2
     @prev_week = @before_weeks[0]
-    @activities = Activity.activities_by_sectors(current_user)
+
+    @sectors = Sector.all
+    @subsectors = Subsector.subsectors_by_sectors(current_user)
+    @activities = Activity.activities_by_subsectors(current_user)
   end
 
   def update
