@@ -25,7 +25,7 @@ div class='row'
 
 div class='row' id="week-container"
   javascript:
-    window.weeksInit.setStoreSectors(#{raw(render('/weeks/sectors.json', sectors: @sectors))});
-    window.weeksInit.setStoreCurrentWeek(#{raw(render('/weeks/week.json', week: @current_week))});
-    window.weeksInit.setStoreSubsectors(#{raw(render('/subsectors/subsectors.json', subsectors: @subsectors))});
-    window.weeksInit.setStoreActivities(#{raw(render('/activities/activities.json', activities: @activities))});
+    window.weeksInit.initSectors(#{raw(render('/weeks/sectors.json', sectors: @sectors))});
+    window.weeksInit.initCurrentWeek({current_week: #{raw(render('/weeks/week.json', week: @current_week))}});
+    window.weeksInit.initSubsectors(#{raw(render('/subsectors/subsectors.json', subsectors: @subsectors))});
+    window.weeksInit.initActivities(#{raw(render('/activities/activities.json', activities: @activities))});

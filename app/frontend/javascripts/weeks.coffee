@@ -1,8 +1,11 @@
 weeksInit = require './weeks_init'
-SectorList = require './components/sector_list'
+#WeekContainer = require './components/week_container'
 
 $(document).on "ready page:change", ->
-  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
+  weeks = WeeksStore.getState()
+  sectors = SectorsStore.getState()
+  subsectors = SubsectorsStore.getState()
+  activities = ActivitiesStore.getState()
+  #React.render React.createElement(WeekContainer, null, document.getElementById('sweek-container')
 
-  for id, sector of weeksInit.store_data
-    React.render React.createElement(SectorList, { "key": id, "subsectors": sector }), document.getElementById('sector-list-' + id)
+  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
