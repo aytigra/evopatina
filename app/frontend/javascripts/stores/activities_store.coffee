@@ -8,11 +8,12 @@ ActivitiesStore = Marty.createStore
   getInitialState: ->
     activities: {}
 
-  setInitialState: (data)->
+  setInitialState: (data) ->
     @setState
       activities: data
 
-
+  getActivities: (subsector_id) ->
+      @state.activities[subsector_id]
 
 
 module.exports = ActivitiesStore
