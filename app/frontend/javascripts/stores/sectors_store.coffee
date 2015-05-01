@@ -13,7 +13,7 @@ SectorsStore = Marty.createStore
 
   getSectors: ->
     result = {}
-    for id, sector of @state.sectors[sector_id]
+    for id, sector of @state.sectors
       sector['subsectors'] = SubsectorsStore.getSubsectors id
       result[id] = sector
     result
