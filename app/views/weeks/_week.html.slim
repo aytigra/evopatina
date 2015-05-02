@@ -1,5 +1,5 @@
 /! week header
-div class='row'
+div class='row' id="week-header"
   p class='text-center bg-success'
     - if @prev_week
       = link_to @prev_week, id: "prev-week-link" do
@@ -23,7 +23,7 @@ div class='row'
 = render 'weeks/lapa_form', week: week
 
 
-div class='row' id="week-container"
+div class='row' id="week-content"
   javascript:
     window.weeksInit.initSectors(#{raw(render('/weeks/sectors.json', sectors: @sectors))});
     window.weeksInit.initCurrentWeek({current_week: #{raw(render('/weeks/week.json', week: @current_week))}});

@@ -1,8 +1,9 @@
 SectorsStore = require '../stores/sectors_store'
+WeeksStore = require '../stores/weeks_store'
 Sector = require './sector'
 
-WeekContainer = React.createClass
-  displayName: 'WeekContainer'
+WeekContent = React.createClass
+  displayName: 'WeekContent'
 
 
 
@@ -13,8 +14,8 @@ WeekContainer = React.createClass
 
     <div>{sectors}</div>
 
-module.exports = Marty.createContainer WeekContainer,
-  listenTo: SectorsStore
+module.exports = Marty.createContainer WeekContent,
+  listenTo: [SectorsStore, WeeksStore]
   fetch:
     sectors: ->
       SectorsStore.getSectors()

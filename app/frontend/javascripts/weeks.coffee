@@ -1,5 +1,5 @@
 weeksInit = require './weeks_init'
-WeekContainer = require './components/week_container'
+WeekContent = require './components/week_content'
 
 $(document).on "ready page:change", ->
   # debug stores
@@ -8,6 +8,6 @@ $(document).on "ready page:change", ->
   sectors = SectorsStore.getSectors()
   
   # root react component
-  React.render React.createElement(WeekContainer, null), document.getElementById('week-container')
+  React.render React.createElement(WeekContent, null), document.getElementById('week-container')
 
   $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
