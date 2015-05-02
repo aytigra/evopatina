@@ -8,6 +8,6 @@ $(document).on "ready page:change", ->
   sectors = SectorsStore.getSectors()
   
   # root react component
-  React.render React.createElement(WeekContent, null), document.getElementById('week-container')
+  React.render React.createElement(WeekContent, null), document.getElementById('week-content')
 
   $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
