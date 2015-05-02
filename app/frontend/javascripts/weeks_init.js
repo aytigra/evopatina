@@ -3,6 +3,9 @@ SectorsStore = require('./stores/sectors_store');
 SubsectorsStore = require('./stores/subsectors_store');
 ActivitiesStore = require('./stores/activities_store');
 
+//for Marty Developer Tools
+window.Marty = require('marty')
+
 var WeeksInit = function() {};
 
 WeeksInit.prototype.initCurrentWeek = function(data) {

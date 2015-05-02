@@ -15,5 +15,11 @@ ActivitiesStore = Marty.createStore
   getActivities: (subsector_id) ->
       @state.activities[subsector_id]
 
+  handlers:
+    edit: ActivitiesConstants.ACTIVITY_EDIT
+
+  edit: (activity)->
+    @state.activities[activity.subsector_id][activity.id]['edtitng'] = true
+    @hasChanged()
 
 module.exports = ActivitiesStore
