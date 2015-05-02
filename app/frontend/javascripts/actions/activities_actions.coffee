@@ -6,5 +6,8 @@ ActivitiesActionCreators = Marty.createActionCreators
   edit: (activity)->
     @dispatch ActivitiesConstants.ACTIVITY_EDIT, activity
 
+  update: (activity)->
+    @dispatch ActivitiesConstants.ACTIVITY_UPDATE, activity
+
 
 module.exports = ActivitiesActionCreators
