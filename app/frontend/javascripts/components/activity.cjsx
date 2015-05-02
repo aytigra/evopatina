@@ -8,7 +8,8 @@ Activity = React.createClass
   propTypes: 
     activity: React.PropTypes.object.isRequired
 
-  _onDoubleClick: ->
+  _onDoubleClick: (e) ->
+    e.preventDefault()
     ActivitiesActionCreators.edit(@props.activity)
 
   render: ->
@@ -18,7 +19,7 @@ Activity = React.createClass
       activity_elem = <span onDoubleClick={@_onDoubleClick}>{@props.activity.name}</span>
 
 
-    <div className='row'>
+    <div className='row activity'>
       {activity_elem}
     </div>
 

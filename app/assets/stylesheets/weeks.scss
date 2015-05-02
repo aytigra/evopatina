@@ -26,8 +26,16 @@
     }
   }
 
-  .sector-content div.row {
-    margin-left: -10px;
-    margin-right: -10px;
+  .sector-content { 
+    div.row {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+    .activity {
+      span {
+        width: 100%;
+        display: inline-block;
+      }
+    }
   }
 }
