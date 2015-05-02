@@ -23,5 +23,10 @@ WeeksStore = Marty.createStore
       current_week:
         lapa: lapa
 
+  getCurrentLapa: (sector_id) ->
+    @state.current_week.lapa[sector_id]
+
+  getCurrentProgress: (sector_id) ->
+    @state.current_week.progress[sector_id]
 
 module.exports = WeeksStore
