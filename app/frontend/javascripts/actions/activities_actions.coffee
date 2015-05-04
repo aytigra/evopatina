@@ -9,6 +9,8 @@ ActivitiesActionCreators = Marty.createActionCreators
     @dispatch ActivitiesConstants.ACTIVITY_CANCEL, activity
   update: (activity)->
     @dispatch ActivitiesConstants.ACTIVITY_UPDATE, activity
+  update_response: (activity, ok)->
+    @dispatch ActivitiesConstants.ACTIVITY_UPDATE_RESPONSE, activity, ok
   save: (activity)->
     @dispatch ActivitiesConstants.ACTIVITY_SAVE, activity
   destroy: (activity)->

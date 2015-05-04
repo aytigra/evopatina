@@ -10,8 +10,8 @@ module.exports = {
     path: path.join(__dirname, 'app', 'assets', 'javascripts'),
     filename: "bundle-weeks.js",
     publicPath: "/js/",
-    devtoolModuleFilenameTemplate: '[resourcePath]',
-    devtoolFallbackModuleFilenameTemplate: '[resourcePath]?[hash]'
+    //devtoolModuleFilenameTemplate: '[resourcePath]',
+    //devtoolFallbackModuleFilenameTemplate: '[resourcePath]?[hash]'
   },
   resolve: {
     extensions: ["", ".jsx", ".cjsx", ".coffee", ".js"]
@@ -28,10 +28,15 @@ module.exports = {
       }
     ]
   },
+  externals: {
+    jquery: "var jQuery"
+  },
   plugins: [
     new webpack.ProvidePlugin({
       'React': 'react',
       'Marty': 'marty',
+      $: 'jquery',
+      jQuery: 'jquery',
     })
   ]
 }

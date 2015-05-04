@@ -46,7 +46,7 @@ class ActivitiesController < ApplicationController
         format.json { render :show, status: :ok, location: @activity }
       else
         format.html { render :edit }
-        format.json { render json: @activity.errors, status: :unprocessable_entity }
+        format.json { render :show, status: :unprocessable_entity}
       end
     end
   end

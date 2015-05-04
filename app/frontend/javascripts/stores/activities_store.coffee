@@ -1,4 +1,5 @@
 ActivitiesConstants = require '../constants/activities_constants'
+ActivitiesAPI = require '../sources/activities_api'
 #ActivitiesQueries = require '../queries/activities_queries'
 
 ActivitiesStore = Marty.createStore
@@ -20,6 +21,7 @@ ActivitiesStore = Marty.createStore
     edit: ActivitiesConstants.ACTIVITY_EDIT
     cancel: ActivitiesConstants.ACTIVITY_CANCEL
     update: ActivitiesConstants.ACTIVITY_UPDATE
+    update_response: ActivitiesConstants.ACTIVITY_UPDATE_RESPONSE
     save: ActivitiesConstants.ACTIVITY_SAVE
     destroy: ActivitiesConstants.ACTIVITY_DELETE
 
@@ -55,13 +57,28 @@ ActivitiesStore = Marty.createStore
   update: (activity)->
     @state.activities[activity.subsector_id][activity.id] = activity
     @hasChanged()
-    #patch to server on pauses
+    #put to server
+    ActivitiesAPI.update(activity)
+
+  update_response: (activity, ok)->
+    if !ok
+      activity.edtitng = true
+      activity.have_errors = true
+      @state.activities[activity.subsector_id][activity.id] = activity
+      @hasChanged()
+    else
+      @state.activities[activity.subsector_id][activity.id]['errors'] = {}
+      @state.activities[activity.subsector_id][activity.id]['have_errors'] = false
+      @hasChanged()
 
   save: (activity)->
     activity.edtitng = false
     activity.name_old = activity.name
     @update(activity)
-    #patch to server
+
+    
+
+
 
   destroy: (activity)->
     @state.activities[activity.subsector_id][activity.id] = null

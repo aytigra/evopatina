@@ -20,6 +20,9 @@ ActivityForm = React.createClass
     ActivitiesActionCreators.destroy(@props.activity)
 
   render: ->
+      if @props.activity.have_errors
+        errors_elem = <div title={@props.activity.errors}><span className="glyphicon glyphicon-alert" aria-hidden="true"></span></div>
+
       <div>
         <div onClick={@_onDelete}  className="glyphicon glyphicon-trash pull-left" aria-hidden="true"></div>
         <input
@@ -29,6 +32,7 @@ ActivityForm = React.createClass
           value={@props.activity.name}
           autoFocus={true}
         />
+        {errors_elem}
         <div onClick={@_onSave} className="glyphicon glyphicon-ok pull-right" aria-hidden="true"></div>
         <div onClick={@_onCancel} className="glyphicon glyphicon-remove pull-right" aria-hidden="true"></div>
       </div>
