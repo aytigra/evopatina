@@ -13,5 +13,7 @@ ActivitiesActionCreators = Marty.createActionCreators
     @dispatch ActivitiesConstants.ACTIVITY_SAVE, activity
   destroy: (activity)->
     @dispatch ActivitiesConstants.ACTIVITY_DELETE, activity
+  create: (subsector_id)->
+    @dispatch ActivitiesConstants.ACTIVITY_CREATE, subsector_id
 
 module.exports = ActivitiesActionCreators

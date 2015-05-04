@@ -13,14 +13,30 @@ ActivitiesStore = Marty.createStore
       activities: data
 
   getActivities: (subsector_id) ->
-      @state.activities[subsector_id]
+      @state.activities[subsector_id] || {}
 
   handlers:
+    create: ActivitiesConstants.ACTIVITY_CREATE
     edit: ActivitiesConstants.ACTIVITY_EDIT
     cancel: ActivitiesConstants.ACTIVITY_CANCEL
     update: ActivitiesConstants.ACTIVITY_UPDATE
     save: ActivitiesConstants.ACTIVITY_SAVE
     destroy: ActivitiesConstants.ACTIVITY_DELETE
+
+  create: (subsector_id)->
+    @state.activities[subsector_id] ||= {}
+    # optimistic create with placeholder ID 
+    i = 1
+    while @state.activities[subsector_id]['new_' + i]?
+      i++ 
+    @state.activities[subsector_id]['new_' + i] = 
+      id: 'new_' + i
+      subsector_id: subsector_id
+      name: ''
+      description: ''
+      edtitng: true
+    @hasChanged()
+    #create to server, replase ID on success
 
   edit: (activity)->
     @state.activities[activity.subsector_id][activity.id]['edtitng'] = true
@@ -28,9 +44,13 @@ ActivitiesStore = Marty.createStore
     @hasChanged()
 
   cancel: (activity)->
-    activity.edtitng = false
-    activity.name = activity.name_old
-    @update(activity)
+    #delete canceled and not saved yet new activity
+    if activity.id.indexOf('new') == 0 && !activity.name_old?
+      @destroy(activity)
+    else
+      activity.edtitng = false
+      activity.name = activity.name_old
+      @update(activity)
 
   update: (activity)->
     @state.activities[activity.subsector_id][activity.id] = activity
