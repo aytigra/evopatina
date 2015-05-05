@@ -18,6 +18,7 @@ ActivitiesStore = Marty.createStore
 
   handlers:
     create: ActivitiesConstants.ACTIVITY_CREATE
+    create_response: ActivitiesConstants.ACTIVITY_CREATE_RESPONSE
     edit: ActivitiesConstants.ACTIVITY_EDIT
     cancel: ActivitiesConstants.ACTIVITY_CANCEL
     update: ActivitiesConstants.ACTIVITY_UPDATE
@@ -25,9 +26,9 @@ ActivitiesStore = Marty.createStore
     save: ActivitiesConstants.ACTIVITY_SAVE
     destroy: ActivitiesConstants.ACTIVITY_DELETE
 
+  #create empty activity in subsector with placeholder ID
   create: (subsector_id)->
     @state.activities[subsector_id] ||= {}
-    # optimistic create with placeholder ID 
     i = 1
     while @state.activities[subsector_id]['new_' + i]?
       i++ 
@@ -38,7 +39,6 @@ ActivitiesStore = Marty.createStore
       description: ''
       edtitng: true
     @hasChanged()
-    #create to server, replase ID on success
 
   edit: (activity)->
     @state.activities[activity.subsector_id][activity.id]['edtitng'] = true
@@ -46,8 +46,8 @@ ActivitiesStore = Marty.createStore
     @hasChanged()
 
   cancel: (activity)->
-    #delete canceled and not saved yet new activity
-    if activity.id.indexOf('new') == 0 && !activity.name_old?
+    if typeof activity.id == "string" && !activity.name_old
+      #delete canceled and not saved yet new activity
       @destroy(activity)
     else
       activity.edtitng = false
@@ -58,27 +58,43 @@ ActivitiesStore = Marty.createStore
     @state.activities[activity.subsector_id][activity.id] = activity
     @hasChanged()
     #put to server
-    ActivitiesAPI.update(activity)
+    if typeof activity.id != "string"
+      ActivitiesAPI.update(activity)
 
   update_response: (activity, ok)->
     if !ok
-      activity.edtitng = true
-      activity.have_errors = true
-      @state.activities[activity.subsector_id][activity.id] = activity
+      @state.activities[activity.subsector_id][activity.id].edtitng = true
+      @state.activities[activity.subsector_id][activity.id].have_errors = true
+      @state.activities[activity.subsector_id][activity.id].errors = activity.errors
       @hasChanged()
     else
-      @state.activities[activity.subsector_id][activity.id]['errors'] = {}
-      @state.activities[activity.subsector_id][activity.id]['have_errors'] = false
+      @state.activities[activity.subsector_id][activity.id].errors = {}
+      @state.activities[activity.subsector_id][activity.id].have_errors = false
       @hasChanged()
 
   save: (activity)->
     activity.edtitng = false
     activity.name_old = activity.name
-    @update(activity)
+    if typeof activity.id != "string"
+      @update(activity)
+    else
+      #create to server, replase ID on success
+      ActivitiesAPI.create(activity)
+      @hasChanged()
 
-    
-
-
+  create_response: (activity, ok)->
+    if !ok
+      @state.activities[activity.subsector_id][activity.old_id].edtitng = true
+      @state.activities[activity.subsector_id][activity.old_id].have_errors = true
+      @state.activities[activity.subsector_id][activity.old_id].errors = activity.errors
+      @hasChanged()
+    else
+      @state.activities[activity.subsector_id][activity.id] = @state.activities[activity.subsector_id][activity.old_id]
+      @state.activities[activity.subsector_id][activity.id].id = activity.id
+      @state.activities[activity.subsector_id][activity.id].errors = {}
+      @state.activities[activity.subsector_id][activity.id].have_errors = false
+      delete @state.activities[activity.subsector_id][activity.old_id]
+      @hasChanged()
 
   destroy: (activity)->
     @state.activities[activity.subsector_id][activity.id] = null

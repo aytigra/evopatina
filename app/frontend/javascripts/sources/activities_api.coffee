@@ -5,7 +5,15 @@ ActivitiesAPI = Marty.createStateSource
   type: 'http'
 
   create: (activity) ->
-    1
+    url = Routes.activities_path {format: 'json'}
+    @post(
+      url: url
+      body: activity
+    )
+    .then (res) =>
+      ActivitiesActionCreators.create_response res.body, res.ok
+    .catch (err) ->
+      ActivitiesActionCreators.create_response err.body, err.ok
 
   update: (activity) ->
     url = Routes.activity_path activity.id, {format: 'json'}

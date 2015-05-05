@@ -21,32 +21,30 @@ class ActivitiesController < ApplicationController
   def edit
   end
 
-  # POST /activities
   # POST /activities.json
   def create
     @activity = Activity.new(activity_params)
-
+    activity_json = { subsector_id: @activity.subsector_id, old_id: activity_params_id }
     respond_to do |format|
       if @activity.save
-        format.html { redirect_to @activity, notice: 'Activity was successfully created.' }
-        format.json { render :show, status: :created, location: @activity }
+        activity_json[:id] = @activity.id
+        format.json { render json: activity_json, status: :created }
       else
-        format.html { render :new }
-        format.json { render json: @activity.errors, status: :unprocessable_entity }
+        activity_json[:errors] = @activity.errors
+        format.json { render json: activity_json, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /activities/1
   # PATCH/PUT /activities/1.json
   def update
     respond_to do |format|
+      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id }
       if @activity.update(activity_params)
-        format.html { redirect_to @activity, notice: 'Activity was successfully updated.' }
-        format.json { render :show, status: :ok, location: @activity }
+        format.json { render json: activity_json, status: :ok }
       else
-        format.html { render :edit }
-        format.json { render :show, status: :unprocessable_entity}
+        activity_json[:errors] = @activity.errors
+        format.json { render json: activity_json, status: :unprocessable_entity }
       end
     end
   end
@@ -70,5 +68,9 @@ class ActivitiesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
       params.require(:activity).permit(:subsector_id, :name, :description)
+    end
+
+    def activity_params_id
+      params[:id]
     end
 end

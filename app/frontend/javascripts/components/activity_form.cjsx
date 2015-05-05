@@ -21,7 +21,7 @@ ActivityForm = React.createClass
 
   render: ->
       if @props.activity.have_errors
-        errors_elem = <div title={@props.activity.errors}><span className="glyphicon glyphicon-alert" aria-hidden="true"></span></div>
+        errors_elem = <div title={JSON.stringify(@props.activity.errors)} className="pull-right"><span className="glyphicon glyphicon-alert" aria-hidden="true"></span></div>
 
       <div>
         <div onClick={@_onDelete}  className="glyphicon glyphicon-trash pull-left" aria-hidden="true"></div>

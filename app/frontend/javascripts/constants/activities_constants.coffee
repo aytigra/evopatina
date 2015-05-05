@@ -1,5 +1,6 @@
 ActivitiesConstants = Marty.createConstants [
   "ACTIVITY_CREATE"
+  "ACTIVITY_CREATE_RESPONSE"
   "ACTIVITY_EDIT"
   "ACTIVITY_CANCEL"
   "ACTIVITY_UPDATE"
