@@ -10,10 +10,8 @@ ActivitiesAPI = Marty.createStateSource
       url: url
       body: activity
     )
-    .then (res) =>
+    .then (res) ->
       ActivitiesActionCreators.create_response res.body, res.ok
-    .catch (err) ->
-      ActivitiesActionCreators.create_response err.body, err.ok
 
   update: (activity) ->
     url = Routes.activity_path activity.id, {format: 'json'}
@@ -21,10 +19,8 @@ ActivitiesAPI = Marty.createStateSource
       url: url
       body: activity
     )
-    .then (res) =>
+    .then (res) ->
       ActivitiesActionCreators.update_response res.body, res.ok
-    .catch (err) ->
-      ActivitiesActionCreators.update_response err.body, err.ok
   
 
   destroy: (activity) ->
@@ -33,9 +29,7 @@ ActivitiesAPI = Marty.createStateSource
       url: url
       body: activity
     )
-    .then (res) =>
+    .then (res) ->
       ActivitiesActionCreators.destroy_response res.body, res.ok
-    .catch (err) ->
-      ActivitiesActionCreators.destroy_response err.body, err.ok
 
 module.exports = ActivitiesAPI
