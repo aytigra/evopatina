@@ -12,9 +12,11 @@ Subsector = React.createClass
     for id, activity of @props.subsector.activities
       activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden
     <div>
-      <div className='row bg-info'>
+      <div className='row subsector bg-info'>
         <label>{@props.subsector.name}</label>
-        <button onClick={@_onActivityCreate}  className="btn btn-add btn-sm pull-right" aria-hidden="true">+</button>
+        <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm pull-right">
+          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
       </div>
       <div>{activities}</div>
     </div>

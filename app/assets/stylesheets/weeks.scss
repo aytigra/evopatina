@@ -32,9 +32,26 @@
       margin-right: -10px;
     }
     .activity {
-      span {
+      label {
         width: 100%;
+        font-size: 15px;
+        font-weight: normal;
+      }
+      .activity_input {
         display: inline-block;
+        font-size: 15px;
+        font-weight: normal;
+        input { 
+          width: 100%;
+          border: none;
+        }
+      }
+    }
+    .subsector {
+      label {
+        margin-right: 34px;
+        font-size: 18px;
+        font-weight: normal;
       }
     }
   }

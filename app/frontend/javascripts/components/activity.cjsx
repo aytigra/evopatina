@@ -16,7 +16,7 @@ Activity = React.createClass
     if @props.activity.edtitng
       activity_elem = <ActivityForm key={@props.activity.id} activity={@props.activity}/>
     else
-      activity_elem = <span onDoubleClick={@_onDoubleClick}>{@props.activity.name}</span>
+      activity_elem = <label onDoubleClick={@_onDoubleClick}>{@props.activity.name}</label>
 
 
     <div className='row activity'>

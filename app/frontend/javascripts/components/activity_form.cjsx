@@ -28,17 +28,25 @@ ActivityForm = React.createClass
         )
 
       <div>
-        <div onClick={@_onDelete}  className="glyphicon glyphicon-trash pull-left" aria-hidden="true"></div>
-        <input
-          id={'activity_' + @props.activity.id}
-          placeholder='new activity'
-          onChange={@_onChange}
-          value={@props.activity.name}
-          autoFocus={true}
-        />
+        <button onClick={@_onDelete} className="btn btn-default btn-xs pull-left">
+          <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        <div className='activity_input'>
+          <input
+            id={'activity_' + @props.activity.id}
+            placeholder='new activity'
+            onChange={@_onChange}
+            value={@props.activity.name}
+            autoFocus={true}
+          />
+          </div>
+        <button onClick={@_onSave} className="btn btn-default btn-xs pull-right">
+          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </button>
+        <button onClick={@_onCancel} className="btn btn-default btn-xs pull-right">
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
         {errors_elem}
-        <div onClick={@_onSave} className="glyphicon glyphicon-ok pull-right" aria-hidden="true"></div>
-        <div onClick={@_onCancel} className="glyphicon glyphicon-remove pull-right" aria-hidden="true"></div>
       </div>
 
 
