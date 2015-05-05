@@ -49,13 +49,15 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # DELETE /activities/1
   # DELETE /activities/1.json
   def destroy
-    @activity.destroy
     respond_to do |format|
-      format.html { redirect_to activities_url, notice: 'Activity was successfully destroyed.' }
-      format.json { head :no_content }
+      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id }
+      if @activity.destroy
+        format.json { render json: activity_json, status: :ok }
+      else
+        format.json { render json: activity_json, status: :unprocessable_entity }
+      end
     end
   end
 

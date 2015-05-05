@@ -27,7 +27,15 @@ ActivitiesAPI = Marty.createStateSource
       ActivitiesActionCreators.update_response err.body, err.ok
   
 
-  delete: (activity) ->
-    1
+  destroy: (activity) ->
+    url = Routes.activity_path activity.id, {format: 'json'}
+    @delete(
+      url: url
+      body: activity
+    )
+    .then (res) =>
+      ActivitiesActionCreators.destroy_response res.body, res.ok
+    .catch (err) ->
+      ActivitiesActionCreators.destroy_response err.body, err.ok
 
 module.exports = ActivitiesAPI

@@ -15,6 +15,8 @@ ActivitiesActionCreators = Marty.createActionCreators
     @dispatch ActivitiesConstants.ACTIVITY_SAVE, activity
   destroy: (activity)->
     @dispatch ActivitiesConstants.ACTIVITY_DELETE, activity
+  destroy_response: (activity, ok)->
+    @dispatch ActivitiesConstants.ACTIVITY_DELETE_RESPONSE, activity, ok
   create: (subsector_id)->
     @dispatch ActivitiesConstants.ACTIVITY_CREATE, subsector_id
   create_response: (activity, ok)->

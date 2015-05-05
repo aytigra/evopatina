@@ -10,7 +10,7 @@ Subsector = React.createClass
   render: ->
     activities = []
     for id, activity of @props.subsector.activities
-      activities.push(<Activity key={id} activity={activity}/>)
+      activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden
     <div>
       <div className='row bg-info'>
         <label>{@props.subsector.name}</label>
