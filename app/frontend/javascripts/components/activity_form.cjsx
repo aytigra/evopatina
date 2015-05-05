@@ -1,4 +1,5 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
+
 ActivityForm = React.createClass
   displayName: 'ActivityForm'
 

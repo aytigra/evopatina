@@ -1,7 +1,6 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
 ActivityForm = require './activity_form'
 
-
 Activity = React.createClass
   displayName: 'Activity'
 
