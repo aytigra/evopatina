@@ -16,6 +16,10 @@ ActivitiesStore = Marty.createStore
   getActivities: (subsector_id) ->
       @state.activities[subsector_id] || {}
 
+  setActivity: (subsector_id, id, params = {}) ->
+    for key, val of params
+      @state.activities[subsector_id][id][key] = val
+
   handlers:
     create: ActivitiesConstants.ACTIVITY_CREATE
     create_response: ActivitiesConstants.ACTIVITY_CREATE_RESPONSE
@@ -30,9 +34,9 @@ ActivitiesStore = Marty.createStore
   create: (subsector_id)->
     @state.activities[subsector_id] ||= {}
     i = 1
-    while @state.activities[subsector_id]['new_' + i]?
-      i++ 
-    @state.activities[subsector_id]['new_' + i] = 
+    while @state.activities[subsector_id]["new_#{i}"]?
+      i++
+    @state.activities[subsector_id]["new_#{i}"] =  
       id: 'new_' + i
       subsector_id: subsector_id
       name: ''
@@ -41,8 +45,10 @@ ActivitiesStore = Marty.createStore
     @hasChanged()
 
   edit: (activity)->
-    @state.activities[activity.subsector_id][activity.id]['edtitng'] = true
-    @state.activities[activity.subsector_id][activity.id]['name_old'] = activity.name
+    @setActivity(activity.subsector_id, activity.id,
+      edtitng: true
+      name_old: activity.name
+    )
     @hasChanged()
 
   cancel: (activity)->
@@ -55,7 +61,9 @@ ActivitiesStore = Marty.createStore
       @update(activity)
 
   update: (activity)->
-    @state.activities[activity.subsector_id][activity.id] = activity
+    @setActivity(activity.subsector_id, activity.id,
+      name: activity.name
+    )
     @hasChanged()
     #put to server
     if typeof activity.id != "string"
@@ -63,13 +71,17 @@ ActivitiesStore = Marty.createStore
 
   update_response: (activity, ok)->
     if !ok
-      @state.activities[activity.subsector_id][activity.id].edtitng = true
-      @state.activities[activity.subsector_id][activity.id].have_errors = true
-      @state.activities[activity.subsector_id][activity.id].errors = activity.errors
+      @setActivity(activity.subsector_id, activity.id,
+        edtitng: true
+        have_errors: true
+        errors: activity.errors
+      )
       @hasChanged()
     else
-      @state.activities[activity.subsector_id][activity.id].errors = {}
-      @state.activities[activity.subsector_id][activity.id].have_errors = false
+      @setActivity(activity.subsector_id, activity.id,
+        have_errors: false
+        errors: {}
+      )
       @hasChanged()
 
   save: (activity)->
@@ -84,15 +96,20 @@ ActivitiesStore = Marty.createStore
 
   create_response: (activity, ok)->
     if !ok
-      @state.activities[activity.subsector_id][activity.old_id].edtitng = true
-      @state.activities[activity.subsector_id][activity.old_id].have_errors = true
-      @state.activities[activity.subsector_id][activity.old_id].errors = activity.errors
+      @setActivity(activity.subsector_id, activity.old_id,
+        edtitng: true
+        have_errors: true
+        errors: activity.errors
+      )
       @hasChanged()
     else
       @state.activities[activity.subsector_id][activity.id] = @state.activities[activity.subsector_id][activity.old_id]
-      @state.activities[activity.subsector_id][activity.id].id = activity.id
-      @state.activities[activity.subsector_id][activity.id].errors = {}
-      @state.activities[activity.subsector_id][activity.id].have_errors = false
+      @setActivity(activity.subsector_id, activity.id,
+        id: activity.id
+        have_errors: false
+        errors: {}
+      )
+      @state.activities[activity.subsector_id][activity.old_id] = null
       delete @state.activities[activity.subsector_id][activity.old_id]
       @hasChanged()
 
