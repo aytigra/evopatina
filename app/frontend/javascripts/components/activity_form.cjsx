@@ -28,7 +28,7 @@ ActivityForm = React.createClass
         )
 
       <div>
-        <button onClick={@_onDelete} className="btn btn-default btn-xs pull-left">
+        <button onClick={@_onDelete} className="btn btn-default btn-sm pull-left">
           <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
         <div className='activity_input'>
@@ -40,10 +40,10 @@ ActivityForm = React.createClass
             autoFocus={true}
           />
           </div>
-        <button onClick={@_onSave} className="btn btn-default btn-xs pull-right">
+        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
-        <button onClick={@_onCancel} className="btn btn-default btn-xs pull-right">
+        <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
         {errors_elem}
