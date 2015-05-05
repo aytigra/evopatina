@@ -10,7 +10,7 @@ Activity = React.createClass
 
   _onDoubleClick: (e) ->
     e.preventDefault()
-    ActivitiesActionCreators.edit(@props.activity)
+    ActivitiesActionCreators.edit @props.activity
 
   render: ->
     if @props.activity.edtitng

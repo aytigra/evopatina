@@ -8,20 +8,24 @@ ActivityForm = React.createClass
   _onChange: (e) ->
     activity = @props.activity
     activity.name = e.target.value
-    ActivitiesActionCreators.update(activity)
+    ActivitiesActionCreators.update activity
 
   _onSave: ->
-    ActivitiesActionCreators.save(@props.activity)
+    ActivitiesActionCreators.save @props.activity
 
   _onCancel: ->
-    ActivitiesActionCreators.cancel(@props.activity)
+    ActivitiesActionCreators.cancel @props.activity
 
   _onDelete: ->
-    ActivitiesActionCreators.destroy(@props.activity)
+    ActivitiesActionCreators.destroy @props.activity
 
   render: ->
       if @props.activity.have_errors
-        errors_elem = <div title={JSON.stringify(@props.activity.errors)} className="pull-right"><span className="glyphicon glyphicon-alert" aria-hidden="true"></span></div>
+        errors_elem = (
+          <div title={JSON.stringify(@props.activity.errors)} className="pull-right text-danger">
+            <span className="glyphicon glyphicon-alert" aria-hidden="true"></span>
+          </div>
+        )
 
       <div>
         <div onClick={@_onDelete}  className="glyphicon glyphicon-trash pull-left" aria-hidden="true"></div>

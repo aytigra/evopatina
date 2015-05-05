@@ -36,7 +36,7 @@ ActivitiesStore = Marty.createStore
     destroy_response: ActivitiesConstants.ACTIVITY_DELETE_RESPONSE
 
   #create empty activity in subsector with placeholder ID
-  create: (subsector_id)->
+  create: (subsector_id) ->
     @state.activities[subsector_id] ||= {}
     i = 1
     while @state.activities[subsector_id]["new_#{i}"]?
@@ -49,14 +49,14 @@ ActivitiesStore = Marty.createStore
       edtitng: true
     @hasChanged()
 
-  edit: (activity)->
+  edit: (activity) ->
     @setActivity(activity.subsector_id, activity.id,
       edtitng: true
       name_old: activity.name
     )
     @hasChanged()
 
-  cancel: (activity)->
+  cancel: (activity) ->
     if typeof activity.id is "string" && !activity.name_old
       #unset canceled and not saved yet new activity
       @unsetActivity(activity.subsector_id, activity.id)
@@ -66,7 +66,7 @@ ActivitiesStore = Marty.createStore
       activity.name = activity.name_old
       @update(activity)
 
-  update: (activity)->
+  update: (activity) ->
     @setActivity(activity.subsector_id, activity.id,
       name: activity.name
     )
@@ -75,7 +75,7 @@ ActivitiesStore = Marty.createStore
     if typeof activity.id isnt "string"
       ActivitiesAPI.update(activity)
 
-  update_response: (activity, ok)->
+  update_response: (activity, ok) ->
     if !ok
       @setActivity(activity.subsector_id, activity.id,
         edtitng: true
@@ -89,7 +89,7 @@ ActivitiesStore = Marty.createStore
       )
     @hasChanged()
 
-  save: (activity)->
+  save: (activity) ->
     activity.edtitng = false
     activity.name_old = activity.name
     if typeof activity.id isnt "string"
@@ -99,7 +99,7 @@ ActivitiesStore = Marty.createStore
       ActivitiesAPI.create(activity)
       @hasChanged()
 
-  create_response: (activity, ok)->
+  create_response: (activity, ok) ->
     if !ok
       @setActivity(activity.subsector_id, activity.old_id,
         edtitng: true
@@ -116,7 +116,7 @@ ActivitiesStore = Marty.createStore
       @unsetActivity(activity.subsector_id, activity.old_id)
     @hasChanged()
 
-  destroy: (activity)->
+  destroy: (activity) ->
     @setActivity(activity.subsector_id, activity.id,
       hidden: true
     )
@@ -125,7 +125,7 @@ ActivitiesStore = Marty.createStore
     if typeof activity.id isnt "string"
       ActivitiesAPI.destroy(activity)
 
-  destroy_response: (activity, ok)->
+  destroy_response: (activity, ok) ->
     if !ok
       @setActivity(activity.subsector_id, activity.id,
         hidden: false
