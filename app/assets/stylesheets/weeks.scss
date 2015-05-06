@@ -34,6 +34,16 @@
       margin-left: -10px;
       margin-right: -10px;
     }
+
+    .errors_block {
+      .errors_block_title {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .errors_block_body {
+        
+      }
+    }
     .activity {
       label {
         width: 100%;
@@ -62,6 +72,7 @@
       }
     }
     .subsector {
+      margin-bottom: 3px;
       label {
         font-size: 20px;
         font-weight: normal;

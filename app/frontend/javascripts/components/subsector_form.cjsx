@@ -1,4 +1,5 @@
 SubsectorsActionCreators = require '../actions/subsectors_actions'
+ItemErrorsBlock = require './item_errors_block'
 
 SubsectorForm = React.createClass
   displayName: 'SubsectorForm'
@@ -18,16 +19,17 @@ SubsectorForm = React.createClass
     SubsectorsActionCreators.cancel @props.subsector
 
   _onDelete: ->
-    SubsectorsActionCreators.destroy @props.subsector
+    if Object.keys(@props.subsector.activities).length
+      if confirm 'Will delete all nested activities'
+        SubsectorsActionCreators.destroy @props.subsector
+    else
+      SubsectorsActionCreators.destroy @props.subsector
 
   render: ->
-      if @props.subsector.have_errors
-        errors_elem = (
-          <div title={JSON.stringify(@props.subsector.errors)} className="pull-right text-danger">
-            <span className="glyphicon glyphicon-alert" aria-hidden="true"></span>
-          </div>
-        )
+    if @props.subsector.have_errors
+      errors_elem = <ItemErrorsBlock errors={@props.subsector.errors} title='Server errors' />
 
+    <div>
       <div>
         <button onClick={@_onDelete} className="btn btn-default btn-sm pull-left">
           <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -47,8 +49,8 @@ SubsectorForm = React.createClass
         <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
-        {errors_elem}
       </div>
-
+      {errors_elem}
+    </div>
 
 module.exports = SubsectorForm

@@ -1,4 +1,5 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
+ItemErrorsBlock = require './item_errors_block'
 
 ActivityForm = React.createClass
   displayName: 'ActivityForm'
@@ -21,13 +22,10 @@ ActivityForm = React.createClass
     ActivitiesActionCreators.destroy @props.activity
 
   render: ->
-      if @props.activity.have_errors
-        errors_elem = (
-          <div title={JSON.stringify(@props.activity.errors)} className="pull-right text-danger">
-            <span className="glyphicon glyphicon-alert" aria-hidden="true"></span>
-          </div>
-        )
+    if @props.activity.have_errors
+      errors_elem = <ItemErrorsBlock errors={@props.activity.errors} title='Server errors' />
 
+    <div>
       <div>
         <button onClick={@_onDelete} className="btn btn-default btn-sm pull-left">
           <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -47,9 +45,9 @@ ActivityForm = React.createClass
         <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
-        {errors_elem}
       </div>
-
+      {errors_elem}
+    </div>
 
 
 module.exports = ActivityForm
