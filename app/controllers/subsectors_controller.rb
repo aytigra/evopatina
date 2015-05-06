@@ -30,8 +30,8 @@ class SubsectorsController < ApplicationController
     subsector_json = { sector_id: @subsector.sector_id, old_id: subsector_params_id }
     respond_to do |format|
       if @subsector.save
-        subsector_json_json[:id] = @subsector.id
-        format.json { render json: subsector_json_json, status: :created }
+        subsector_json[:id] = @subsector.id
+        format.json { render json: subsector_json, status: :created }
       else
         subsector_json[:errors] = @subsector.errors
         format.json { render json: subsector_json, status: :unprocessable_entity }
