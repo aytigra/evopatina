@@ -112,8 +112,8 @@ SubsectorsStore = Marty.createStore
         errors: subsector.errors
       )
     else
-      @state.activities[subsector.sector_id][subsector.id] = @state.activities[subsector.sector_id][subsector.old_id]
-      @setSubsector(subsector.subsector_id, subsector.id,
+      @state.subsectors[subsector.sector_id][subsector.id] = @state.subsectors[subsector.sector_id][subsector.old_id]
+      @setSubsector(subsector.sector_id, subsector.id,
         id: subsector.id
         have_errors: false
         errors: {}
@@ -128,7 +128,7 @@ SubsectorsStore = Marty.createStore
     @hasChanged()
     #delete to server
     if typeof subsector.id isnt "string"
-      SubsectorAPI.destroy(subsector)
+      SubsectorsAPI.destroy(subsector)
 
   destroy_response: (subsector, ok) ->
     if !ok
