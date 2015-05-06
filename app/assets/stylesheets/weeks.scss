@@ -27,6 +27,9 @@
   }
 
   .sector-content {
+    padding-top: 15px;
+    padding-bottom: 5px;
+
     div.row {
       margin-left: -10px;
       margin-right: -10px;
@@ -36,7 +39,7 @@
         width: 100%;
         font-size: 16px;
         font-weight: normal;
-        line-height: 29px;
+        line-height: 27px;
         margin-bottom: 0px;
       }
       .activity_input {
@@ -44,8 +47,8 @@
         font-size: 16px;
         font-weight: normal;
         padding-left: 3px;
-        width: calc(100% - 102px);
-        line-height: 29px;
+        width: calc(100% - 96px);
+        line-height: 26px;
         border-bottom: 1px solid gray;
         input { 
           width: 100%;
@@ -54,22 +57,25 @@
           outline: none;
         }
       }
+      button {
+        border: none;
+      }
     }
     .subsector {
       label {
         font-size: 20px;
         font-weight: normal;
-        line-height: 29px;
+        line-height: 27px;
         margin-bottom: 0px;
-        width: calc(100% - 34px);
+        width: calc(100% - 32px);
       }
       .subsector_input {
         display: inline-block;
         font-size: 20px;
         font-weight: normal;
         padding-left: 4px;
-        width: calc(100% - 102px);
-        line-height: 29px;
+        width: calc(100% - 96px);
+        line-height: 27px;
         border-bottom: 1px solid gray;
         input { 
           width: 100%;
@@ -79,11 +85,18 @@
           background-color: inherit;
         }
       }
+      button {
+        border: none;
+        background-color: inherit;
+      }
     }
     .subsector-add {
+      margin-top: 5px;
       button {
         width: 100%;
         text-align: center;
+        background-color: inherit;
+        border: none;
       }
     }
   }
