@@ -1,22 +1,41 @@
 Activity = require './activity'
 ActivitiesActionCreators = require '../actions/activities_actions'
+SubsectorForm = require './subsector_form'
+SubsectorsActionCreators = require '../actions/subsectors_actions'
 
 Subsector = React.createClass
   displayName: 'Subsector'
 
+  propTypes: 
+    subsector: React.PropTypes.object.isRequired
+
   _onActivityCreate: ->
-    ActivitiesActionCreators.create(@props.subsector.id)
+    ActivitiesActionCreators.create @props.subsector.id
+
+  _onDoubleClick: (e) ->
+    e.preventDefault()
+    SubsectorsActionCreators.edit @props.subsector
 
   render: ->
     activities = []
     for id, activity of @props.subsector.activities
       activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden
+
+    if @props.subsector.edtitng
+      subsector_elem = <SubsectorForm key={@props.subsector.id} subsector={@props.subsector}/>
+    else
+      subsector_elem = (
+        <div>
+          <label onDoubleClick={@_onDoubleClick}>{@props.subsector.name}</label>
+          <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm pull-right">
+            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </button>
+        </div>
+      )
+
     <div>
       <div className='row subsector bg-info'>
-        <label>{@props.subsector.name}</label>
-        <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
+        {subsector_elem}
       </div>
       <div>{activities}</div>
     </div>

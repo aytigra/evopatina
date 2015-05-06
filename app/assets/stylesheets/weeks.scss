@@ -26,7 +26,7 @@
     }
   }
 
-  .sector-content { 
+  .sector-content {
     div.row {
       margin-left: -10px;
       margin-right: -10px;
@@ -57,11 +57,33 @@
     }
     .subsector {
       label {
-        margin-right: 34px;
         font-size: 20px;
         font-weight: normal;
-        line-height: 30px;
+        line-height: 29px;
         margin-bottom: 0px;
+        width: calc(100% - 34px);
+      }
+      .subsector_input {
+        display: inline-block;
+        font-size: 20px;
+        font-weight: normal;
+        padding-left: 4px;
+        width: calc(100% - 102px);
+        line-height: 29px;
+        border-bottom: 1px solid gray;
+        input { 
+          width: 100%;
+          border: none;
+          padding: 0;
+          outline: none;
+          background-color: inherit;
+        }
+      }
+    }
+    .subsector-add {
+      button {
+        width: 100%;
+        text-align: center;
       }
     }
   }

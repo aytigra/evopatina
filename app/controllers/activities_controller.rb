@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /activities
   # GET /activities.json
@@ -56,6 +57,7 @@ class ActivitiesController < ApplicationController
       if @activity.destroy
         format.json { render json: activity_json, status: :ok }
       else
+        activity_json[:errors] = @activity.errors
         format.json { render json: activity_json, status: :unprocessable_entity }
       end
     end
