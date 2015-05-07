@@ -27,7 +27,7 @@
   }
 
   .sector-content {
-    padding-top: 15px;
+    padding-top: 20px;
     padding-bottom: 5px;
 
     div.row {
@@ -44,9 +44,16 @@
         
       }
     }
+    .progress {
+      margin-bottom: 10px;
+    }
+    .progress-icon {
+      margin-right: 5px;
+    }
+
     .activity {
       background-color: #F5F5F5;
-      margin-top: 2px;
+      margin-top: 4px;
       label {
         width: calc(100% - 32px);
         font-size: 16px;
@@ -93,8 +100,7 @@
       }
     }
     .subsector {
-      margin-top: 5px;
-      margin-bottom: 3px;
+      margin-top: 8px;
       label {
         font-size: 16px;
         font-weight: normal;
