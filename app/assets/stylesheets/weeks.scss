@@ -36,6 +36,7 @@
     }
 
     .errors_block {
+      clear: both;
       .errors_block_title {
         padding-left: 10px;
         padding-right: 10px;
@@ -83,24 +84,34 @@
         overflow: hidden;
       }
     }
-
     .activity label, .subsector label {
       font-size: 16px;
       font-weight: normal;
       line-height: 27px;
       margin-bottom: 0px;
+      padding-left: 4px;
       background-color: inherit;
+    }
+
+    .activity .description, .subsector .description {
+      clear: both;
     }
     .activity {
       background-color: #F5F5F5;
       margin-top: 4px;
       label {
-        width: calc(100% - 32px);
+        width: calc(100% - 96px);
       }
       .activity_input {
         padding-left: 3px;
         width: calc(100% - 96px);
         line-height: 26px;
+      }
+      .btn-count {
+        background-color: #EDEDED;
+      }
+      .btn-add-count {
+        background-color: #EDEDED;
       }
     }
     .subsector {
