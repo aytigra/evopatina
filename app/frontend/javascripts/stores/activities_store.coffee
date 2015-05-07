@@ -58,6 +58,7 @@ ActivitiesStore = Marty.createStore
     @setActivity(activity.subsector_id, activity.id,
       edtitng: true
       name_old: activity.name
+      description_old: activity.description
     )
 
   cancel: (activity) ->
@@ -68,6 +69,7 @@ ActivitiesStore = Marty.createStore
       params = 
         edtitng: false
         name: activity.name_old
+        description: activity.description_old
       @update(activity, params)
 
   update: (activity, params) ->
@@ -93,6 +95,7 @@ ActivitiesStore = Marty.createStore
     params = 
       edtitng: false
       name_old: activity.name
+      description_old: activity.description
     @update(activity, params)
     if typeof activity.id is "string"
       #create to server, replase ID on success

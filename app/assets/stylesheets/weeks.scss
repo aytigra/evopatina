@@ -45,12 +45,15 @@
       }
     }
     .activity {
+      background-color: #F5F5F5;
+      margin-top: 2px;
       label {
         width: calc(100% - 32px);
         font-size: 16px;
         font-weight: normal;
         line-height: 27px;
         margin-bottom: 0px;
+        background-color: inherit;
       }
       .activity_input {
         display: inline-block;
@@ -65,13 +68,32 @@
           border: none;
           padding: 0;
           outline: none;
+          background-color: inherit;
+        }
+      }
+      .activity_textarea {
+        font-size: 13px;
+        font-weight: normal;
+        padding-left: 2px;
+        padding-right: 2px;
+        line-height: 20px;
+        textarea { 
+          width: 100%;
+          border: none;
+          padding: 0;
+          outline: none;
+          background-color: inherit;
+          resize: vertical;
+          overflow: hidden;
         }
       }
       button {
         border: none;
+        background-color: inherit;
       }
     }
     .subsector {
+      margin-top: 5px;
       margin-bottom: 3px;
       label {
         font-size: 16px;
@@ -94,6 +116,22 @@
           padding: 0;
           outline: none;
           background-color: inherit;
+        }
+      }
+      .subsector_textarea {
+        font-size: 13px;
+        font-weight: normal;
+        padding-left: 2px;
+        padding-right: 2px;
+        line-height: 20px;
+        textarea { 
+          width: 100%;
+          border: none;
+          padding: 0;
+          outline: none;
+          background-color: inherit;
+          resize: vertical;
+          overflow: hidden;
         }
       }
       button {

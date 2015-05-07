@@ -63,6 +63,7 @@ SubsectorsStore = Marty.createStore
     @setSubsector(subsector.sector_id, subsector.id,
       edtitng: true
       name_old: subsector.name
+      description_old: subsector.description
     )
 
   cancel: (subsector) ->
@@ -73,6 +74,7 @@ SubsectorsStore = Marty.createStore
       prpams = 
         edtitng: false
         name: subsector.name_old
+        description: subsector.description_old
       @update(subsector, prpams)
 
   update: (subsector, params) ->
@@ -98,6 +100,7 @@ SubsectorsStore = Marty.createStore
     prpams = 
       edtitng: false
       name_old: subsector.name
+      description_old: subsector.description
     @update(subsector, prpams)
     if typeof subsector.id is "string"
       #create to server, replase ID on success

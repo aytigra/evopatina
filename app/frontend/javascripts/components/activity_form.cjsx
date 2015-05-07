@@ -12,6 +12,11 @@ ActivityForm = React.createClass
       name: e.target.value
     ActivitiesActionCreators.update @props.activity, params
 
+  _onDescChange: (e) ->
+    params =
+      description: e.target.value
+    ActivitiesActionCreators.update @props.activity, params
+
   _onSave: ->
     ActivitiesActionCreators.save @props.activity
 
@@ -40,7 +45,7 @@ ActivityForm = React.createClass
             id={'activity_' + @props.activity.id}
             ref='activity_input'
             placeholder='new activity'
-            onChange={@_onChange}
+            onChange={@_onNameChange}
             value={@props.activity.name}
             autoFocus={true}
           />
@@ -51,6 +56,14 @@ ActivityForm = React.createClass
         <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
+      </div>
+      <div className='activity_textarea'>
+        <textarea 
+          rows="3"
+          placeholder="Description..."
+          onChange={@_onDescChange}
+          value={@props.activity.description}
+        />
       </div>
       {errors_elem}
     </div>
