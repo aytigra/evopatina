@@ -3,7 +3,7 @@ SectorProgressBar = React.createClass
 
   render: ->
     sector = @props.sector
-    ratio = if sector.progress > 0 && sector.lapa > 0 then sector.progress/sector.lapa else 0
+    ratio = if sector.progress > 0 && sector.lapa > 0 then (sector.progress/sector.lapa) * 100 else 0
     <div className='row'>
       <div className="progress-icon pull-left hidden-lg">
         <span className={sector.icon + ""} aria-hidden="true"></span>
