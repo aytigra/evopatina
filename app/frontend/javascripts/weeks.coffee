@@ -5,6 +5,10 @@ Marty.HttpStateSource.addHook(
   priority: 1
   before: (req) ->
     req.headers['X-CSRF-Token'] = $('meta[name="csrf-token"]').attr('content')
+  after: (req) ->
+    req.ok ||= req.statusText == "OK"
+    req.body.errors ||= {}
+    req
 )
 
 $(document).on "ready page:change", ->
