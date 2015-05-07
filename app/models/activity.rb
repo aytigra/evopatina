@@ -1,5 +1,6 @@
 class Activity < ActiveRecord::Base
   belongs_to :subsector
+  has_many :fragments, dependent: :destroy
 
   validates :subsector, :name, presence: true
 
