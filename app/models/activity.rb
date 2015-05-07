@@ -4,8 +4,13 @@ class Activity < ActiveRecord::Base
 
   validates :subsector, :name, presence: true
 
-  def self.activities_by_subsectors(user)
-    raw = self.joins(:subsector).where(subsectors: {user_id: user.id}).order(created_at: :desc)
+  def self.activities_by_subsectors(user, week)
+    week_id = week.id.to_i.to_s
+    fragments_join = 'LEFT JOIN fragments ON fragments.activity_id = activities.id AND fragments.week_id = ' + week_id
+    raw = self.joins(:subsector, fragments_join)
+              .where(subsectors: {user_id: user.id})
+              .order(created_at: :desc)
+              .select('activities.*, fragments.count as count')
 
     result = {}
 

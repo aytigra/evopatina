@@ -38,7 +38,7 @@ class WeeksController < ApplicationController
 
     @sectors = Sector.all
     @subsectors = Subsector.subsectors_by_sectors(current_user)
-    @activities = Activity.activities_by_subsectors(current_user)
+    @activities = Activity.activities_by_subsectors(current_user, @current_week)
   end
 
   def update
