@@ -14,6 +14,9 @@ SubsectorsStore = Marty.createStore
     @setState
       subsectors: data
 
+  getSubsector: (sector_id, id) ->
+    @state.subsectors[sector_id][id] || {}
+
   getSubsectors: (sector_id) ->
     result = {}
     for id, subsector of @state.subsectors[sector_id]
@@ -24,10 +27,12 @@ SubsectorsStore = Marty.createStore
   setSubsector: (sector_id, id, params = {}) ->
     for key, val of params
       @state.subsectors[sector_id][id][key] = val
+    @hasChanged()
 
   unsetSubsector: (sector_id, id) ->
     @state.subsectors[sector_id][id] = null
     delete @state.subsectors[sector_id][id]
+    @hasChanged()
 
   handlers:
     create: SubsectorsConstants.SUBSECTOR_CREATE
@@ -59,13 +64,11 @@ SubsectorsStore = Marty.createStore
       edtitng: true
       name_old: subsector.name
     )
-    @hasChanged()
 
   cancel: (subsector) ->
     if typeof subsector.id is "string" && !subsector.name_old
       #unset canceled and not saved yet new subsector
       @unsetSubsector(subsector.sector_id, subsector.id)
-      @hasChanged()
     else
       prpams = 
         edtitng: false
@@ -73,13 +76,10 @@ SubsectorsStore = Marty.createStore
       @update(subsector, prpams)
 
   update: (subsector, params) ->
-    @setSubsector(subsector.sector_id, subsector.id,
-      name: params.name
-    )
-    @hasChanged()
+    @setSubsector subsector.sector_id, subsector.id, params
     #put to server
     if typeof subsector.id isnt "string"
-      SubsectorsAPI.update(subsector)
+      SubsectorsAPI.update @getSubsector(subsector.sector_id, subsector.id)
 
   update_response: (subsector, ok) ->
     if !ok
@@ -93,18 +93,15 @@ SubsectorsStore = Marty.createStore
         have_errors: false
         errors: {}
       )
-    @hasChanged()
 
   save: (subsector) ->
     prpams = 
       edtitng: false
       name_old: subsector.name
-    if typeof subsector.id isnt "string"
-      @update(subsector, prpams)
-    else
+    @update(subsector, prpams)
+    if typeof subsector.id is "string"
       #create to server, replase ID on success
       SubsectorsAPI.create(subsector)
-      @hasChanged()
 
   create_response: (subsector, ok) ->
     if !ok
@@ -121,13 +118,11 @@ SubsectorsStore = Marty.createStore
         errors: {}
       )
       @unsetSubsector(subsector.sector_id, subsector.old_id)
-    @hasChanged()
 
   destroy: (subsector) ->
     @setSubsector(subsector.sector_id, subsector.id,
       hidden: true
     )
-    @hasChanged()
     #delete to server
     if typeof subsector.id isnt "string"
       SubsectorsAPI.destroy(subsector)
@@ -141,6 +136,5 @@ SubsectorsStore = Marty.createStore
       )
     else
       @unsetSubsector(subsector.sector_id, subsector.id)
-    @hasChanged()
 
 module.exports = SubsectorsStore
