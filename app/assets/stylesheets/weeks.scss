@@ -26,6 +26,12 @@
     }
   }
 
+  .tooltip-inner {
+    white-space:pre-wrap;
+    max-width:400px;
+    text-align: left;
+  }
+
   .sector-content {
     padding-top: 20px;
     padding-bottom: 5px;
