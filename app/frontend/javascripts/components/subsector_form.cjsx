@@ -25,6 +25,11 @@ SubsectorForm = React.createClass
     else
       SubsectorsActionCreators.destroy @props.subsector
 
+  componentDidMount: ->
+    input = React.findDOMNode(this.refs.subsector_input)
+    length = input.value.length
+    input.setSelectionRange(length, length)
+
   render: ->
     if @props.subsector.have_errors
       errors_elem = <ItemErrorsBlock errors={@props.subsector.errors} title='Server errors' />
@@ -37,17 +42,18 @@ SubsectorForm = React.createClass
         <div className='subsector_input'>
           <input
             id={'subsector_' + @props.subsector.id}
+            ref='subsector_input'
             placeholder='new subsector'
             onChange={@_onChange}
             value={@props.subsector.name}
             autoFocus={true}
           />
           </div>
-        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        </button>
         <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
+          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
       </div>
       {errors_elem}

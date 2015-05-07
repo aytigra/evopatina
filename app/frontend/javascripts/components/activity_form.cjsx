@@ -21,6 +21,11 @@ ActivityForm = React.createClass
   _onDelete: ->
     ActivitiesActionCreators.destroy @props.activity
 
+  componentDidMount: ->
+    input = React.findDOMNode(this.refs.activity_input)
+    length = input.value.length
+    input.setSelectionRange(length, length)
+
   render: ->
     if @props.activity.have_errors
       errors_elem = <ItemErrorsBlock errors={@props.activity.errors} title='Server errors' />
@@ -33,17 +38,18 @@ ActivityForm = React.createClass
         <div className='activity_input'>
           <input
             id={'activity_' + @props.activity.id}
+            ref='activity_input'
             placeholder='new activity'
             onChange={@_onChange}
             value={@props.activity.name}
             autoFocus={true}
           />
           </div>
-        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        </button>
         <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
+          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
       </div>
       {errors_elem}
