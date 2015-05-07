@@ -86,9 +86,12 @@ class ActivitiesController < ApplicationController
     def update_fragments
       input = fragments_params
       if input[:fragments] > 0 || input[:add_fragments] > 0
-        fragment = Fragment.find_or_create(@activity, Week.last_week(current_user))
+        week = Week.last_week(current_user)
+        fragment = Fragment.find_or_create(@activity, week)
         fragment.count = input[:add_fragments] + (input[:fragments] > 0 ? input[:fragments] : fragment.count)
         fragment.save
+        progress = week.recount_progress
+        progress.save
       end
     end
 end

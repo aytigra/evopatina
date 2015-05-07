@@ -34,4 +34,10 @@ class Week < ActiveRecord::Base
     end
   end
 
+  def recount_progress
+    res = Sector.hash(Fragment.joins(activity: :subsector).where(week_id: id).group(:sector_id).sum(:count))
+    self.progress = res
+    self
+  end
+
 end
