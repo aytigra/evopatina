@@ -14,11 +14,21 @@ Activity = React.createClass
     e.preventDefault()
     ActivitiesActionCreators.edit @props.activity
 
+  _onIncrementCount: (e) ->
+    e.preventDefault()
+    params =
+      add_fragments: 1
+    ActivitiesActionCreators.update @props.activity, params
+
   _showDescription: (e) ->
     @setState
       show_desc: !@state.show_desc
 
   render: ->
+    increment_button_disabled = ''
+    if typeof @props.activity.id is "string"
+      increment_button_disabled = 'disabled'
+
     if @props.activity.edtitng
       activity_elem = <ActivityForm key={@props.activity.id} activity={@props.activity}/>
     else
@@ -27,7 +37,7 @@ Activity = React.createClass
           <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left">
             0
           </button>
-          <button onClick={@_onAddCount} className="btn btn-default btn-add-count btn-sm pull-left">
+          <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm pull-left" disabled={increment_button_disabled}>
             <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
           </button>
           <label onClick={@_showDescription}>{@props.activity.name}</label>

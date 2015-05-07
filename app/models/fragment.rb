@@ -6,9 +6,10 @@ class Fragment < ActiveRecord::Base
   validates_uniqueness_of :activity, scope: :week_id
 
   def self.find_or_create(activity, week)
-    fragment = self.where(activity: activity, week: week).first
-    rescue ActiveRecord::RecordNotFound
-      fragment = self.create(activity: activity, week: week)
+    fragment = self.where(activity_id: activity.id, week_id: week.id).first rescue nil
+    if !fragment
+      fragment = self.create(activity_id: activity.id, week_id: week.id, count: 0)
+    end
     fragment
   end
 end

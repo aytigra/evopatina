@@ -2,8 +2,6 @@ class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
-  after_action :update_fragments, only: [:create, :update]
-
   # GET /activities
   # GET /activities.json
   def index
@@ -44,6 +42,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       activity_json = { id: @activity.id, subsector_id: @activity.subsector_id }
       if @activity.update(activity_params)
+        update_fragments
         format.json { render json: activity_json, status: :ok }
       else
         activity_json[:errors] = @activity.errors
@@ -77,7 +76,7 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params_id
-      params[:id].to_i
+      params[:id]
     end
 
     def fragments_params
@@ -86,9 +85,9 @@ class ActivitiesController < ApplicationController
 
     def update_fragments
       input = fragments_params
-      if input[:fragments] || input[:add_fragments]
-        fragment = Fragment.find_or_create @activity, Week.last_week(current_user)
-        fragment.count = input[:add_fragments] + (input[:fragments] ? input[:fragments] : fragment.count)
+      if input[:fragments] > 0 || input[:add_fragments] > 0
+        fragment = Fragment.find_or_create(@activity, Week.last_week(current_user))
+        fragment.count = input[:add_fragments] + (input[:fragments] > 0 ? input[:fragments] : fragment.count)
         fragment.save
       end
     end
