@@ -9,10 +9,11 @@ Subsector = React.createClass
   propTypes: 
     subsector: React.PropTypes.object.isRequired
 
-  _onActivityCreate: ->
+  _onActivityCreate: (e) ->
+    e.preventDefault()
     ActivitiesActionCreators.create @props.subsector.id
 
-  _onDoubleClick: (e) ->
+  _onEdit: (e) ->
     e.preventDefault()
     SubsectorsActionCreators.edit @props.subsector
 
@@ -27,6 +28,9 @@ Subsector = React.createClass
       subsector_elem = (
         <div>
           <label onDoubleClick={@_onDoubleClick}>{@props.subsector.name}</label>
+          <button onClick={@_onEdit}  className="btn btn-default btn-sm pull-right">
+            <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          </button>
           <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm pull-right">
             <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
           </button>

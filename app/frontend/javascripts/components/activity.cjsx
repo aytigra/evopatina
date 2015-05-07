@@ -7,7 +7,7 @@ Activity = React.createClass
   propTypes: 
     activity: React.PropTypes.object.isRequired
 
-  _onDoubleClick: (e) ->
+  _onEdit: (e) ->
     e.preventDefault()
     ActivitiesActionCreators.edit @props.activity
 
@@ -15,7 +15,14 @@ Activity = React.createClass
     if @props.activity.edtitng
       activity_elem = <ActivityForm key={@props.activity.id} activity={@props.activity}/>
     else
-      activity_elem = <label onDoubleClick={@_onDoubleClick}>{@props.activity.name}</label>
+      activity_elem = (
+        <div>
+          <label onDoubleClick={@_onDoubleClick}>{@props.activity.name}</label>
+          <button onClick={@_onEdit}  className="btn btn-default btn-sm pull-right">
+            <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          </button>
+        </div>
+      )
 
 
     <div className='row activity'>
