@@ -52,6 +52,7 @@ ActivitiesStore = Marty.createStore
       name: ''
       description: ''
       edtitng: true
+      count: 0
     @hasChanged()
 
   edit: (activity) ->

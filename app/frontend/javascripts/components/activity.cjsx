@@ -17,6 +17,7 @@ Activity = React.createClass
   _onIncrementCount: (e) ->
     e.preventDefault()
     params =
+      count: @props.activity.count + 1
       add_fragments: 1
     ActivitiesActionCreators.update @props.activity, params
 
@@ -35,7 +36,7 @@ Activity = React.createClass
       activity_elem = (
         <div>
           <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left">
-            0
+            {@props.activity.count || 0}
           </button>
           <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm pull-left" disabled={increment_button_disabled}>
             <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
