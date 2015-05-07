@@ -6,6 +6,9 @@ SubsectorsActionCreators = require '../actions/subsectors_actions'
 Subsector = React.createClass
   displayName: 'Subsector'
 
+  getInitialState: ->
+    show_desc: false
+
   propTypes: 
     subsector: React.PropTypes.object.isRequired
 
@@ -17,6 +20,10 @@ Subsector = React.createClass
     e.preventDefault()
     SubsectorsActionCreators.edit @props.subsector
 
+  _showDescription: (e) ->
+    @setState
+      show_desc: !@state.show_desc
+
   render: ->
     activities = []
     for id, activity of @props.subsector.activities
@@ -27,7 +34,7 @@ Subsector = React.createClass
     else
       subsector_elem = (
         <div>
-          <label onDoubleClick={@_onDoubleClick}>{@props.subsector.name}</label>
+          <label onClick={@_showDescription}>{@props.subsector.name}</label>
           <button onClick={@_onEdit}  className="btn btn-default btn-sm pull-right">
             <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
           </button>
@@ -37,9 +44,13 @@ Subsector = React.createClass
         </div>
       )
 
+    if @state.show_desc
+      desc_elem = <div className="description">{@props.subsector.description}</div>
+
     <div>
       <div className='row subsector bg-info'>
         {subsector_elem}
+        {desc_elem}
       </div>
       <div>{activities}</div>
     </div>
