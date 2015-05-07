@@ -37,7 +37,7 @@ Activity = React.createClass
         </div>
       )
 
-    if @state.show_desc
+    if @state.show_desc and not @props.activity.edtitng
       desc_elem = <div className="description">{@props.activity.description}</div>
 
     <div className='row activity'>

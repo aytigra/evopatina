@@ -44,7 +44,7 @@ Subsector = React.createClass
         </div>
       )
 
-    if @state.show_desc
+    if @state.show_desc and not @props.subsector.edtitng
       desc_elem = <div className="description">{@props.subsector.description}</div>
 
     <div>
