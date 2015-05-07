@@ -7,8 +7,8 @@ SubsectorsActionCreators = Marty.createActionCreators
     @dispatch SubsectorsConstants.SUBSECTOR_EDIT, subsector
   cancel: (subsector) ->
     @dispatch SubsectorsConstants.SUBSECTOR_CANCEL, subsector
-  update: (subsector) ->
-    @dispatch SubsectorsConstants.SUBSECTOR_UPDATE, subsector
+  update: (subsector, params) ->
+    @dispatch SubsectorsConstants.SUBSECTOR_UPDATE, subsector, params
   update_response: (subsector, ok) ->
     @dispatch SubsectorsConstants.SUBSECTOR_UPDATE_RESPONSE, subsector, ok
   save: (subsector) ->

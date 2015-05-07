@@ -8,9 +8,9 @@ SubsectorForm = React.createClass
     subsector: React.PropTypes.object.isRequired
 
   _onChange: (e) ->
-    subsector = @props.subsector
-    subsector.name = e.target.value
-    SubsectorsActionCreators.update subsector
+    params =
+      name: e.target.value
+    SubsectorsActionCreators.update @props.subsector, params
 
   _onSave: ->
     SubsectorsActionCreators.save @props.subsector

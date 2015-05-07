@@ -8,9 +8,9 @@ ActivityForm = React.createClass
     activity: React.PropTypes.object.isRequired
 
   _onChange: (e) ->
-    activity = @props.activity
-    activity.name = e.target.value
-    ActivitiesActionCreators.update activity
+    params =
+      name: e.target.value
+    ActivitiesActionCreators.update @props.activity, params
 
   _onSave: ->
     ActivitiesActionCreators.save @props.activity

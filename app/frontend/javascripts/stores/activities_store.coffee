@@ -62,13 +62,14 @@ ActivitiesStore = Marty.createStore
       @unsetActivity(activity.subsector_id, activity.id)
       @hasChanged()
     else
-      activity.edtitng = false
-      activity.name = activity.name_old
-      @update(activity)
+      params = 
+        edtitng: false
+        name: activity.name_old
+      @update(activity, params)
 
-  update: (activity) ->
+  update: (activity, params) ->
     @setActivity(activity.subsector_id, activity.id,
-      name: activity.name
+      name: params.name
     )
     @hasChanged()
     #put to server
@@ -90,10 +91,11 @@ ActivitiesStore = Marty.createStore
     @hasChanged()
 
   save: (activity) ->
-    activity.edtitng = false
-    activity.name_old = activity.name
+    params = 
+      edtitng: false
+      name_old: activity.name
     if typeof activity.id isnt "string"
-      @update(activity)
+      @update(activity, params)
     else
       #create to server, replase ID on success
       ActivitiesAPI.create(activity)

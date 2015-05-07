@@ -67,13 +67,14 @@ SubsectorsStore = Marty.createStore
       @unsetSubsector(subsector.sector_id, subsector.id)
       @hasChanged()
     else
-      subsector.edtitng = false
-      subsector.name = subsector.name_old
-      @update(subsector)
+      prpams = 
+        edtitng: false
+        name: subsector.name_old
+      @update(subsector, prpams)
 
-  update: (subsector) ->
+  update: (subsector, params) ->
     @setSubsector(subsector.sector_id, subsector.id,
-      name: subsector.name
+      name: params.name
     )
     @hasChanged()
     #put to server
@@ -95,10 +96,11 @@ SubsectorsStore = Marty.createStore
     @hasChanged()
 
   save: (subsector) ->
-    subsector.edtitng = false
-    subsector.name_old = subsector.name
+    prpams = 
+      edtitng: false
+      name_old: subsector.name
     if typeof subsector.id isnt "string"
-      @update(subsector)
+      @update(subsector, prpams)
     else
       #create to server, replase ID on success
       SubsectorsAPI.create(subsector)
