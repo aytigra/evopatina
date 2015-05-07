@@ -2,6 +2,8 @@ class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
+  after_action :update_fragments, only: [:create, :update]
+
   # GET /activities
   # GET /activities.json
   def index
@@ -75,6 +77,19 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params_id
-      params[:id]
+      params[:id].to_i
+    end
+
+    def fragments_params
+      {fragments: params[:fragments].to_i, add_fragments: params[:add_fragments].to_i}
+    end
+
+    def update_fragments
+      input = fragments_params
+      if input[:fragments] || input[:add_fragments]
+        fragment = Fragment.find_or_create @activity, Week.last_week(current_user)
+        fragment.count = input[:add_fragments] + (input[:fragments] ? input[:fragments] : fragment.count)
+        fragment.save
+      end
     end
 end
