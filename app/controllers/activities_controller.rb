@@ -42,7 +42,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       activity_json = { id: @activity.id, subsector_id: @activity.subsector_id }
       if @activity.update(activity_params)
-        update_fragments
+        update_fragments_quantity
         format.json { render json: activity_json, status: :ok }
       else
         activity_json[:errors] = @activity.errors
@@ -79,19 +79,22 @@ class ActivitiesController < ApplicationController
       params[:id]
     end
 
-    def fragments_params
-      {fragments: params[:fragments].to_i, add_fragments: params[:add_fragments].to_i}
+    def fragments_quantity_params
+      {count: params[:count].to_i, week_id: params[:week_id].to_i}
     end
 
-    def update_fragments
-      input = fragments_params
-      if input[:fragments] > 0 || input[:add_fragments] > 0
-        week = Week.last_week(current_user)
-        fragment = Fragment.find_or_create(@activity, week)
-        fragment.count = input[:add_fragments] + (input[:fragments] > 0 ? input[:fragments] : fragment.count)
-        fragment.save
-        progress = week.recount_progress
-        progress.save
+    def update_fragments_quantity
+      input = fragments_quantity_params
+      #Week.find_by(id: input[:week_id])
+      if input[:count] && week = Week.last_week(current_user)
+        fragments_quantity = FragmentsQuantity.find_or_create(@activity, week)
+        old_count = fragments_quantity.count
+        fragments_quantity.count = input[:count]
+        if fragments_quantity.save
+          sector_id = Subsector.where(id: @activity.subsector_id).first.sector_id
+          week.progress[sector_id] = week.progress[sector_id] + fragments_quantity.count - old_count
+          week.save
+        end
       end
     end
 end

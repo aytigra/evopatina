@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20150507104603) do
 
   add_index "activities", ["subsector_id"], name: "index_activities_on_subsector_id", using: :btree
 
-  create_table "fragments", force: :cascade do |t|
+  create_table "fragments_quantities", force: :cascade do |t|
     t.integer  "week_id",     null: false
     t.integer  "activity_id", null: false
     t.integer  "count"
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 20150507104603) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "fragments", ["activity_id"], name: "index_fragments_on_activity_id", using: :btree
-  add_index "fragments", ["week_id"], name: "index_fragments_on_week_id", using: :btree
+  add_index "fragments_quantities", ["activity_id"], name: "index_fragments_quantities_on_activity_id", using: :btree
+  add_index "fragments_quantities", ["week_id"], name: "index_fragments_quantities_on_week_id", using: :btree
 
   create_table "subsectors", force: :cascade do |t|
     t.integer  "user_id",     null: false
