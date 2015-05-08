@@ -74,7 +74,9 @@ ActivitiesStore = Marty.createStore
       @update(activity, params)
 
   update: (activity, params) ->
-    params['week_id'] = WeeksStore.getCurrentWeek().id
+    if params.count_change
+      params['week_id'] = WeeksStore.getCurrentWeek().id
+      WeeksStore.setCurrentProgress(activity.sector_id, params.count_change)
     @setActivity activity.subsector_id, activity.id, params
     #put to server
     if typeof activity.id isnt "string"

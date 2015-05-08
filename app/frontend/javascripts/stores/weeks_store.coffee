@@ -29,6 +29,10 @@ WeeksStore = Marty.createStore
   getCurrentProgress: (sector_id) ->
     @state.current_week.progress[sector_id]
 
+  setCurrentProgress: (sector_id, count_change) ->
+    @state.current_week.progress[sector_id] = @state.current_week.progress[sector_id] + count_change
+    @hasChanged()
+
   getCurrentWeek: ->
     @state.current_week
 
