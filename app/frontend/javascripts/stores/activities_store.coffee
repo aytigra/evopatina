@@ -1,6 +1,6 @@
 ActivitiesConstants = require '../constants/activities_constants'
 ActivitiesAPI = require '../sources/activities_api'
-#ActivitiesQueries = require '../queries/activities_queries'
+WeeksStore = require('./weeks_store');
 
 ActivitiesStore = Marty.createStore
   id: 'ActivitiesStore'
@@ -74,6 +74,7 @@ ActivitiesStore = Marty.createStore
       @update(activity, params)
 
   update: (activity, params) ->
+    params['week_id'] = WeeksStore.getCurrentWeek().id
     @setActivity activity.subsector_id, activity.id, params
     #put to server
     if typeof activity.id isnt "string"

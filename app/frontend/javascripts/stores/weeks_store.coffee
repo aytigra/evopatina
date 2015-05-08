@@ -29,4 +29,7 @@ WeeksStore = Marty.createStore
   getCurrentProgress: (sector_id) ->
     @state.current_week.progress[sector_id]
 
+  getCurrentWeek: ->
+    @state.current_week
+
 module.exports = WeeksStore

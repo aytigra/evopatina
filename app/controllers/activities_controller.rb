@@ -85,8 +85,7 @@ class ActivitiesController < ApplicationController
 
     def update_fragments_quantity
       input = fragments_quantity_params
-      #Week.find_by(id: input[:week_id])
-      if input[:count] && week = Week.last_week(current_user)
+      if input[:count] && week = Week.find_by(id: input[:week_id])
         fragments_quantity = FragmentsQuantity.find_or_create(@activity, week)
         old_count = fragments_quantity.count
         fragments_quantity.count = input[:count]
