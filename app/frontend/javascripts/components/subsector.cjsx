@@ -14,7 +14,7 @@ Subsector = React.createClass
 
   _onActivityCreate: (e) ->
     e.preventDefault()
-    ActivitiesActionCreators.create @props.subsector.id
+    ActivitiesActionCreators.create @props.subsector
 
   _onEdit: (e) ->
     e.preventDefault()

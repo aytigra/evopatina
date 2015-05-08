@@ -41,18 +41,19 @@ ActivitiesStore = Marty.createStore
     destroy_response: ActivitiesConstants.ACTIVITY_DELETE_RESPONSE
 
   #create empty activity in subsector with placeholder ID
-  create: (subsector_id) ->
-    @state.activities[subsector_id] ||= {}
+  create: (subsector) ->
+    @state.activities[subsector.id] ||= {}
     i = 1
-    while @state.activities[subsector_id]["new_#{i}"]?
+    while @state.activities[subsector.id]["new_#{i}"]?
       i++
-    @state.activities[subsector_id]["new_#{i}"] =  
+    @state.activities[subsector.id]["new_#{i}"] =  
       id: 'new_' + i
-      subsector_id: subsector_id
+      subsector_id: subsector.id
       name: ''
       description: ''
       edtitng: true
       count: 0
+      sector_id: subsector.sector_id
     @hasChanged()
 
   edit: (activity) ->
