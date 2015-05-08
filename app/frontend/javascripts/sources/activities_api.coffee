@@ -1,7 +1,7 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
 
 ActivitiesAPI = Marty.createStateSource
-  id: 'Activities'
+  id: 'ActivitiesAPI'
   type: 'http'
 
   create: (activity) ->

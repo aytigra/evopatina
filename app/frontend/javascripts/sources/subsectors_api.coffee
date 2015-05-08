@@ -1,7 +1,7 @@
 SubsectorsActionCreators = require '../actions/subsectors_actions'
 
 SubsectorsAPI = Marty.createStateSource
-  id: 'Subsectors'
+  id: 'SubsectorsAPI'
   type: 'http'
 
   create: (subsector) ->
