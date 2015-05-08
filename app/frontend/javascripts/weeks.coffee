@@ -9,6 +9,9 @@ Marty.HttpStateSource.addHook(
     if req.status in [200, 201] 
       req.ok ||= true 
       req.body.errors ||= {}
+    else if req.status is 422
+      req.ok ||= false 
+      req.body.errors ||= {}
     req
 )
 

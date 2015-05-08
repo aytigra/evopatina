@@ -4,14 +4,22 @@ SubsectorsAPI = Marty.createStateSource
   id: 'SubsectorsAPI'
   type: 'http'
 
+  status: (res) ->
+    if res.status not in [200,201,422]
+      throw new Error("#{res.status}: #{res.statusText}")
+    res
+
   create: (subsector) ->
     url = Routes.subsectors_path {format: 'json'}
     @post(
       url: url
       body: subsector
     )
-    .then (res) ->
+    .then(@status)
+    .then (res) =>
       SubsectorsActionCreators.create_response res.body, res.ok
+    .catch (error) ->
+      alert error
 
   update: (subsector) ->
     url = Routes.subsector_path subsector.id, {format: 'json'}
@@ -19,9 +27,11 @@ SubsectorsAPI = Marty.createStateSource
       url: url
       body: subsector
     )
-    .then (res) ->
+    .then(@status)
+    .then (res) =>
       SubsectorsActionCreators.update_response res.body, res.ok
-  
+    .catch (error) ->
+      alert error
 
   destroy: (subsector) ->
     url = Routes.subsector_path subsector.id, {format: 'json'}
@@ -29,7 +39,10 @@ SubsectorsAPI = Marty.createStateSource
       url: url
       body: subsector
     )
+    .then(@status)
     .then (res) ->
       SubsectorsActionCreators.destroy_response res.body, res.ok
+    .catch (error) ->
+      alert error
 
 module.exports = SubsectorsAPI
