@@ -28,6 +28,7 @@ class WeeksController < ApplicationController
     else
       @current_week = Week.last_week(current_user)
     end
+    @current_week.recount_progress.save
     @after_weeks = Week.where(user: current_user).where('date >= ?', @current_week.date).by_date.limit(5)
     after_weeks_count = @after_weeks.length
     @before_weeks = Week.where(user: current_user).where('date < ?', @current_week.date).by_date.limit(10 - after_weeks_count)
