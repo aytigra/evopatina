@@ -80,18 +80,16 @@ class ActivitiesController < ApplicationController
     end
 
     def fragments_quantity_params
-      {count: params[:count].to_i, week_id: params[:week_id].to_i}
+      {count: params[:count].to_i, week_id: params[:week_id].to_i, sector_id: params[:sector_id].to_i}
     end
 
     def update_fragments_quantity
       input = fragments_quantity_params
-      if input[:count] && week = Week.find_by(id: input[:week_id])
         fragments_quantity = FragmentsQuantity.find_or_create(@activity, week)
         old_count = fragments_quantity.count
         fragments_quantity.count = input[:count]
         if fragments_quantity.save
-          sector_id = Subsector.where(id: @activity.subsector_id).first.sector_id
-          week.progress[sector_id] = week.progress[sector_id] + fragments_quantity.count - old_count
+          week.progress[input[:sector_id]] = week.progress[input[:sector_id]] + fragments_quantity.count - old_count
           week.save
         end
       end

@@ -12,7 +12,7 @@ class Activity < ActiveRecord::Base
     raw = self.joins(:subsector, fragments_join)
               .where(subsectors: {user_id: user.id})
               .order(created_at: :desc)
-              .select('activities.*, fragments_quantities.count as count')
+              .select('activities.*, subsectors.sector_id as sector_id, fragments_quantities.count as count')
 
     result = {}
 
