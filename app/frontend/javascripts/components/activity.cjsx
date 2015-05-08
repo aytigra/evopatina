@@ -18,7 +18,6 @@ Activity = React.createClass
     e.preventDefault()
     params =
       count: @props.activity.count + 1
-      count_change: 1
     ActivitiesActionCreators.update @props.activity, params
 
   _showDescription: (e) ->

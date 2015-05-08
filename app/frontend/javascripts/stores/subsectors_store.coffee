@@ -21,6 +21,9 @@ SubsectorsStore = Marty.createStore
     result = {}
     for id, subsector of @state.subsectors[sector_id]
       subsector['activities'] = ActivitiesStore.getActivities id
+      subsector['count'] = 0
+      for ida, activity of subsector['activities']
+        subsector['count'] += activity.count
       result[id] = subsector
     result
 
@@ -135,7 +138,7 @@ SubsectorsStore = Marty.createStore
       @setSubsector(subsector.sector_id, subsector.id,
         hidden: false
         have_errors: true
-        errors: ['server error: can not delete']
+        errors: subsector.errors
       )
     else
       @unsetSubsector(subsector.sector_id, subsector.id)

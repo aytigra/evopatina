@@ -75,9 +75,7 @@ ActivitiesStore = Marty.createStore
       @update(activity, params)
 
   update: (activity, params) ->
-    if params.count_change
-      params['week_id'] = WeeksStore.getCurrentWeek().id
-      WeeksStore.setCurrentProgress(activity.sector_id, params.count_change)
+    params['week_id'] = WeeksStore.getCurrentWeek().id
     @setActivity activity.subsector_id, activity.id, params
     #put to server
     if typeof activity.id isnt "string"
@@ -135,7 +133,7 @@ ActivitiesStore = Marty.createStore
       @setActivity(activity.subsector_id, activity.id,
         hidden: false
         have_errors: true
-        errors: ['server error: can not delete']
+        errors: activity.errors
       )
     else
       @unsetActivity(activity.subsector_id, activity.id)

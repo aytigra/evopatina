@@ -16,7 +16,9 @@ SectorsStore = Marty.createStore
     result = {}
     for id, sector of @state.sectors
       sector['subsectors'] = SubsectorsStore.getSubsectors id
-      sector['progress'] = WeeksStore.getCurrentProgress id
+      sector['progress'] = 0
+      for ids, subsector of sector['subsectors']
+        sector['progress'] += subsector.count
       sector['lapa'] = WeeksStore.getCurrentLapa id
       result[id] = sector
     result
