@@ -29,10 +29,11 @@ class WeeksController < ApplicationController
       @current_week = Week.last_week(current_user)
     end
     @current_week.recount_progress.save
+    make_prev_week(@current_week)
     @after_weeks = Week.where(user: current_user).where('date >= ?', @current_week.date).by_date.limit(5)
     after_weeks_count = @after_weeks.length
     @before_weeks = Week.where(user: current_user).where('date < ?', @current_week.date).by_date.limit(10 - after_weeks_count)
-    @weeks = @after_weeks + @before_weeks 
+    @weeks = @after_weeks + @before_weeks
     @next_week = nil
     @next_week = @after_weeks[after_weeks_count - 2] if after_weeks_count >= 2
     @prev_week = @before_weeks[0]
@@ -54,6 +55,8 @@ class WeeksController < ApplicationController
     end
   end
 
+  private
+
   def lapa_params
     lapa_params = {}
     params[:week][:lapa].each { |k,v| lapa_params[k.to_i] = v.to_f}
@@ -63,4 +66,15 @@ class WeeksController < ApplicationController
   def url_id
     params[:id].to_i
   end
+
+  def make_prev_week(current_week)
+    prew_week_date = (current_week.date - 1.week).at_beginning_of_week
+    prev_week = Week.where(user: current_user, date: prew_week_date).limit(1).first rescue nil
+    if prev_week == nil
+      lapa = prev_week == nil ? Sector.hash : current_week.lapa
+      prev_week = Week.create(date: prew_week_date, lapa: lapa, progress: Sector.hash, user: current_user)
+    end
+    prev_week
+  end
+
 end
