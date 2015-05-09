@@ -49,7 +49,7 @@ ActivityForm = React.createClass
             value={@props.activity.name}
             autoFocus={true}
           />
-          </div>
+        </div>
         <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
