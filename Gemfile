@@ -10,7 +10,6 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
 gem 'slim'
-gem 'http_accept_language'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -21,8 +20,6 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
 
-gem 'react-rails', github: 'reactjs/react-rails'
-gem 'sprockets-coffee-react'
 
 gem 'bootstrap-sass', '~> 3.3.3'
 gem 'momentjs-rails', '>= 2.8.1'
