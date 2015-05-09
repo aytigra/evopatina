@@ -5,7 +5,9 @@ Marty.HttpStateSource.addHook(
   priority: 1
   before: (req) ->
     req.headers['X-CSRF-Token'] = $('meta[name="csrf-token"]').attr('content')
+    NProgress.start()
   after: (req) ->
+    NProgress.done()
     if req.status in [200, 201] 
       req.ok ||= true 
       req.body.errors ||= {}
