@@ -64,4 +64,11 @@ if (devBuild) {
   );
 } else {
   console.log('Webpack production build for Rails'); // eslint-disable-line no-console
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  );
 }
