@@ -5,6 +5,8 @@ ActivitiesActionCreators = Marty.createActionCreators
 
   edit: (activity) ->
     @dispatch ActivitiesConstants.ACTIVITY_EDIT, activity
+  edit_count: (activity) ->
+    @dispatch ActivitiesConstants.ACTIVITY_EDIT_COUNT, activity
   cancel: (activity) ->
     @dispatch ActivitiesConstants.ACTIVITY_CANCEL, activity
   update: (activity, params) ->

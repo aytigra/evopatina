@@ -140,6 +140,13 @@
       .btn-add-count {
         background-color: #EDEDED;
       }
+      .count_inputs {
+        display: inline-block;
+        input, label {
+          width: 30px;
+          display: inline-block;
+        }
+      }
     }
     .subsector {
       margin-top: 14px;

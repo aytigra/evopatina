@@ -1,5 +1,6 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
 ActivityForm = require './activity_form'
+ActivityCountForm = require './activity_count_form'
 
 Activity = React.createClass
   displayName: 'Activity'
@@ -13,6 +14,10 @@ Activity = React.createClass
   _onEdit: (e) ->
     e.preventDefault()
     ActivitiesActionCreators.edit @props.activity
+
+  _onEditCount: (e) ->
+    e.preventDefault()
+    ActivitiesActionCreators.edit_count @props.activity
 
   _onIncrementCount: (e) ->
     e.preventDefault()
@@ -31,6 +36,8 @@ Activity = React.createClass
 
     if @props.activity.edtitng
       activity_elem = <ActivityForm key={@props.activity.id} activity={@props.activity}/>
+    else if @props.activity.edtitng_count
+      activity_elem = <ActivityCountForm key="count-#{@props.activity.id}" activity={@props.activity}/>
     else
       activity_elem = (
         <div>

@@ -34,6 +34,7 @@ ActivitiesStore = Marty.createStore
     create: ActivitiesConstants.ACTIVITY_CREATE
     create_response: ActivitiesConstants.ACTIVITY_CREATE_RESPONSE
     edit: ActivitiesConstants.ACTIVITY_EDIT
+    edit_count: ActivitiesConstants.ACTIVITY_EDIT_COUNT
     cancel: ActivitiesConstants.ACTIVITY_CANCEL
     update: ActivitiesConstants.ACTIVITY_UPDATE
     update_text: ActivitiesConstants.ACTIVITY_UPDATE_TEXT
@@ -54,6 +55,7 @@ ActivitiesStore = Marty.createStore
       name: ''
       description: ''
       edtitng: true
+      edtitng_count: false
       count: 0
       sector_id: subsector.sector_id
     @hasChanged()
@@ -65,16 +67,26 @@ ActivitiesStore = Marty.createStore
       description_old: activity.description
     )
 
+  edit_count: (activity) ->
+    @setActivity(activity.subsector_id, activity.id,
+      edtitng_count: true
+    )
+
   cancel: (activity) ->
     if typeof activity.id is "string" && !activity.name_old
       #unset canceled and not saved yet new activity
       @unsetActivity(activity.subsector_id, activity.id)
-    else
+    else if activity.edtitng
       params = 
         edtitng: false
+        edtitng_count: false
         name: activity.name_old
         description: activity.description_old
       @update(activity, params)
+    else if activity.edtitng_count
+      @setActivity(activity.subsector_id, activity.id,
+        edtitng_count: false
+      )
 
   update_text: (activity, params) ->
     @setActivity activity.subsector_id, activity.id, params
