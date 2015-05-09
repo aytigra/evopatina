@@ -1,15 +1,5 @@
 div id="main-container" class="container-fluid"
 
-  /! sectors header
-  div id='sectors' class='row text-nowrap'
-    - Sector.all.each do |sector|
-      div class='col-xs-2'
-        h4
-          small class=sector.icon
-          | &nbsp;
-          small class='glyphicon glyphicon-arrow-up'
-          | &nbsp;
-          span class='hidden-xs' title=sector.description.html_safe data-toggle='tooltip' data-placement='bottom' = sector.name
   /!tabs
   div role="tabpanel" id='week-action-toggle'
     ul role="tablist" class="nav nav-pills"
