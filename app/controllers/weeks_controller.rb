@@ -30,14 +30,13 @@ class WeeksController < ApplicationController
     end
     @current_week.recount_progress.save
     make_prev_week(@current_week)
-    @after_weeks = Week.where(user: current_user).where('date >= ?', @current_week.date).by_date.limit(5)
+    @after_weeks = Week.where(user: current_user).where('date >= ?', @current_week.date).by_rev_date.limit(5).reverse
     after_weeks_count = @after_weeks.length
     @before_weeks = Week.where(user: current_user).where('date < ?', @current_week.date).by_date.limit(10 - after_weeks_count)
     @weeks = @after_weeks + @before_weeks
     @next_week = nil
     @next_week = @after_weeks[after_weeks_count - 2] if after_weeks_count >= 2
     @prev_week = @before_weeks[0]
-
     @sectors = Sector.all
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @current_week)

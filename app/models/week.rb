@@ -8,6 +8,7 @@ class Week < ActiveRecord::Base
   validates_uniqueness_of :date, scope: :user_id
 
   scope :by_date, -> { order(date: :desc) }
+  scope :by_rev_date, -> { order(date: :asc) }
 
   def date=(date)
     write_attribute(:date, date.beginning_of_week)
