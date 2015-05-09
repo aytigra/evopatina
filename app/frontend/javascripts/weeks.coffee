@@ -28,11 +28,6 @@ window.react_confirm = (message, options = {}) ->
   component.promise.always(cleanup).promise()
 
 $(document).on "ready page:change", ->
-  # debug stores
-  weeks = WeeksStore.getState()
-  # recurcive load sectors <- subsectors <- activities
-  sectors = SectorsStore.getSectors()
-  
   # root react component
   React.render React.createElement(WeekContent, null), document.getElementById('week-content')
 

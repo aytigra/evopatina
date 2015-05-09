@@ -17,11 +17,8 @@ class Activity < ActiveRecord::Base
     result = {}
 
     raw.each do |activity|
-      if result[activity.subsector_id].present?
-        result[activity.subsector_id][activity.id] = activity
-      else
-        result[activity.subsector_id] = {activity.id => activity}
-      end
+      result[activity.subsector_id] ||= {}
+      result[activity.subsector_id][activity.id] = activity
     end
 
     result

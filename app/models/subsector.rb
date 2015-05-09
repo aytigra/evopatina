@@ -11,11 +11,8 @@ class Subsector < ActiveRecord::Base
     result = {}
 
     raw.each do |subsector|
-      if result[subsector.sector_id].present?
-        result[subsector.sector_id][subsector.id] = subsector
-      else
-        result[subsector.sector_id] = {subsector.id => subsector}
-      end
+      result[subsector.sector_id] ||= {}
+      result[subsector.sector_id][subsector.id] = subsector
     end
 
     result
