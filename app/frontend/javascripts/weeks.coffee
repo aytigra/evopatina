@@ -1,5 +1,6 @@
 weeksInit = require './weeks_init'
 WeekContent = require './components/week_content'
+Confirm = require './components/confirm'
 
 Marty.HttpStateSource.addHook(
   priority: 1
@@ -16,6 +17,15 @@ Marty.HttpStateSource.addHook(
       req.body.errors ||= {}
     req
 )
+
+window.react_confirm = (message, options = {}) ->
+  props = $.extend({message: message}, options)
+  wrapper = document.body.appendChild(document.createElement('div'))
+  component = React.render(React.createElement(Confirm, props), wrapper)
+  cleanup = ->
+    React.unmountComponentAtNode(wrapper)
+    setTimeout -> wrapper.remove()
+  component.promise.always(cleanup).promise()
 
 $(document).on "ready page:change", ->
   # debug stores

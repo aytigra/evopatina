@@ -25,8 +25,10 @@ SubsectorForm = React.createClass
 
   _onDelete: ->
     if Object.keys(@props.subsector.activities).length
-      if confirm 'Will delete all nested activities'
-        SubsectorsActionCreators.destroy @props.subsector
+      react_confirm 'Will delete all nested activities'
+        .then =>
+          SubsectorsActionCreators.destroy @props.subsector
+        
     else
       SubsectorsActionCreators.destroy @props.subsector
 
