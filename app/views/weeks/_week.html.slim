@@ -14,9 +14,11 @@ div class='row' id="week-header"
     span id='week-dates' = week_begin_end_text(week)
     span &nbsp;
     button class='btn btn-small lapa-settings' data-toggle="collapse" data-target="#lapa_form_#{week.id}" aria-expanded="false" aria-controls="lapa_form_#{week.id}"
-      
       span class="glyphicon glyphicon-cog" aria-hidden="true"
+
     - if week.lapa_unset?
+      span title='lapa not set!' data-toggle='tooltip' data-placement='bottom'
+        span &nbsp; <- &nbsp;
         span class='text-danger'
           span class="glyphicon glyphicon-alert" aria-hidden="true"
 /! week lapa form
