@@ -51,11 +51,19 @@
         
       }
     }
+
+    .sector-header {
+      margin-bottom: 5px;
+      .sector-icon, .sector-status {
+        margin-right: 5px;
+      }
+      .sector-name {
+        font-size: 20px;
+        font-weight: normal;
+      }
+    }
     .progress {
       margin-bottom: 0px;
-    }
-    .progress-icon {
-      margin-right: 5px;
     }
     .activity button, .subsector button {
       border: none;

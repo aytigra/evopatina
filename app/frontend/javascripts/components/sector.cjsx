@@ -1,5 +1,6 @@
 Subsector = require './subsector'
 SubsectorsActionCreators = require '../actions/subsectors_actions'
+SectorHeader = require './sector_header'
 SectorProgressBar = require './sector_progress_bar'
 
 Sector = React.createClass
@@ -14,7 +15,8 @@ Sector = React.createClass
       subsectors.push(<Subsector key={id} subsector={subsector}/>) if not subsector.hidden
 
     <div className='sector-content col-lg-2 col-md-4 col-sm-6 col-xs-12'>
-      <SectorProgressBar key={@props.sector.id} sector={@props.sector}/>
+      <SectorHeader key="header-#{@props.sector.id}" sector={@props.sector}/>
+      <SectorProgressBar key="progress-#{@props.sector.id}" sector={@props.sector}/>
       <div>{subsectors}</div>
       <div className='row subsector-add'>
         <button onClick={@_onSubsectorCreate}  className="btn btn-sm bg-info">
