@@ -10,6 +10,7 @@ ActivityCountForm = React.createClass
   getInitialState: ->
     count: @props.activity.count
     count_add: -1
+    error: ''
 
   _onCountChange: (e) ->
     @setState
@@ -21,10 +22,15 @@ ActivityCountForm = React.createClass
 
   _onSave: ->
     count = @state.count*1 + @state.count_add*1
-    params =
-      count: count
-      edtitng_count: false
-    ActivitiesActionCreators.update @props.activity, params
+    if isNaN(count)
+      @setState
+        error: 'Not a number'
+    else
+      params =
+        count: count
+        edtitng_count: false
+      ActivitiesActionCreators.update @props.activity, params
+
 
   _onCancel: ->
     ActivitiesActionCreators.cancel @props.activity
@@ -35,6 +41,8 @@ ActivityCountForm = React.createClass
     input.setSelectionRange(0, length)
 
   render: ->
+    if @state.error isnt ''
+      errors_elem = <ItemErrorsBlock errors={{}} title='Not a number' />
     <div>
       <div>
         <div className='count_inputs'>
@@ -59,6 +67,7 @@ ActivityCountForm = React.createClass
           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
       </div>
+      {errors_elem}
     </div>
 
 
