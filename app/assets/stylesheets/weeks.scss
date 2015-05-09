@@ -32,6 +32,17 @@
     text-align: left;
   }
 
+  .lapa_form {
+    .form-group input {
+      width: 50px;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .lapa-sector-name {
+      margin-left: 5px;
+    }
+  }
+
   .sector-content {
     padding-top: 20px;
     padding-bottom: 5px;
