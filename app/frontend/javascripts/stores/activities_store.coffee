@@ -5,6 +5,7 @@ WeeksStore = require('./weeks_store');
 ActivitiesStore = Marty.createStore
   id: 'ActivitiesStore'
   displayName: 'ActivitiesStore'
+  typingTimer: null
 
   getInitialState: ->
     activities: {}
@@ -35,6 +36,7 @@ ActivitiesStore = Marty.createStore
     edit: ActivitiesConstants.ACTIVITY_EDIT
     cancel: ActivitiesConstants.ACTIVITY_CANCEL
     update: ActivitiesConstants.ACTIVITY_UPDATE
+    update_text: ActivitiesConstants.ACTIVITY_UPDATE_TEXT
     update_response: ActivitiesConstants.ACTIVITY_UPDATE_RESPONSE
     save: ActivitiesConstants.ACTIVITY_SAVE
     destroy: ActivitiesConstants.ACTIVITY_DELETE
@@ -73,6 +75,12 @@ ActivitiesStore = Marty.createStore
         name: activity.name_old
         description: activity.description_old
       @update(activity, params)
+
+  update_text: (activity, params) ->
+    @setActivity activity.subsector_id, activity.id, params
+    clearTimeout @typingTimer
+    callback = => @update(activity, params)
+    @typingTimer = setTimeout(callback , 500)
 
   update: (activity, params) ->
     params['week_id'] = WeeksStore.getCurrentWeek().id

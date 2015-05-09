@@ -6,6 +6,7 @@ ActivitiesStore = require('./activities_store');
 SubsectorsStore = Marty.createStore
   id: 'SubsectorsStore'
   displayName: 'SubsectorsStore'
+  typingTimer: null
 
   getInitialState: ->
     subsectors: {}
@@ -43,6 +44,7 @@ SubsectorsStore = Marty.createStore
     edit: SubsectorsConstants.SUBSECTOR_EDIT
     cancel: SubsectorsConstants.SUBSECTOR_CANCEL
     update: SubsectorsConstants.SUBSECTOR_UPDATE
+    update_text: SubsectorsConstants.SUBSECTOR_UPDATE_TEXT
     update_response: SubsectorsConstants.SUBSECTOR_UPDATE_RESPONSE
     save: SubsectorsConstants.SUBSECTOR_SAVE
     destroy: SubsectorsConstants.SUBSECTOR_DELETE
@@ -79,6 +81,12 @@ SubsectorsStore = Marty.createStore
         name: subsector.name_old
         description: subsector.description_old
       @update(subsector, prpams)
+
+  update_text: (subsector, params) ->
+    @setSubsector subsector.sector_id, subsector.id, params
+    clearTimeout @typingTimer
+    callback = => @update(subsector, params)
+    @typingTimer = setTimeout(callback , 500)
 
   update: (subsector, params) ->
     @setSubsector subsector.sector_id, subsector.id, params

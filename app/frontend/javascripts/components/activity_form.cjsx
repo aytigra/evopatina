@@ -10,12 +10,12 @@ ActivityForm = React.createClass
   _onNameChange: (e) ->
     params =
       name: e.target.value
-    ActivitiesActionCreators.update @props.activity, params
+    ActivitiesActionCreators.update_text @props.activity, params
 
   _onDescChange: (e) ->
     params =
       description: e.target.value
-    ActivitiesActionCreators.update @props.activity, params
+    ActivitiesActionCreators.update_text @props.activity, params
 
   _onSave: ->
     ActivitiesActionCreators.save @props.activity

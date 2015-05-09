@@ -10,12 +10,12 @@ SubsectorForm = React.createClass
   _onNameChange: (e) ->
     params =
       name: e.target.value
-    SubsectorsActionCreators.update @props.subsector, params
+    SubsectorsActionCreators.update_text @props.subsector, params
 
   _onDescChange: (e) ->
     params =
       description: e.target.value
-    SubsectorsActionCreators.update @props.subsector, params
+    SubsectorsActionCreators.update_text @props.subsector, params
 
   _onSave: ->
     SubsectorsActionCreators.save @props.subsector
