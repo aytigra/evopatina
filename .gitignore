@@ -31,3 +31,4 @@ npm-debug.log
 
 #ignore webpack compiled bundles
 /app/assets/javascripts/bundle-*
+/public/assets/bundle-*
