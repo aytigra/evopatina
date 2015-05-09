@@ -14,5 +14,9 @@
     "classnames": "1.2.0",
     "exports-loader": "~0.6.2",
     "expose-loader": "~0.6.0"
+  },
+  "engines": { 
+    "node": "0.10.25",
+    "npm": "1.3.10"
   }
 }
