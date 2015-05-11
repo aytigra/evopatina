@@ -8,7 +8,7 @@ class FragmentsQuantity < ActiveRecord::Base
   def self.find_or_create(activity, week)
     fragments_quantity = self.where(activity_id: activity.id, week_id: week.id).first rescue nil
     if !fragments_quantity
-      fragments_quantity = self.create(activity_id: activity.id, week_id: week.id, count: 0)
+      fragments_quantity = self.create(activity_id: activity.id, week_id: week.id)
     end
     fragments_quantity
   end
