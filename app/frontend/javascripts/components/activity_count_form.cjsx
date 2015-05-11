@@ -8,7 +8,7 @@ ActivityCountForm = React.createClass
     activity: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    count: @props.activity.count
+    count: @props.activity.count || 0
     count_add: -1
     error: ''
 
