@@ -21,7 +21,11 @@ ActivityCountForm = React.createClass
       count_add: e.target.value
 
   _onSave: ->
-    count = @state.count*1 + @state.count_add*1
+    count = @state.count + ''
+    count_add = @state.count_add + ''
+    count = parseFloat(count.replace(/,/, '.'))
+    count_add = parseFloat(count_add.replace(/,/, '.'))
+    count += count_add
     if isNaN(count)
       @setState
         error: 'Not a number'
