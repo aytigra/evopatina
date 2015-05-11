@@ -23,6 +23,12 @@ ActivityForm = React.createClass
   _onCancel: ->
     ActivitiesActionCreators.cancel @props.activity
 
+  _onKeyDown: (e) ->
+    if e.keyCode is 13
+      @_onSave()
+    if e.keyCode is 27
+      @_onCancel()
+
   _onDelete: ->
     ActivitiesActionCreators.destroy @props.activity
 
@@ -46,6 +52,7 @@ ActivityForm = React.createClass
             ref='activity_input'
             placeholder='new activity'
             onChange={@_onNameChange}
+            onKeyDown={@_onKeyDown}
             value={@props.activity.name}
             autoFocus={true}
           />

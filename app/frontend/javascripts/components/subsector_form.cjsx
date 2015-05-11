@@ -23,6 +23,12 @@ SubsectorForm = React.createClass
   _onCancel: ->
     SubsectorsActionCreators.cancel @props.subsector
 
+  _onKeyDown: (e) ->
+    if e.keyCode is 13
+      @_onSave()
+    if e.keyCode is 27
+      @_onCancel()
+
   _onDelete: ->
     if Object.keys(@props.subsector.activities).length
       react_confirm 'Will delete all nested activities'
@@ -52,6 +58,7 @@ SubsectorForm = React.createClass
             ref='subsector_input'
             placeholder='new subsector'
             onChange={@_onNameChange}
+            onKeyDown={@_onKeyDown}
             value={@props.subsector.name}
             autoFocus={true}
           />
