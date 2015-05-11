@@ -23,8 +23,8 @@ ActivityCountForm = React.createClass
   _onSave: ->
     count = @state.count + ''
     count_add = @state.count_add + ''
-    count = parseFloat(count.replace(/,/, '.'))
-    count_add = parseFloat(count_add.replace(/,/, '.'))
+    count = parseFloat(count.replace(/,/, '.')) || 0
+    count_add = parseFloat(count_add.replace(/,/, '.')) || 0
     count += count_add
     if isNaN(count)
       @setState
@@ -38,6 +38,12 @@ ActivityCountForm = React.createClass
 
   _onCancel: ->
     ActivitiesActionCreators.cancel @props.activity
+
+  _onKeyDown: (e) ->
+    if e.keyCode is 13
+      @_onSave()
+    if e.keyCode is 27
+      @_onCancel()
 
   componentDidMount: ->
     input = React.findDOMNode(this.refs.count_add_input)
@@ -53,12 +59,14 @@ ActivityCountForm = React.createClass
           <input
             ref='count_input'
             onChange={@_onCountChange}
+            onKeyDown={@_onKeyDown}
             value={@state.count}
           />
           <label> + </label>
           <input
             ref='count_add_input'
             onChange={@_onCountAddChange}
+            onKeyDown={@_onKeyDown}
             value={@state.count_add}
             autoFocus={true}
           />
