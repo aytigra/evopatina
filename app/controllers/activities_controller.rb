@@ -25,7 +25,7 @@ class ActivitiesController < ApplicationController
   # POST /activities.json
   def create
     @activity = Activity.new(activity_params)
-    activity_json = { subsector_id: @activity.subsector_id, old_id: activity_params_id }
+    activity_json = { subsector_id: @activity.subsector_id, old_id: activity_params_id, sector_id: activity_params_sector_id }
     respond_to do |format|
       if @activity.save
         activity_json[:id] = @activity.id
@@ -40,7 +40,7 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1.json
   def update
     respond_to do |format|
-      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id }
+      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: activity_params_sector_id }
       if @activity.update(activity_params)
         update_fragments_quantity
         format.json { render json: activity_json, status: :ok }
@@ -54,7 +54,7 @@ class ActivitiesController < ApplicationController
   # DELETE /activities/1.json
   def destroy
     respond_to do |format|
-      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id }
+      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: activity_params[:sector_id] }
       if @activity.destroy
         format.json { render json: activity_json, status: :ok }
       else
@@ -72,11 +72,15 @@ class ActivitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
-      params.require(:activity).permit(:subsector_id, :name, :description)
+      par = params.require(:activity).permit(:subsector_id, :name, :description)
     end
 
     def activity_params_id
       params[:id]
+    end
+
+    def activity_params_sector_id
+      params[:sector_id].to_i
     end
 
     def fragments_quantity_params

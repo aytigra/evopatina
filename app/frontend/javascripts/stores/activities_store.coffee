@@ -1,6 +1,6 @@
 ActivitiesConstants = require '../constants/activities_constants'
 ActivitiesAPI = require '../sources/activities_api'
-WeeksStore = require('./weeks_store');
+WeeksStore = require './weeks_store'
 
 ActivitiesStore = Marty.createStore
   id: 'ActivitiesStore'
@@ -14,16 +14,11 @@ ActivitiesStore = Marty.createStore
     @setState
       activities: data
 
-  getActivity: (subsector_id, id) ->
-    @state.activities[subsector_id][id] || {}
+  get: (sector_id, subsector_id, id) ->
+    WeeksStore.get_activity sector_id, subsector_id, id
 
-  getActivities: (subsector_id) ->
-      @state.activities[subsector_id] || {}
-
-  setActivity: (subsector_id, id, params = {}) ->
-    for key, val of params
-      @state.activities[subsector_id][id][key] = val
-    @hasChanged()
+  set: (sector_id, subsector_id, id, params = {}) ->
+    WeeksStore.update_activity sector_id, subsector_id, id, params
 
   unsetActivity: (subsector_id, id) ->
     @state.activities[subsector_id][id] = null
@@ -61,14 +56,14 @@ ActivitiesStore = Marty.createStore
     @hasChanged()
 
   edit: (activity) ->
-    @setActivity(activity.subsector_id, activity.id,
+    @set(activity.sector_id, activity.subsector_id, activity.id,
       edtitng: true
       name_old: activity.name
       description_old: activity.description
     )
 
   edit_count: (activity) ->
-    @setActivity(activity.subsector_id, activity.id,
+    @set(activity.sector_id, activity.subsector_id, activity.id,
       edtitng_count: true
     )
 
@@ -84,32 +79,32 @@ ActivitiesStore = Marty.createStore
         description: activity.description_old
       @update(activity, params)
     else if activity.edtitng_count
-      @setActivity(activity.subsector_id, activity.id,
+      @set(activity.sector_id, activity.subsector_id, activity.id,
         edtitng_count: false
       )
 
   update_text: (activity, params) ->
-    @setActivity activity.subsector_id, activity.id, params
+    @set activity.sector_id, activity.subsector_id, activity.id, params
     clearTimeout @typingTimer
     callback = => @update(activity, params)
     @typingTimer = setTimeout(callback , 500)
 
   update: (activity, params) ->
     params['week_id'] = WeeksStore.getCurrentWeek().id
-    @setActivity activity.subsector_id, activity.id, params
+    @set activity.sector_id, activity.subsector_id, activity.id, params
     #put to server
     if typeof activity.id isnt "string"
-      ActivitiesAPI.update @getActivity(activity.subsector_id, activity.id)
+      ActivitiesAPI.update @get(activity.sector_id, activity.subsector_id, activity.id)
 
   update_response: (activity, ok) ->
     if !ok
-      @setActivity(activity.subsector_id, activity.id,
+      @set(activity.sector_id, activity.subsector_id, activity.id,
         edtitng: true
         have_errors: true
         errors: activity.errors
       )
     else
-      @setActivity(activity.subsector_id, activity.id,
+      @set(activity.sector_id, activity.subsector_id, activity.id,
         have_errors: false
         errors: {}
       )
@@ -126,14 +121,14 @@ ActivitiesStore = Marty.createStore
 
   create_response: (activity, ok) ->
     if !ok
-      @setActivity(activity.subsector_id, activity.old_id,
+      @set(activity.sector_id, activity.subsector_id, activity.old_id,
         edtitng: true
         have_errors: true
         errors: activity.errors
       )
     else
       @state.activities[activity.subsector_id][activity.id] = @state.activities[activity.subsector_id][activity.old_id]
-      @setActivity(activity.subsector_id, activity.id,
+      @set(activity.sector_id, activity.subsector_id, activity.id,
         id: activity.id
         have_errors: false
         errors: {}
@@ -141,7 +136,7 @@ ActivitiesStore = Marty.createStore
       @unsetActivity(activity.subsector_id, activity.old_id)
 
   destroy: (activity) ->
-    @setActivity(activity.subsector_id, activity.id,
+    @set(activity.sector_id, activity.subsector_id, activity.id,
       hidden: true
     )
     #delete to server
@@ -150,7 +145,7 @@ ActivitiesStore = Marty.createStore
 
   destroy_response: (activity, ok) ->
     if !ok
-      @setActivity(activity.subsector_id, activity.id,
+      @set(activity.sector_id, activity.subsector_id, activity.id,
         hidden: false
         have_errors: true
         errors: activity.errors
