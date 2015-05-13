@@ -12,6 +12,9 @@ Subsector = React.createClass
   propTypes: 
     subsector: React.PropTypes.object.isRequired
 
+  shouldComponentUpdate: (newProps, newState) ->
+    newProps.subsector isnt @props.subsector or newState.show_desc isnt @state.show_desc
+
   _onActivityCreate: (e) ->
     e.preventDefault()
     ActivitiesActionCreators.create @props.subsector

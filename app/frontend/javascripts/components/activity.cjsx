@@ -11,6 +11,9 @@ Activity = React.createClass
   propTypes: 
     activity: React.PropTypes.object.isRequired
 
+  shouldComponentUpdate: (newProps, newState) ->
+    newProps.activity isnt @props.activity or newState.show_desc isnt @state.show_desc
+
   _onEdit: (e) ->
     e.preventDefault()
     ActivitiesActionCreators.edit @props.activity

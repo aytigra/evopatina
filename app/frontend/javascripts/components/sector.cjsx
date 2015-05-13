@@ -6,6 +6,9 @@ SectorProgressBar = require './sector_progress_bar'
 Sector = React.createClass
   displayName: 'Sector'
 
+  shouldComponentUpdate: (newProps, newState) ->
+    newProps.sector isnt @props.sector
+
   _onSubsectorCreate: ->
     SubsectorsActionCreators.create @props.sector.id
 
