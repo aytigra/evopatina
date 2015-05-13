@@ -19,8 +19,8 @@ SubsectorsActionCreators = Marty.createActionCreators
     @dispatch SubsectorsConstants.SUBSECTOR_DELETE, subsector
   destroy_response: (subsector, ok) ->
     @dispatch SubsectorsConstants.SUBSECTOR_DELETE_RESPONSE, subsector, ok
-  create: (sector_id) ->
-    @dispatch SubsectorsConstants.SUBSECTOR_CREATE, sector_id
+  create: (sector) ->
+    @dispatch SubsectorsConstants.SUBSECTOR_CREATE, sector
   create_response: (subsector, ok) ->
     @dispatch SubsectorsConstants.SUBSECTOR_CREATE_RESPONSE, subsector, ok
 

@@ -20,10 +20,8 @@ SubsectorsStore = Marty.createStore
   set: (sector_id, id, params = {}) ->
     WeeksStore.update_subsector sector_id, id, params
 
-  unsetSubsector: (sector_id, id) ->
-    @state.subsectors[sector_id][id] = null
-    delete @state.subsectors[sector_id][id]
-    @hasChanged()
+  unset: (sector_id, id) ->
+    WeeksStore.delete_subsector sector_id, id
 
   handlers:
     create: SubsectorsConstants.SUBSECTOR_CREATE
@@ -38,18 +36,18 @@ SubsectorsStore = Marty.createStore
     destroy_response: SubsectorsConstants.SUBSECTOR_DELETE_RESPONSE
 
   #create empty subsector in sector with placeholder ID
-  create: (sector_id) ->
-    @state.subsectors[sector_id] ||= {}
+  create: (sector) ->
     i = 1
-    while @state.subsectors[sector_id]["new_#{i}"]?
+    while @get(sector.id, "new_#{i}")?
       i++
-    @state.subsectors[sector_id]["new_#{i}"] =  
+    @set(sector.id, "new_#{i}",  
       id: 'new_' + i
-      sector_id: sector_id
+      sector_id: sector.id
       name: ''
       description: ''
+      activities: {}
       edtitng: true
-    @hasChanged()
+    )
 
   edit: (subsector) ->
     @set(subsector.sector_id, subsector.id,
@@ -61,7 +59,7 @@ SubsectorsStore = Marty.createStore
   cancel: (subsector) ->
     if typeof subsector.id is "string" && !subsector.name_old
       #unset canceled and not saved yet new subsector
-      @unsetSubsector(subsector.sector_id, subsector.id)
+      @unset subsector.sector_id, subsector.id
     else
       prpams = 
         edtitng: false
@@ -112,13 +110,12 @@ SubsectorsStore = Marty.createStore
         errors: subsector.errors
       )
     else
-      @state.subsectors[subsector.sector_id][subsector.id] = @state.subsectors[subsector.sector_id][subsector.old_id]
-      @set(subsector.sector_id, subsector.id,
-        id: subsector.id
-        have_errors: false
-        errors: {}
-      )
-      @unsetSubsector(subsector.sector_id, subsector.old_id)
+      new_subsector = @get(subsector.sector_id, subsector.old_id).asMutable()
+      new_subsector.id = subsector.id
+      new_subsector.have_errors = false
+      new_subsector.errors = {}
+      @set subsector.sector_id, subsector.id, new_subsector
+      @unset subsector.sector_id, subsector.old_id
 
   destroy: (subsector) ->
     @set(subsector.sector_id, subsector.id,
@@ -136,6 +133,6 @@ SubsectorsStore = Marty.createStore
         errors: subsector.errors
       )
     else
-      @unsetSubsector(subsector.sector_id, subsector.id)
+      @unset subsector.sector_id, subsector.id
 
 module.exports = SubsectorsStore

@@ -10,7 +10,7 @@ Sector = React.createClass
     newProps.sector isnt @props.sector
 
   _onSubsectorCreate: ->
-    SubsectorsActionCreators.create @props.sector.id
+    SubsectorsActionCreators.create @props.sector
 
   render: ->
     subsectors = []

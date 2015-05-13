@@ -10,9 +10,13 @@ WeeksStore = Marty.createStore
     current_week: {}
 
   setInitialState: (JSON)->
-    if JSON && Object.keys(JSON).length
+    if JSON && not _.isEmpty(JSON)
+      for key, val of JSON.current_week.sectors
+        JSON.current_week.sectors[key].subsectors ||= {}
+        for skey, sval of JSON.current_week.sectors[key].subsectors
+          JSON.current_week.sectors[key].subsectors[skey].activities ||= {}
+
       @state.current_week = Immutable(JSON.current_week)
-      #@hasChanged()
     else
       alert('arrr! boat is sinking')
 
@@ -23,6 +27,17 @@ WeeksStore = Marty.createStore
           subsectors:
             "#{subsector_id}": params
     @state.current_week = @state.current_week.merge(data, {deep: true})
+    @hasChanged()
+
+  delete_subsector: (sector_id, subsector_id) ->
+    current_week = @state.current_week.asMutable({deep: true})
+    minus_count = 0
+    for k, activity of current_week.sectors[sector_id].subsectors[subsector_id].activities
+      minus_count += activity.count
+    current_week.sectors[sector_id].subsectors[subsector_id] = null
+    delete current_week.sectors[sector_id].subsectors[subsector_id]
+    current_week.sectors[sector_id].progress -= minus_count
+    @state.current_week = Immutable current_week
     @hasChanged()
 
   update_activity: (sector_id, subsector_id, activity_id, params = {}) ->
