@@ -1,19 +1,21 @@
 WeeksConstants = require '../constants/weeks_constants'
-#WeeksQueries = require '../queries/weeks_queries'
+Immutable = require 'seamless-immutable'
 
 WeeksStore = Marty.createStore
   id: 'WeeksStore'
   displayName: 'WeeksStore'
 
   getInitialState: ->
-    current_week:
-      id: 0
-      progress: {}
-      lapa: {}
-      date: ''
+    weeks: {}
+    current_week: {}
 
-  setInitialState: (data)->
-    @setState data
+  setInitialState: (JSON)->
+    if JSON && Object.keys(JSON).length
+      @state.current_week = Immutable(JSON.current_week)
+      @hasChanged()
+    else
+      alert('arrr! boat is sinking')
+
 
   handlers:
     updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
@@ -26,14 +28,10 @@ WeeksStore = Marty.createStore
   getCurrentLapa: (sector_id) ->
     @state.current_week.lapa[sector_id]
 
-  getCurrentProgress: (sector_id) ->
-    @state.current_week.progress[sector_id]
-
-  setCurrentProgress: (sector_id, count_change) ->
-    @state.current_week.progress[sector_id] = @state.current_week.progress[sector_id] + count_change
-    @hasChanged()
-
   getCurrentWeek: ->
     @state.current_week
+
+  getSectors: ->
+     @state.current_week.sectors
 
 module.exports = WeeksStore

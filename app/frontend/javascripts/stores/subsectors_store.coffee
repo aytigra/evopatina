@@ -1,7 +1,6 @@
 SubsectorsConstants = require '../constants/subsectors_constants'
 SubsectorsAPI = require '../sources/subsectors_api'
-#SubsectorsQueries = require '../queries/subsectors_queries'
-ActivitiesStore = require('./activities_store');
+WeeksStore = require('./weeks_store');
 
 SubsectorsStore = Marty.createStore
   id: 'SubsectorsStore'
