@@ -7,7 +7,9 @@
   "dependencies": {
     "react": "~0.13.1",
     "marty": "~0.9.2",
-    "classnames": "1.2.0"
+    "classnames": "1.2.0",
+    "seamless-immutable": "2.3.2",
+    "underscore": "1.8.3"
   },
   "devDependencies": {
     "webpack": "~1.7.3",

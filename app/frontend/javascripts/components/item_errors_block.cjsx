@@ -16,7 +16,7 @@ ItemErrorsBlock = React.createClass
 
 
   render: ->
-    if @state.show_errors && Object.keys(@props.errors).length
+    if @state.show_errors && not _.isEmpty(@props.errors)
       errors_block = <ObjectViewer obj={@props.errors} />
       toggle_icon = 'up'
     else

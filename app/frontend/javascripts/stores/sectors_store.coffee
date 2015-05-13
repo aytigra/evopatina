@@ -1,4 +1,3 @@
-SubsectorsStore = require('./subsectors_store');
 WeeksStore = require('./weeks_store');
 
 SectorsStore = Marty.createStore

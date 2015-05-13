@@ -35,6 +35,7 @@ var config = {
       'Marty': 'marty',
       $: 'jquery',
       jQuery: 'jquery',
+      _: 'underscore',
     })
   ]
 }

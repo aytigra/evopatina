@@ -1,7 +1,6 @@
 SubsectorsConstants = require '../constants/subsectors_constants'
 SubsectorsAPI = require '../sources/subsectors_api'
-#SubsectorsQueries = require '../queries/subsectors_queries'
-ActivitiesStore = require('./activities_store');
+WeeksStore = require './weeks_store'
 
 SubsectorsStore = Marty.createStore
   id: 'SubsectorsStore'
@@ -15,28 +14,14 @@ SubsectorsStore = Marty.createStore
     @setState
       subsectors: data
 
-  getSubsector: (sector_id, id) ->
-    @state.subsectors[sector_id][id] || {}
+  get: (sector_id, id) ->
+    WeeksStore.get_subsector sector_id, id
 
-  getSubsectors: (sector_id) ->
-    result = {}
-    for id, subsector of @state.subsectors[sector_id]
-      subsector['activities'] = ActivitiesStore.getActivities id
-      subsector['count'] = 0
-      for ida, activity of subsector['activities']
-        subsector['count'] += activity.count
-      result[id] = subsector
-    result
+  set: (sector_id, id, params = {}) ->
+    WeeksStore.update_subsector sector_id, id, params
 
-  setSubsector: (sector_id, id, params = {}) ->
-    for key, val of params
-      @state.subsectors[sector_id][id][key] = val
-    @hasChanged()
-
-  unsetSubsector: (sector_id, id) ->
-    @state.subsectors[sector_id][id] = null
-    delete @state.subsectors[sector_id][id]
-    @hasChanged()
+  unset: (sector_id, id) ->
+    WeeksStore.delete_subsector sector_id, id
 
   handlers:
     create: SubsectorsConstants.SUBSECTOR_CREATE
@@ -51,21 +36,21 @@ SubsectorsStore = Marty.createStore
     destroy_response: SubsectorsConstants.SUBSECTOR_DELETE_RESPONSE
 
   #create empty subsector in sector with placeholder ID
-  create: (sector_id) ->
-    @state.subsectors[sector_id] ||= {}
+  create: (sector) ->
     i = 1
-    while @state.subsectors[sector_id]["new_#{i}"]?
+    while @get(sector.id, "new_#{i}")?
       i++
-    @state.subsectors[sector_id]["new_#{i}"] =  
+    @set(sector.id, "new_#{i}",  
       id: 'new_' + i
-      sector_id: sector_id
+      sector_id: sector.id
       name: ''
       description: ''
+      activities: {}
       edtitng: true
-    @hasChanged()
+    )
 
   edit: (subsector) ->
-    @setSubsector(subsector.sector_id, subsector.id,
+    @set(subsector.sector_id, subsector.id,
       edtitng: true
       name_old: subsector.name
       description_old: subsector.description
@@ -74,7 +59,7 @@ SubsectorsStore = Marty.createStore
   cancel: (subsector) ->
     if typeof subsector.id is "string" && !subsector.name_old
       #unset canceled and not saved yet new subsector
-      @unsetSubsector(subsector.sector_id, subsector.id)
+      @unset subsector.sector_id, subsector.id
     else
       prpams = 
         edtitng: false
@@ -83,26 +68,26 @@ SubsectorsStore = Marty.createStore
       @update(subsector, prpams)
 
   update_text: (subsector, params) ->
-    @setSubsector subsector.sector_id, subsector.id, params
+    @set subsector.sector_id, subsector.id, params
     clearTimeout @typingTimer
     callback = => @update(subsector, params)
     @typingTimer = setTimeout(callback , 500)
 
   update: (subsector, params) ->
-    @setSubsector subsector.sector_id, subsector.id, params
+    @set subsector.sector_id, subsector.id, params
     #put to server
     if typeof subsector.id isnt "string"
-      SubsectorsAPI.update @getSubsector(subsector.sector_id, subsector.id)
+      SubsectorsAPI.update @get(subsector.sector_id, subsector.id)
 
   update_response: (subsector, ok) ->
     if !ok
-      @setSubsector(subsector.sector_id, subsector.id,
+      @set(subsector.sector_id, subsector.id,
         edtitng: true
         have_errors: true
         errors: subsector.errors
       )
     else
-      @setSubsector(subsector.sector_id, subsector.id,
+      @set(subsector.sector_id, subsector.id,
         have_errors: false
         errors: {}
       )
@@ -119,22 +104,21 @@ SubsectorsStore = Marty.createStore
 
   create_response: (subsector, ok) ->
     if !ok
-      @setSubsector(subsector.sector_id, subsector.old_id,
+      @set(subsector.sector_id, subsector.old_id,
         edtitng: true
         have_errors: true
         errors: subsector.errors
       )
     else
-      @state.subsectors[subsector.sector_id][subsector.id] = @state.subsectors[subsector.sector_id][subsector.old_id]
-      @setSubsector(subsector.sector_id, subsector.id,
-        id: subsector.id
-        have_errors: false
-        errors: {}
-      )
-      @unsetSubsector(subsector.sector_id, subsector.old_id)
+      new_subsector = @get(subsector.sector_id, subsector.old_id).asMutable()
+      new_subsector.id = subsector.id
+      new_subsector.have_errors = false
+      new_subsector.errors = {}
+      @set subsector.sector_id, subsector.id, new_subsector
+      @unset subsector.sector_id, subsector.old_id
 
   destroy: (subsector) ->
-    @setSubsector(subsector.sector_id, subsector.id,
+    @set(subsector.sector_id, subsector.id,
       hidden: true
     )
     #delete to server
@@ -143,12 +127,12 @@ SubsectorsStore = Marty.createStore
 
   destroy_response: (subsector, ok) ->
     if !ok
-      @setSubsector(subsector.sector_id, subsector.id,
+      @set(subsector.sector_id, subsector.id,
         hidden: false
         have_errors: true
         errors: subsector.errors
       )
     else
-      @unsetSubsector(subsector.sector_id, subsector.id)
+      @unset subsector.sector_id, subsector.id
 
 module.exports = SubsectorsStore
