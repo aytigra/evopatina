@@ -54,7 +54,7 @@ class ActivitiesController < ApplicationController
   # DELETE /activities/1.json
   def destroy
     respond_to do |format|
-      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: activity_params[:sector_id] }
+      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: activity_params_sector_id }
       if @activity.destroy
         format.json { render json: activity_json, status: :ok }
       else

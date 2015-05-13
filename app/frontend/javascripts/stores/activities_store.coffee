@@ -20,10 +20,8 @@ ActivitiesStore = Marty.createStore
   set: (sector_id, subsector_id, id, params = {}) ->
     WeeksStore.update_activity sector_id, subsector_id, id, params
 
-  unsetActivity: (subsector_id, id) ->
-    @state.activities[subsector_id][id] = null
-    delete @state.activities[subsector_id][id]
-    @hasChanged()
+  unset: (sector_id, subsector_id, id) ->
+    WeeksStore.delete_activity sector_id, subsector_id, id
 
   handlers:
     create: ActivitiesConstants.ACTIVITY_CREATE
@@ -40,11 +38,10 @@ ActivitiesStore = Marty.createStore
 
   #create empty activity in subsector with placeholder ID
   create: (subsector) ->
-    @state.activities[subsector.id] ||= {}
     i = 1
-    while @state.activities[subsector.id]["new_#{i}"]?
+    while @get(subsector.sector_id, subsector.id, "new_#{i}")?
       i++
-    @state.activities[subsector.id]["new_#{i}"] =  
+    @set(subsector.sector_id, subsector.id,"new_#{i}",  
       id: 'new_' + i
       subsector_id: subsector.id
       name: ''
@@ -53,6 +50,7 @@ ActivitiesStore = Marty.createStore
       edtitng_count: false
       count: 0
       sector_id: subsector.sector_id
+    )
     @hasChanged()
 
   edit: (activity) ->
@@ -70,7 +68,7 @@ ActivitiesStore = Marty.createStore
   cancel: (activity) ->
     if typeof activity.id is "string" && !activity.name_old
       #unset canceled and not saved yet new activity
-      @unsetActivity(activity.subsector_id, activity.id)
+      @unset activity.sector_id, activity.subsector_id, activity.id
     else if activity.edtitng
       params = 
         edtitng: false
@@ -127,13 +125,12 @@ ActivitiesStore = Marty.createStore
         errors: activity.errors
       )
     else
-      @state.activities[activity.subsector_id][activity.id] = @state.activities[activity.subsector_id][activity.old_id]
-      @set(activity.sector_id, activity.subsector_id, activity.id,
-        id: activity.id
-        have_errors: false
-        errors: {}
-      )
-      @unsetActivity(activity.subsector_id, activity.old_id)
+      new_activity = @get(activity.sector_id, activity.subsector_id, activity.old_id).asMutable()
+      new_activity.id = activity.id
+      new_activity.have_errors = false
+      new_activity.errors = {}
+      @set activity.sector_id, activity.subsector_id, activity.id, new_activity
+      @unset activity.sector_id, activity.subsector_id, activity.old_id
 
   destroy: (activity) ->
     @set(activity.sector_id, activity.subsector_id, activity.id,
@@ -151,6 +148,6 @@ ActivitiesStore = Marty.createStore
         errors: activity.errors
       )
     else
-      @unsetActivity(activity.subsector_id, activity.id)
+      @unset activity.sector_id, activity.subsector_id, activity.id
 
 module.exports = ActivitiesStore

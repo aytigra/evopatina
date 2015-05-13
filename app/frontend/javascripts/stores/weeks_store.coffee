@@ -42,8 +42,8 @@ WeeksStore = Marty.createStore
 
   update_activity: (sector_id, subsector_id, activity_id, params = {}) ->
     count_change = 0
-    if params.hasOwnProperty('count')
-      activity_old = @get_activity sector_id, subsector_id, activity_id
+    activity_old = @get_activity sector_id, subsector_id, activity_id
+    if _.has(params, 'count') && activity_old
       count_change = params.count - activity_old.count
     progress = @get_sector(sector_id).progress + count_change
 
@@ -60,6 +60,14 @@ WeeksStore = Marty.createStore
 
     @hasChanged()
 
+  delete_activity: (sector_id, subsector_id, activity_id) ->
+    current_week = @state.current_week.asMutable({deep: true})
+    minus_count = current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id].count
+    current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id] = null
+    delete current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
+    current_week.sectors[sector_id].progress -= minus_count
+    @state.current_week = Immutable current_week
+    @hasChanged()
 
   handlers:
     updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
