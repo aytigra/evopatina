@@ -1,0 +1,20 @@
+= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-inline"}) do |f|
+  .form-group
+    = f.label :email, class: "sr-only"
+    = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
+
+  .form-group
+    = f.label :password, class: "sr-only"
+    = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password"
+     
+  - if devise_mapping.rememberable?
+    .form-group
+      = f.label :remember_me, class: "checkbox-inline"
+        = f.check_box :remember_me
+        | Remember me
+
+  = f.submit "Log in", class: "btn btn-info"
+
+  .form-inline
+    .form-group
+      = render "users/shared/links"
