@@ -8,10 +8,14 @@ Rails.application.routes.draw do
   get 'weeks/:id', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
 
-  devise_for :users, controllers: { registrations: "users/registrations" }
-  devise_scope :user do
+  devise_for :users, :skip => [:sessions], controllers: { registrations: "users/registrations" }
+  as :user do
     get 'confirm', to: 'users/registrations#confirm'
+    get '/hello' => 'devise/sessions#new', :as => :new_user_session
+    post '/signin' => 'devise/sessions#create', :as => :user_session
+    delete '/signout' => 'devise/sessions#destroy', :as => :destroy_user_session
   end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
