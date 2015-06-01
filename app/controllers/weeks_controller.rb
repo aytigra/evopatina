@@ -67,12 +67,10 @@ class WeeksController < ApplicationController
 
   def make_prev_week(current_week)
     prew_week_date = (current_week.date - 1.week).at_beginning_of_week
-    prev_week = Week.where(user: current_user, date: prew_week_date).limit(1).first rescue nil
-    if prev_week == nil
-      lapa = prev_week == nil ? Sector.hash : current_week.lapa
-      prev_week = Week.create(date: prew_week_date, lapa: lapa, progress: Sector.hash, user: current_user)
+    prev_week = Week.where(user: current_user, date: prew_week_date).first_or_create do |pw|
+      pw.lapa = current_week.lapa
+      pw.progress = Sector.hash
     end
-    prev_week
   end
 
 end
