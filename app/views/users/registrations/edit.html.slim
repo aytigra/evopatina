@@ -1,0 +1,47 @@
+.container
+  .row.registration_form
+    h3="Edit #{resource_name.to_s.humanize}"
+
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), 
+      html: { method: :put}) do |f|
+      .form-group
+        = devise_error_messages!
+
+      .form-group
+        = f.label :email
+        br
+        = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
+
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        .form-group
+          div="Currently waiting confirmation for: #{resource.unconfirmed_email}"
+
+      .form-group
+        = f.label :password
+        i |(leave blank if you don't want to change it)
+        br
+        - if @validatable
+          - title = "(#{@minimum_password_length} characters minimum)"
+        = f.password_field :password, autocomplete: "off", class: "form-control", title: title
+
+      .form-group
+        = f.label :password_confirmation
+        br
+        = f.password_field :password_confirmation, autocomplete: "off", class: "form-control"
+
+      .form-group
+        = f.label :current_password
+        i |(we need your current password to confirm your changes)
+        br
+        = f.password_field :current_password, autocomplete: "off", class: "form-control"
+
+      = f.submit "Update", class: "btn btn-info"
+
+    h3 Cancel my account
+    p 
+      |Unhappy?
+      = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, 
+        method: :delete, class: "btn btn-info"
+      br
+      = link_to "Back", :back
+

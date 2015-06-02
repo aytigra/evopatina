@@ -1,0 +1,19 @@
+.container
+  .row.registration_form
+    h3 Resend confirmation instructions
+
+    = form_for(resource, as: resource_name, url: confirmation_path(resource_name),
+      html: { method: :post, class: "form-inline"}) do |f|
+
+      div devise_error_messages!
+
+      .form-group
+        = f.label :email, class: "sr-only"
+        = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
+
+
+      = f.submit "Resend confirmation instructions", class: "btn btn-info"
+
+      .form-inline
+        .form-group
+          = render "users/shared/links"

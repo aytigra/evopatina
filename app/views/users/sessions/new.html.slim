@@ -1,5 +1,6 @@
 .container
+  .row.login_form
+    h3 Sign in
+    = render "form"
   .row.description_block
     = render "about/title.#{I18n.locale}"
-  .row.login_form
-    = render "form"

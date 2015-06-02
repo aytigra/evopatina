@@ -1,13 +1,16 @@
 .container
   .row.registration_form
-    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-inline"}) do |f|
+    h3 Sign up
+
+    = form_for(resource, as: resource_name, url: registration_path(resource_name),
+      html: {class: "form-inline"}) do |f|
       .form-group
         = f.label :email, class: "sr-only"
         = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
 
       .form-group
         = f.label :password, class: "sr-only"
-        -if @validatable
+        - if @validatable
           - title = "(#{@minimum_password_length} characters minimum)"
         = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password", title: title
 

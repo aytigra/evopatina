@@ -8,7 +8,13 @@ Rails.application.routes.draw do
   get 'weeks/:id', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
 
-  devise_for :users, :skip => [:sessions], controllers: { registrations: "users/registrations", sessions: "users/sessions" }
+  devise_for :users, :skip => [:sessions], 
+    controllers: { 
+      registrations: "users/registrations",
+      passwords: "users/passwords",
+      confirmations: "users/confirmations",
+      sessions: "users/sessions" 
+    }
   as :user do
     get '/confirm', to: 'users/registrations#confirm'
     get '/hello' => 'users/sessions#new', :as => :new_user_session
