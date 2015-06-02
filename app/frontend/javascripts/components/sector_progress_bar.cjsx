@@ -1,3 +1,5 @@
+EPutils = require '../ep_utils'
+
 SectorProgressBar = React.createClass
   displayName: 'SectorProgressBar'
 
@@ -7,7 +9,7 @@ SectorProgressBar = React.createClass
     <div className='row sector-progress'>
       <div className='progress'>
         <div className='progress-bar progress-bar-success' role='progressbar' style={{width: ratio + "%"}}>
-          <div className='text-left text-muted'>{ sector.progress + '/' + sector.lapa }</div>
+          <div className='text-left text-muted'>{ EPutils.round(sector.progress, 2) + '/' + sector.lapa }</div>
         </div>
       </div>
     </div>

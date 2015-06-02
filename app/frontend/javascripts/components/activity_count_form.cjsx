@@ -1,5 +1,6 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
 ItemErrorsBlock = require './item_errors_block'
+EPutils = require '../ep_utils'
 
 ActivityCountForm = React.createClass
   displayName: 'ActivityCountForm'
@@ -14,18 +15,16 @@ ActivityCountForm = React.createClass
 
   _onCountChange: (e) ->
     @setState
-      count: e.target.value
+      count: EPutils.normalize_count e.target.value
 
   _onCountAddChange: (e) ->
     @setState
-      count_add: e.target.value
+      count_add: EPutils.normalize_count e.target.value
 
   _onSave: ->
-    count = @state.count + ''
-    count_add = @state.count_add + ''
-    count = parseFloat(count.replace(/,/, '.')) || 0
-    count_add = parseFloat(count_add.replace(/,/, '.')) || 0
-    count += count_add
+    count = parseFloat(@state.count) || 0
+    count_add = parseFloat(@state.count_add) || 0
+    count = EPutils.round(count + count_add, 2)
     if isNaN(count)
       @setState
         error: 'Not a number'
