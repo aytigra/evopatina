@@ -1,28 +1,19 @@
-== README
+== This is a service for self improvement.
+Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal weekly program.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Features:
+* responsive dashboard of activities lists, grouped inside main categories, counters and progress bars.
+* reactive UI with optimistic updates
+* Internationalization support
+* usage of RESTapi, React Flux architecture and immutable data
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+By now it is on MVP stage, you can see how it works here:
+
+* http://evopatina.herokuapp.com/
+* test login: test@mail.com
+* test passw: qwerqwer
+
+
+
+For installation use Vagrant https://www.vagrantup.com/
