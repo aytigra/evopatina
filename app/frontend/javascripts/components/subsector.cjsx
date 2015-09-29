@@ -8,12 +8,13 @@ Subsector = React.createClass
 
   getInitialState: ->
     show_desc: false
+    show_hidden: false
 
   propTypes: 
     subsector: React.PropTypes.object.isRequired
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.subsector isnt @props.subsector or newState.show_desc isnt @state.show_desc
+    newProps.subsector isnt @props.subsector or newState isnt @state
 
   _onActivityCreate: (e) ->
     e.preventDefault()
@@ -27,14 +28,30 @@ Subsector = React.createClass
     @setState
       show_desc: !@state.show_desc
 
+  _onShowHidden: (e) ->
+    @setState
+      show_hidden: !@state.show_hidden
+
   render: ->
     activities = []
+    have_hidden = false
     for id, activity of @props.subsector.activities
-      activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden || 1
+      if activity.hidden
+        have_hidden = true
+      if !activity.hidden || @state.show_hidden
+        activities.push(<Activity key={id} activity={activity}/>)
 
     if @props.subsector.editing
       subsector_elem = <SubsectorForm key={@props.subsector.id} subsector={@props.subsector}/>
     else
+      if have_hidden
+        button_icon = if @state.show_hidden then "eye-close" else "eye-open"
+        show_hidden_button = (
+          <button onClick={@_onShowHidden}  className="btn btn-default btn-sm pull-right">
+            <span className="glyphicon glyphicon-#{button_icon}" aria-hidden="true"></span>
+          </button>
+        )
+
       subsector_elem = (
         <div>
           <label onClick={@_showDescription}>{@props.subsector.name}</label>
@@ -44,6 +61,7 @@ Subsector = React.createClass
           <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm pull-right">
             <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
           </button>
+          {show_hidden_button}
         </div>
       )
 

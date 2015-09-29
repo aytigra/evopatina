@@ -47,6 +47,7 @@ SubsectorsStore = Marty.createStore
       description: ''
       activities: {}
       editing: true
+      show_hidden: false
     )
 
   edit: (subsector) ->

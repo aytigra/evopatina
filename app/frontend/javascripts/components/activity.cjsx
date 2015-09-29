@@ -61,7 +61,7 @@ Activity = React.createClass
       else
         activity_elem = (
           <div>
-            <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left">
+            <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left" disabled={increment_button_disabled}>
               {@props.activity.count || 0}
             </button>
             <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm pull-left" disabled={increment_button_disabled}>
