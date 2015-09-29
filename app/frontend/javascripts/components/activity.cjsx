@@ -37,11 +37,18 @@ Activity = React.createClass
     if typeof @props.activity.id is "string"
       increment_button_disabled = 'disabled'
 
-    if @props.activity.edtitng
+    if @props.activity.editing
       activity_elem = <ActivityForm key={@props.activity.id} activity={@props.activity}/>
-    else if @props.activity.edtitng_count
+    else if @props.activity.editing_count
       activity_elem = <ActivityCountForm key="count-#{@props.activity.id}" activity={@props.activity}/>
     else
+      if @props.activity.hidden
+        show_button = (
+          <button onClick={@_onOpen} className="btn btn-default btn-sm pull-right">
+            <span className="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+          </button>
+        )
+
       activity_elem = (
         <div>
           <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left">
@@ -54,10 +61,11 @@ Activity = React.createClass
           <button onClick={@_onEdit} className="btn btn-default btn-sm pull-right">
             <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
           </button>
+          {show_button}
         </div>
       )
 
-    if @state.show_desc and not @props.activity.edtitng
+    if @state.show_desc and not @props.activity.editing
       desc_elem = <div className="description">{@props.activity.description}</div>
 
     <div className='row activity'>

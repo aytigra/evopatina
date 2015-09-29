@@ -31,7 +31,7 @@ ActivityCountForm = React.createClass
     else
       params =
         count: count
-        edtitng_count: false
+        editing_count: false
       ActivitiesActionCreators.update @props.activity, params
 
 

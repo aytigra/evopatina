@@ -46,39 +46,40 @@ ActivitiesStore = Marty.createStore
       subsector_id: subsector.id
       name: ''
       description: ''
-      edtitng: true
-      edtitng_count: false
+      editing: true
+      editing_count: false
       count: 0
+      hidden: false
       sector_id: subsector.sector_id
     )
     @hasChanged()
 
   edit: (activity) ->
     @set(activity.sector_id, activity.subsector_id, activity.id,
-      edtitng: true
+      editing: true
       name_old: activity.name
       description_old: activity.description
     )
 
   edit_count: (activity) ->
     @set(activity.sector_id, activity.subsector_id, activity.id,
-      edtitng_count: true
+      editing_count: true
     )
 
   cancel: (activity) ->
     if typeof activity.id is "string" && !activity.name_old
       #unset canceled and not saved yet new activity
       @unset activity.sector_id, activity.subsector_id, activity.id
-    else if activity.edtitng
+    else if activity.editing
       params = 
-        edtitng: false
-        edtitng_count: false
+        editing: false
+        editing_count: false
         name: activity.name_old
         description: activity.description_old
       @update(activity, params)
-    else if activity.edtitng_count
+    else if activity.editing_count
       @set(activity.sector_id, activity.subsector_id, activity.id,
-        edtitng_count: false
+        editing_count: false
       )
 
   update_text: (activity, params) ->
@@ -97,7 +98,7 @@ ActivitiesStore = Marty.createStore
   update_response: (activity, ok) ->
     if !ok
       @set(activity.sector_id, activity.subsector_id, activity.id,
-        edtitng: true
+        editing: true
         have_errors: true
         errors: activity.errors
       )
@@ -109,7 +110,7 @@ ActivitiesStore = Marty.createStore
 
   save: (activity) ->
     params = 
-      edtitng: false
+      editing: false
       name_old: activity.name
       description_old: activity.description
     @update(activity, params)
@@ -120,7 +121,7 @@ ActivitiesStore = Marty.createStore
   create_response: (activity, ok) ->
     if !ok
       @set(activity.sector_id, activity.subsector_id, activity.old_id,
-        edtitng: true
+        editing: true
         have_errors: true
         errors: activity.errors
       )

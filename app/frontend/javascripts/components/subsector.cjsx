@@ -30,9 +30,9 @@ Subsector = React.createClass
   render: ->
     activities = []
     for id, activity of @props.subsector.activities
-      activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden
+      activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden || 1
 
-    if @props.subsector.edtitng
+    if @props.subsector.editing
       subsector_elem = <SubsectorForm key={@props.subsector.id} subsector={@props.subsector}/>
     else
       subsector_elem = (
@@ -47,7 +47,7 @@ Subsector = React.createClass
         </div>
       )
 
-    if @state.show_desc and not @props.subsector.edtitng
+    if @state.show_desc and not @props.subsector.editing
       desc_elem = <div className="description">{@props.subsector.description}</div>
 
     <div>

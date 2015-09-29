@@ -46,12 +46,12 @@ SubsectorsStore = Marty.createStore
       name: ''
       description: ''
       activities: {}
-      edtitng: true
+      editing: true
     )
 
   edit: (subsector) ->
     @set(subsector.sector_id, subsector.id,
-      edtitng: true
+      editing: true
       name_old: subsector.name
       description_old: subsector.description
     )
@@ -62,7 +62,7 @@ SubsectorsStore = Marty.createStore
       @unset subsector.sector_id, subsector.id
     else
       prpams = 
-        edtitng: false
+        editing: false
         name: subsector.name_old
         description: subsector.description_old
       @update(subsector, prpams)
@@ -82,7 +82,7 @@ SubsectorsStore = Marty.createStore
   update_response: (subsector, ok) ->
     if !ok
       @set(subsector.sector_id, subsector.id,
-        edtitng: true
+        editing: true
         have_errors: true
         errors: subsector.errors
       )
@@ -94,7 +94,7 @@ SubsectorsStore = Marty.createStore
 
   save: (subsector) ->
     prpams = 
-      edtitng: false
+      editing: false
       name_old: subsector.name
       description_old: subsector.description
     @update(subsector, prpams)
@@ -105,7 +105,7 @@ SubsectorsStore = Marty.createStore
   create_response: (subsector, ok) ->
     if !ok
       @set(subsector.sector_id, subsector.old_id,
-        edtitng: true
+        editing: true
         have_errors: true
         errors: subsector.errors
       )
