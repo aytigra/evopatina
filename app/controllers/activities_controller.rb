@@ -72,7 +72,7 @@ class ActivitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
-      par = params.require(:activity).permit(:subsector_id, :name, :description)
+      par = params.require(:activity).permit(:subsector_id, :name, :description, :hidden)
     end
 
     def activity_params_id

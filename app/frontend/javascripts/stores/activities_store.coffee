@@ -99,6 +99,7 @@ ActivitiesStore = Marty.createStore
     if !ok
       @set(activity.sector_id, activity.subsector_id, activity.id,
         editing: true
+        hidden: false
         have_errors: true
         errors: activity.errors
       )
