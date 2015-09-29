@@ -4,6 +4,7 @@ en:
       lang: "Language"
       ru: "Russian"
       en: "English"
+    main-page: "Home"
 
   sector:
     id_1:
@@ -24,3 +25,6 @@ en:
     id_6:
       name: "entertainment"
       description: "Impressions, pleasure - sex, traveling, movies, books, music, chat, etc."
+
+  footer:
+    sign: "Launched at 9 May 2015 by aytigra ©"
