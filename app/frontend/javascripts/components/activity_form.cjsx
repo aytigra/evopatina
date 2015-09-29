@@ -17,6 +17,12 @@ ActivityForm = React.createClass
       description: e.target.value
     ActivitiesActionCreators.update_text @props.activity, params
 
+  _onHide: ->
+    params =
+      hidden: true
+      editing: false
+    ActivitiesActionCreators.update @props.activity, params
+
   _onSave: ->
     ActivitiesActionCreators.save @props.activity
 
@@ -62,6 +68,9 @@ ActivityForm = React.createClass
         </button>
         <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </button>
+        <button onClick={@_onHide} className="btn btn-default btn-sm pull-right">
+          <span className="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
         </button>
       </div>
       <div className='activity_textarea'>
