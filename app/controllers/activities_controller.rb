@@ -25,13 +25,10 @@ class ActivitiesController < ApplicationController
   # POST /activities.json
   def create
     @activity = Activity.new(activity_params)
-    response_json = { subsector_id: @activity.subsector_id, old_id: response_params[:old_id], sector_id: response_params[:sector_id] }
     respond_to do |format|
       if @activity.save
-        response_json[:id] = @activity.id
         format.json { render json: response_json, status: :created }
       else
-        response_json[:errors] = @activity.errors
         format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
@@ -40,11 +37,9 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1.json
   def update
     respond_to do |format|
-      response_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: response_params[:sector_id] }
       if @activity.update(activity_params)
         format.json { render json: response_json, status: :ok }
       else
-        response_json[:errors] = @activity.errors
         format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
@@ -53,11 +48,9 @@ class ActivitiesController < ApplicationController
   # DELETE /activities/1.json
   def destroy
     respond_to do |format|
-      response_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: response_params[:sector_id] }
       if @activity.destroy
         format.json { render json: response_json, status: :ok }
       else
-        response_json[:errors] = @activity.errors
         format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
@@ -74,8 +67,10 @@ class ActivitiesController < ApplicationController
       par = params.require(:activity).permit(:subsector_id, :name, :description, :hidden)
     end
 
-    def response_params
-      { sector_id: params[:sector_id].to_i, old_id: params[:id].to_s.gsub(/\W/, '') }
+    def response_json
+      { id: @activity.id, errors: @activity.errors, subsector_id: @activity.subsector_id, 
+        sector_id: params[:sector_id].to_i, old_id: params[:id].to_s.gsub(/\W/, '') }
     end
+
 
 end

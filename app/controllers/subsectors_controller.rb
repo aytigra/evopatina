@@ -27,14 +27,11 @@ class SubsectorsController < ApplicationController
     data = subsector_params
     data[:user_id] = current_user.id
     @subsector = Subsector.new(data)
-    subsector_json = { sector_id: @subsector.sector_id, old_id: subsector_params_id }
     respond_to do |format|
       if @subsector.save
-        subsector_json[:id] = @subsector.id
-        format.json { render json: subsector_json, status: :created }
+        format.json { render json: response_json, status: :created }
       else
-        subsector_json[:errors] = @subsector.errors
-        format.json { render json: subsector_json, status: :unprocessable_entity }
+        format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
   end
@@ -42,12 +39,10 @@ class SubsectorsController < ApplicationController
   # PATCH/PUT /subsectors/1.json
   def update
     respond_to do |format|
-      subsector_json = { id: @subsector.id, sector_id: @subsector.sector_id }
       if @subsector.update(subsector_params)
-        format.json { render json: subsector_json, status: :ok }
+        format.json { render json: response_json, status: :ok }
       else
-        subsector_json[:errors] = @subsector.errors
-        format.json { render json: subsector_json, status: :unprocessable_entity }
+        format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
   end
@@ -55,12 +50,10 @@ class SubsectorsController < ApplicationController
   # DELETE /subsectors/1.json
   def destroy
     respond_to do |format|
-      subsector_json = { id: @subsector.id, sector_id: @subsector.sector_id }
       if @subsector.destroy
-        format.json { render json: subsector_json, status: :ok }
+        format.json { render json: response_json, status: :ok }
       else
-        subsector_json[:errors] = @subsector.errors
-        format.json { render json: subsector_json, status: :unprocessable_entity }
+        format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
   end
@@ -76,7 +69,8 @@ class SubsectorsController < ApplicationController
       params.require(:subsector).permit(:sector_id, :name, :description)
     end
 
-    def subsector_params_id
-      params[:id]
+    def response_json
+      { id: @subsector.id, sector_id: @subsector.sector_id, errors: @subsector.errors,
+        old_id: params[:id].to_s.gsub(/\W/, '') }
     end
 end
