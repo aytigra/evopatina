@@ -10,7 +10,7 @@ ActivityCountForm = React.createClass
 
   getInitialState: ->
     count: @props.activity.count || 0
-    count_add: -1
+    count_add: if @props.activity.have_errors then 0 else -1
     error: ''
 
   _onCountChange: (e) ->
@@ -32,7 +32,7 @@ ActivityCountForm = React.createClass
       params =
         count: count
         editing_count: false
-      ActivitiesActionCreators.update @props.activity, params
+      ActivitiesActionCreators.update_count @props.activity, params
 
 
   _onCancel: ->
@@ -52,6 +52,9 @@ ActivityCountForm = React.createClass
   render: ->
     if @state.error isnt ''
       errors_elem = <ItemErrorsBlock errors={{}} title='Not a number' />
+    if @props.activity.have_errors
+      errors_elem = <ItemErrorsBlock errors={@props.activity.errors} title='Server errors' />
+
     <div>
       <div>
         <div className='count_inputs'>

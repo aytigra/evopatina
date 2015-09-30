@@ -33,6 +33,17 @@ ActivitiesAPI = Marty.createStateSource
     .catch (error) ->
       alert error
   
+  update_count: (activity) ->
+    url = Routes.activity_path activity.id, {format: 'json'}
+    @put(
+      url: url
+      body: activity
+    )
+    .then(@status)
+    .then (res) ->
+      ActivitiesActionCreators.update_count_response res.body, res.ok
+    .catch (error) ->
+      alert error
 
   destroy: (activity) ->
     url = Routes.activity_path activity.id, {format: 'json'}

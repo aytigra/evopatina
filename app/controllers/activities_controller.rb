@@ -25,14 +25,14 @@ class ActivitiesController < ApplicationController
   # POST /activities.json
   def create
     @activity = Activity.new(activity_params)
-    activity_json = { subsector_id: @activity.subsector_id, old_id: activity_params_id, sector_id: activity_params_sector_id }
+    response_json = { subsector_id: @activity.subsector_id, old_id: response_params[:old_id], sector_id: response_params[:sector_id] }
     respond_to do |format|
       if @activity.save
-        activity_json[:id] = @activity.id
-        format.json { render json: activity_json, status: :created }
+        response_json[:id] = @activity.id
+        format.json { render json: response_json, status: :created }
       else
-        activity_json[:errors] = @activity.errors
-        format.json { render json: activity_json, status: :unprocessable_entity }
+        response_json[:errors] = @activity.errors
+        format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
   end
@@ -40,13 +40,13 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1.json
   def update
     respond_to do |format|
-      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: activity_params_sector_id }
+      response_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: response_params[:sector_id] }
       if @activity.update(activity_params)
         update_fragments_quantity
-        format.json { render json: activity_json, status: :ok }
+        format.json { render json: response_json, status: :ok }
       else
-        activity_json[:errors] = @activity.errors
-        format.json { render json: activity_json, status: :unprocessable_entity }
+        response_json[:errors] = @activity.errors
+        format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
   end
@@ -54,12 +54,12 @@ class ActivitiesController < ApplicationController
   # DELETE /activities/1.json
   def destroy
     respond_to do |format|
-      activity_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: activity_params_sector_id }
+      response_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: response_params[:sector_id] }
       if @activity.destroy
-        format.json { render json: activity_json, status: :ok }
+        format.json { render json: response_json, status: :ok }
       else
-        activity_json[:errors] = @activity.errors
-        format.json { render json: activity_json, status: :unprocessable_entity }
+        response_json[:errors] = @activity.errors
+        format.json { render json: response_json, status: :unprocessable_entity }
       end
     end
   end
@@ -75,21 +75,17 @@ class ActivitiesController < ApplicationController
       par = params.require(:activity).permit(:subsector_id, :name, :description, :hidden)
     end
 
-    def activity_params_id
-      params[:id]
-    end
-
-    def activity_params_sector_id
-      params[:sector_id].to_i
+    def response_params
+      { sector_id: params[:sector_id].to_i, old_id: params[:id].to_s.gsub(/\W/, '') }
     end
 
     def fragments_quantity_params
-      {count: params[:count].to_f, week_id: params[:week_id].to_i, sector_id: params[:sector_id].to_i}
+      { count: params[:count].to_f, week_id: params[:week_id].to_i, sector_id: params[:sector_id].to_i }
     end
 
     def update_fragments_quantity
       input = fragments_quantity_params
-      if input[:sector_id] > 0 && week = Week.find_by(id: input[:week_id]) 
+      if input[:sector_id] > 0 && week = Week.find_by_id(input[:week_id]) 
         fragments_quantity = FragmentsQuantity.find_or_create(@activity, week)
         old_count = fragments_quantity.count || 0.0
         fragments_quantity.count = input[:count]

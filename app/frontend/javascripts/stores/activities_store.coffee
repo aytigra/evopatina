@@ -32,6 +32,8 @@ ActivitiesStore = Marty.createStore
     update: ActivitiesConstants.ACTIVITY_UPDATE
     update_text: ActivitiesConstants.ACTIVITY_UPDATE_TEXT
     update_response: ActivitiesConstants.ACTIVITY_UPDATE_RESPONSE
+    update_count: ActivitiesConstants.ACTIVITY_UPDATE_COUNT
+    update_count_response: ActivitiesConstants.ACTIVITY_UPDATE_COUNT_RESPONSE
     save: ActivitiesConstants.ACTIVITY_SAVE
     destroy: ActivitiesConstants.ACTIVITY_DELETE
     destroy_response: ActivitiesConstants.ACTIVITY_DELETE_RESPONSE
@@ -89,7 +91,6 @@ ActivitiesStore = Marty.createStore
     @typingTimer = setTimeout(callback , 500)
 
   update: (activity, params) ->
-    params['week_id'] = WeeksStore.getCurrentWeek().id
     @set activity.sector_id, activity.subsector_id, activity.id, params
     #put to server
     if typeof activity.id isnt "string"
@@ -99,6 +100,25 @@ ActivitiesStore = Marty.createStore
     if !ok
       @set(activity.sector_id, activity.subsector_id, activity.id,
         editing: true
+        hidden: false
+        have_errors: true
+        errors: activity.errors
+      )
+    else
+      @set(activity.sector_id, activity.subsector_id, activity.id,
+        have_errors: false
+        errors: {}
+      )
+
+  update_count: (activity, params) ->
+    params['week_id'] = WeeksStore.getCurrentWeek().id
+    @set activity.sector_id, activity.subsector_id, activity.id, params
+    ActivitiesAPI.update_count @get(activity.sector_id, activity.subsector_id, activity.id)
+
+  update_count_response: (activity, ok) ->
+    if !ok
+      @set(activity.sector_id, activity.subsector_id, activity.id,
+        editing_count: true
         hidden: false
         have_errors: true
         errors: activity.errors

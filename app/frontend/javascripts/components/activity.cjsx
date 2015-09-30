@@ -26,7 +26,7 @@ Activity = React.createClass
     e.preventDefault()
     params =
       count: @props.activity.count + 1
-    ActivitiesActionCreators.update @props.activity, params
+    ActivitiesActionCreators.update_count @props.activity, params
 
   _showDescription: (e) ->
     @setState
