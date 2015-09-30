@@ -34,7 +34,7 @@ ActivitiesAPI = Marty.createStateSource
       alert error
   
   update_count: (activity) ->
-    url = Routes.activity_path activity.id, {format: 'json'}
+    url = Routes.fragment_path activity.id, {format: 'json'}
     @put(
       url: url
       body: activity

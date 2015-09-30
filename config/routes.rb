@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'weeks/index'
   get 'weeks/:id', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
+  put 'fragments/:id', to: 'fragments#update', as: 'fragment'
 
   devise_for :users, :skip => [:sessions], 
     controllers: { 
