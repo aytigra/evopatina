@@ -1,4 +1,4 @@
-class FragmentsQuantity < ActiveRecord::Base
+class Fragment < ActiveRecord::Base
   belongs_to :activity
   belongs_to :week
 

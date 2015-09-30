@@ -1,0 +1,2 @@
+class FragmentsController < ApplicationController
+end
