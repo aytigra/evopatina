@@ -1,6 +1,7 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_default_response_format
 
   # GET /activities
   # GET /activities.json
@@ -8,52 +9,20 @@ class ActivitiesController < ApplicationController
     @activities = Activity.all
   end
 
-  # GET /activities/1
-  # GET /activities/1.json
-  def show
-  end
-
-  # GET /activities/new
-  def new
-    @activity = Activity.new
-  end
-
-  # GET /activities/1/edit
-  def edit
-  end
-
   # POST /activities.json
   def create
     @activity = Activity.new(activity_params)
-    respond_to do |format|
-      if @activity.save
-        format.json { render json: response_json, status: :created }
-      else
-        format.json { render json: response_json, status: :unprocessable_entity }
-      end
-    end
+    render_response @activity.save
   end
 
   # PATCH/PUT /activities/1.json
   def update
-    respond_to do |format|
-      if @activity.update(activity_params)
-        format.json { render json: response_json, status: :ok }
-      else
-        format.json { render json: response_json, status: :unprocessable_entity }
-      end
-    end
+    render_response @activity.update(activity_params)
   end
 
   # DELETE /activities/1.json
   def destroy
-    respond_to do |format|
-      if @activity.destroy
-        format.json { render json: response_json, status: :ok }
-      else
-        format.json { render json: response_json, status: :unprocessable_entity }
-      end
-    end
+    render_response @activity.destroy
   end
 
   private
@@ -72,5 +41,13 @@ class ActivitiesController < ApplicationController
         sector_id: params[:sector_id].to_i, old_id: params[:id].to_s.gsub(/\W/, '') }
     end
 
+    def render_response(status_ok)
+      status = status_ok ? :ok : :unprocessable_entity
+      render json: response_json, status: status
+    end
+
+    def set_default_response_format
+      request.format = :json
+    end
 
 end
