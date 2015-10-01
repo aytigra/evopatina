@@ -1,9 +1,8 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activity, only: [:show, :edit, :update, :destroy]
+  before_action :set_activity, only: [:show, :edit, :update, :destroy, :move]
   before_action :authenticate_user!
   before_action :set_default_response_format
 
-  # GET /activities
   # GET /activities.json
   def index
     @activities = Activity.all
@@ -23,6 +22,21 @@ class ActivitiesController < ApplicationController
   # DELETE /activities/1.json
   def destroy
     render_response @activity.destroy
+  end
+
+  # PUT /move_activity/1.json
+  def move
+    status_ok = true
+    case params[:move]
+    when 'up'
+      @activity.move_higher
+    when 'down'
+      @activity.move_lower
+    when 'subsector'
+      @activity.subsector_id = params[:subsector_id].to_i
+      status_ok = @activity.save
+    end
+    render_response status_ok
   end
 
   private

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :activities
+  get 'move_activity/:id', to: 'activities#move', as: 'move_activity'
 
   resources :subsectors
 
@@ -7,6 +8,7 @@ Rails.application.routes.draw do
   get 'weeks/index'
   get 'weeks/:id', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
+
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'
 
   devise_for :users, :skip => [:sessions], 
