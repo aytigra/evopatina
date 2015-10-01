@@ -1,5 +1,6 @@
 class Activity < ActiveRecord::Base
   belongs_to :subsector
+  acts_as_list scope: :subsector
   has_many :fragments, dependent: :destroy
 
   validates :subsector, :name, presence: true
@@ -11,7 +12,7 @@ class Activity < ActiveRecord::Base
                       AND fragments.week_id = ' + week_id
     raw = self.joins(:subsector, fragments_join)
               .where(subsectors: {user_id: user.id})
-              .order(created_at: :desc)
+              .order(position: :asc)
               .select('activities.*, subsectors.sector_id as sector_id, fragments.count as count')
 
     result = {}
