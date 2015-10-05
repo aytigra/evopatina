@@ -11,5 +11,5 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( bundle-weeks.js )
 
 Rails.application.config.assets.configure do |env|
-  env.unregister_postprocessor 'application/javascript', Sprockets::SafetyColons
+  #env.unregister_postprocessor 'application/javascript', Sprockets::SafetyColons
 end

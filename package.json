@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "devbuild": "webpack -d --display-reasons --display-chunks --progress --debug",
     "probuild": "webpack -p --profile --progress --colors",
     "postinstall": "npm run probuild && npm run rejoice",
     "rejoice": "echo yay!"
@@ -22,7 +23,7 @@
 
   },
   "engines": { 
-    "node": "0.10.25",
-    "npm": "1.3.24"
+    "node": "0.10.37",
+    "npm": "1.4.28"
   }
 }

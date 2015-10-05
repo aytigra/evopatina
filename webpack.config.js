@@ -17,7 +17,7 @@ var config = {
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel-loader'},
-      { test: /\.jsx$/, loader: "jsx-loader?insertPragma=React.DOM" },
+      { test: /\.jsx$/, loader: "jsx-loader" },
       { test: /\.cjsx$/, loaders: ["coffee", "cjsx"]},
       { test: /\.coffee$/,   loader: "coffee-loader"},
       {
