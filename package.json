@@ -1,6 +1,7 @@
 {
   "scripts": {
     "devbuild": "webpack -d --display-reasons --display-chunks --progress --debug",
+    "hotdevserver": "node hotdevserver.js",
     "probuild": "webpack -p --profile --progress --colors",
     "postinstall": "npm run probuild && npm run rejoice",
     "rejoice": "echo yay!"
@@ -11,16 +12,21 @@
     "classnames": "1.2.0",
     "seamless-immutable": "2.3.2",
     "underscore": "1.8.3",
-    "webpack": "~1.7.3",
+    "webpack": "^1.12.2",
     "jsx-loader": "~0.12.2",
     "cjsx-loader": "~2.0.1",
     "coffee-loader": "^0.7.2",
-    "babel-loader": "^4.2.0",
+    "babel-loader": "^5.1.2",
     "exports-loader": "~0.6.2",
     "expose-loader": "~0.6.0"
   },
   "devDependencies": {
-
+    "babel-core": "^5.4.7",
+    "babel-eslint": "^3.1.9",
+    "eslint": "^1.3.1",
+    "eslint-plugin-react": "^2.3.0",
+    "react-hot-loader": "^1.3.0",
+    "webpack-dev-server": "^1.12.0"
   },
   "engines": { 
     "node": "0.10.37",
