@@ -22,6 +22,12 @@ class WeeksController < ApplicationController
     end
   end
 
+  def week_json
+    init_current_week Week.find_by_id(params[:id])
+    locals = { week: @current_week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
+    render partial: 'week', locals: locals, status: :ok
+  end
+
   def init_current_week(week = nil)
     if week
       @current_week = week

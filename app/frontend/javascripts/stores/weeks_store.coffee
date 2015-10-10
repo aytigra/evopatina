@@ -1,4 +1,5 @@
 WeeksConstants = require '../constants/weeks_constants'
+WeeksAPI = require '../sources/weeks_api'
 Immutable = require 'seamless-immutable'
 
 WeeksStore = Marty.createStore
@@ -7,18 +8,28 @@ WeeksStore = Marty.createStore
 
   getInitialState: ->
     weeks: {}
-    current_week: {}
+    current_week: {sectors: {}}
 
-  setInitialState: (JSON)->
-    if JSON && not _.isEmpty(JSON)
-      for key, val of JSON.current_week.sectors
-        JSON.current_week.sectors[key].subsectors ||= {}
-        for skey, sval of JSON.current_week.sectors[key].subsectors
-          JSON.current_week.sectors[key].subsectors[skey].activities ||= {}
+  setInitialState: (week, ok) ->
+    if ok && not _.isEmpty(week)
 
-      @state.current_week = Immutable(JSON.current_week)
+      #prevent nill errors with emty lists
+      for key, val of week.sectors
+        week.sectors[key].subsectors ||= {}
+        for skey, sval of week.sectors[key].subsectors
+          week.sectors[key].subsectors[skey].activities ||= {}
+
+      @state.current_week = Immutable(week)
+      @hasChanged()
     else
       alert('arrr! boat is sinking')
+
+  handlers:
+    updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
+    setInitialState: WeeksConstants.WEEK_GET_RESPONSE
+
+  loadWeek: (id) ->
+    WeeksAPI.get_week +id
 
   update_subsector: (sector_id, subsector_id, params = {}) ->
     data = 
@@ -68,9 +79,7 @@ WeeksStore = Marty.createStore
     current_week.sectors[sector_id].progress -= minus_count
     @state.current_week = Immutable current_week
     @hasChanged()
-
-  handlers:
-    updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
+    
 
   updateWeekLapa: (lapa) ->
     @setState

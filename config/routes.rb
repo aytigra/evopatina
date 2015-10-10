@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'weeks#index'
   get 'weeks/index'
   get 'weeks/:id', to: 'weeks#show', as: 'week'
+  get 'week_json/:id', to: 'weeks#week_json', as: 'week_json'
   patch 'weeks/:id', to: 'weeks#update'
 
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'

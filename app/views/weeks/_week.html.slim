@@ -26,7 +26,3 @@ div class='row' id="week-header"
 
 
 div class='row' id="week-content"
-  javascript:
-    window.weeksInit.initWeeks({
-      current_week: #{raw(render('/weeks/week.json', week: @current_week, sectors: @sectors, subsectors: @subsectors, activities: @activities))},
-    });

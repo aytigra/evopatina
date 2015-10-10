@@ -1,4 +1,8 @@
-weeksInit = require './weeks_init'
+WeeksStore = require './stores/weeks_store'
+SectorsStore = require './stores/sectors_store'
+SubsectorsStore = require './stores/subsectors_store'
+ActivitiesStore = require './stores/activities_store'
+
 WeekContent = require './components/week_content'
 Confirm = require './components/confirm'
 
@@ -31,4 +35,6 @@ $(document).on "ready page:change", ->
   # root react component
   React.render React.createElement(WeekContent, null), document.getElementById('week-content')
 
-  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
+  WeeksStore.loadWeek(window.location.pathname.split('/').pop())
+
+  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }}) 
