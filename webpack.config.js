@@ -44,7 +44,8 @@ if (devBuild) {
   console.log('Webpack dev build for Rails'); // eslint-disable-line no-console
   config.devtool = 'source-map';
   config.module.loaders.push(
-    { test: require.resolve("react"), loader: "expose?React" }
+    { test: require.resolve("react"), loader: "expose?React" },
+    { test: require.resolve("marty"), loader: "expose?Marty" }
   );
 } else {
   console.log('Webpack production build for Rails'); // eslint-disable-line no-console

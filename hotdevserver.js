@@ -5,13 +5,11 @@ var config = require('./webpack.config');
 config.entry.unshift("webpack-dev-server/client?/", "webpack/hot/dev-server");
 config.plugins.unshift(new webpack.HotModuleReplacementPlugin(), new webpack.NoErrorsPlugin());
 config.devtool = 'eval';
-
-var path = require("path");
-var sourcepath = path.join(__dirname, 'app', 'frontend', 'javascripts');
-config.module.loaders = [
-      { test: /\.js$/, loaders: ['react-hot' ,'babel'], include: sourcepath },
-      { test: /\.(cjsx|coffee)$/, loaders: ['react-hot', "coffee", "cjsx"], include: sourcepath },
-    ];
+config.module.loaders.forEach(function(l) {
+  if (l.loaders != undefined) {
+    l.loaders.unshift('react-hot');
+  }
+});
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
