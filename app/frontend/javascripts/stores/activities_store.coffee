@@ -20,6 +20,8 @@ ActivitiesStore = Marty.createStore
   set: (sector_id, subsector_id, id, params = {}) ->
     WeeksStore.update_activity sector_id, subsector_id, id, params
 
+
+
   unset: (sector_id, subsector_id, id) ->
     WeeksStore.delete_activity sector_id, subsector_id, id
 
@@ -37,6 +39,8 @@ ActivitiesStore = Marty.createStore
     save: ActivitiesConstants.ACTIVITY_SAVE
     destroy: ActivitiesConstants.ACTIVITY_DELETE
     destroy_response: ActivitiesConstants.ACTIVITY_DELETE_RESPONSE
+    move: ActivitiesConstants.ACTIVITY_MOVE
+    move_response: ActivitiesConstants.ACTIVITY_MOVE_RESPONSE
 
   #create empty activity in subsector with placeholder ID
   create: (subsector) ->
@@ -171,5 +175,13 @@ ActivitiesStore = Marty.createStore
       )
     else
       @unset activity.sector_id, activity.subsector_id, activity.id
+
+  move: (activity, to) ->
+    if to in ['up', 'down']
+      WeeksStore.move_activity activity.sector_id, activity.subsector_id, activity.id, to
+      ActivitiesAPI.move(activity, to)
+
+  move_response: (activity, ok) ->
+
 
 module.exports = ActivitiesStore

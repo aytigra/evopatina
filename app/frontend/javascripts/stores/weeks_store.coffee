@@ -80,6 +80,33 @@ WeeksStore = Marty.createStore
     @state.current_week = Immutable current_week
     @hasChanged()
     
+  move_activity: (sector_id, subsector_id, activity_id, to) ->
+    activities = @get_subsector(sector_id, subsector_id).activities
+    position = activities[activity_id].position
+    position_before = -8388607
+    position_after = 8388607
+    for id, activity of activities
+      if activity.position > position and activity.position < position_after
+        position_after = activity.position
+      if activity.position < position and activity.position > position_before
+        position_before = activity.position
+    if to == 'up' && position_before isnt -8388607
+      position = position_before - 0.001
+    if to == 'down' && position_after isnt 8388607
+      position = position_after + 0.001
+    data = 
+      sectors:
+        "#{sector_id}":
+          subsectors:
+            "#{subsector_id}":
+              activities:
+                "#{activity_id}":
+                  position: position
+              
+    @state.current_week = @state.current_week.merge(data, {deep: true})
+
+    @hasChanged()
+
 
   updateWeekLapa: (lapa) ->
     @setState

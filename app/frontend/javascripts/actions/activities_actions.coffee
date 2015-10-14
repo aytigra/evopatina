@@ -29,5 +29,9 @@ ActivitiesActionCreators = Marty.createActionCreators
     @dispatch ActivitiesConstants.ACTIVITY_CREATE, subsector
   create_response: (activity, ok) ->
     @dispatch ActivitiesConstants.ACTIVITY_CREATE_RESPONSE, activity, ok
+  move: (activity, to) ->
+    @dispatch ActivitiesConstants.ACTIVITY_MOVE, activity, to
+  move_response: (activity, ok) ->
+    @dispatch ActivitiesConstants.ACTIVITY_MOVE_RESPONSE, activity, ok
 
 module.exports = ActivitiesActionCreators

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :activities
-  get 'move_activity/:id', to: 'activities#move', as: 'move_activity'
+  put 'move_activity/:id', to: 'activities#move', as: 'move_activity'
 
   resources :subsectors
 

@@ -27,7 +27,7 @@ class ActivitiesController < ApplicationController
   # PUT /move_activity/1.json
   def move
     status_ok = true
-    case params[:move]
+    case params[:to]
     when 'up'
       @activity.move_higher
     when 'down'
@@ -47,7 +47,7 @@ class ActivitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
-      par = params.require(:activity).permit(:subsector_id, :name, :description, :hidden)
+      par = params.require(:activity).permit(:name, :description, :hidden)
     end
 
     def response_json

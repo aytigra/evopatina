@@ -57,4 +57,16 @@ ActivitiesAPI = Marty.createStateSource
     .catch (error) ->
       alert error
 
+  move: (activity, to) ->
+    url = Routes.move_activity_path activity.id, {format: 'json'}
+    @put(
+      url: url
+      body: {subsector_id: activity.subsector_id, to: to}
+    )
+    .then(@status)
+    .then (res) ->
+      ActivitiesActionCreators.move_response res.body, res.ok
+    .catch (error) ->
+      alert error
+
 module.exports = ActivitiesAPI

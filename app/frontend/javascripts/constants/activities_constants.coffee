@@ -12,6 +12,8 @@ ActivitiesConstants = Marty.createConstants [
   "ACTIVITY_SAVE"
   "ACTIVITY_DELETE"
   "ACTIVITY_DELETE_RESPONSE"
+  "ACTIVITY_MOVE"
+  "ACTIVITY_MOVE_RESPONSE"
 ]
 
 module.exports = ActivitiesConstants
