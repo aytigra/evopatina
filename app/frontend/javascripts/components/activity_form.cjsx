@@ -38,7 +38,11 @@ ActivityForm = React.createClass
   _onDelete: ->
     ActivitiesActionCreators.destroy @props.activity
 
+  _onMove: (to) ->
+    ActivitiesActionCreators.move @props.activity, to
+
   componentDidMount: ->
+    #move cursor to the end of the text
     input = React.findDOMNode(this.refs.activity_input)
     length = input.value.length
     input.setSelectionRange(length, length)
@@ -47,35 +51,48 @@ ActivityForm = React.createClass
     if @props.activity.have_errors
       errors_elem = <ItemErrorsBlock errors={@props.activity.errors} title='Server errors' />
 
-    <div>
-      <div>
-        <button onClick={@_onDelete} className="btn btn-default btn-sm pull-left">
-          <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
-        </button>
-        <div className='activity_input'>
-          <input
-            id={'activity_' + @props.activity.id}
-            ref='activity_input'
-            placeholder='new activity'
-            onChange={@_onNameChange}
-            onKeyDown={@_onKeyDown}
-            value={@props.activity.name}
-            autoFocus={true}
-          />
+    <div className='activity-form'>
+      <div className='activity-head'>
+        <div className='btns-left'>
+          <button onClick={@_onDelete} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </button>
         </div>
-        <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </button>
-        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        </button>
-        <button onClick={@_onHide} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-        </button>
+        <input
+          id={'activity_' + @props.activity.id}
+          ref='activity_input'
+          placeholder='new activity'
+          onChange={@_onNameChange}
+          onKeyDown={@_onKeyDown}
+          value={@props.activity.name}
+          autoFocus={true}
+        />
+        <div className='btns-right'>
+          <button onClick={@_onHide} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onSave} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onCancel} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
-      <div className='activity_textarea'>
+      <div className='activity-body'>
+        <div className='btns-left'>
+          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onMove.bind(@, 'subsector')} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          </button>
+        </div>
         <textarea 
-          rows="3"
+          rows="4"
           placeholder="Description..."
           onChange={@_onDescChange}
           value={@props.activity.description}
