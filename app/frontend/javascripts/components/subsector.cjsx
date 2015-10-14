@@ -35,7 +35,14 @@ Subsector = React.createClass
   render: ->
     activities = []
     have_hidden = false
-    for id, activity of @props.subsector.activities
+
+    activities_ids = Object.keys(@props.subsector.activities)
+    activities_ids.sort( (a, b) => 
+     @props.subsector.activities[a].position - @props.subsector.activities[b].position
+    )
+
+    activities_ids.forEach (id) =>
+      activity = @props.subsector.activities[id]
       if activity.hidden
         have_hidden = true
       if !activity.hidden || @state.show_hidden
