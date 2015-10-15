@@ -11,7 +11,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
 gem 'slim'
 gem 'slim-rails'
-gem 'acts_as_list'
+gem 'ranked-model'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

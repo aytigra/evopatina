@@ -29,13 +29,13 @@ class ActivitiesController < ApplicationController
     status_ok = true
     case params[:to]
     when 'up'
-      @activity.move_higher
+      @activity.row_order_position = :up
     when 'down'
-      @activity.move_lower
+      @activity.row_order_position = :down
     when 'subsector'
       @activity.subsector_id = params[:subsector_id].to_i
-      status_ok = @activity.save
     end
+    status_ok = @activity.save
     render_response status_ok
   end
 
@@ -51,7 +51,7 @@ class ActivitiesController < ApplicationController
     end
 
     def response_json
-      { id: @activity.id, errors: @activity.errors, subsector_id: @activity.subsector_id, 
+      { id: @activity.id, errors: @activity.errors, subsector_id: @activity.subsector_id,
         sector_id: params[:sector_id].to_i, old_id: params[:id].to_s.gsub(/\W/, '') }
     end
 
