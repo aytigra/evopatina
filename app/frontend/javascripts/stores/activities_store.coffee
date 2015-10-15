@@ -182,8 +182,16 @@ ActivitiesStore = Marty.createStore
       ActivitiesAPI.move(activity, to)
     if to is 'subsector'
       select_subsector(activity, WeeksStore.getSectors())
-        .then (response) =>
-          console.log response
+        .then (dest) =>
+          new_activity = activity.merge(
+            sector_id: dest.sector_id
+            subsector_id: dest.subsector_id
+            editing: false
+          )
+          @set dest.sector_id, dest.subsector_id, activity.id, new_activity
+          @unset activity.sector_id, activity.subsector_id, activity.id
+          ActivitiesAPI.move(new_activity, 'subsector')
+
 
   move_response: (activity, ok) ->
 

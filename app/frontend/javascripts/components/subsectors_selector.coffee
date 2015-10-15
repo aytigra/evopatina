@@ -17,8 +17,8 @@ SubsectorsSelector = React.createClass
   _abort: ->
     @promise.reject()
 
-  _subsector: (id) ->
-    @promise.resolve(id)
+  _subsector: (to) ->
+    @promise.resolve(to)
 
   render: ->
     children = []
@@ -38,7 +38,7 @@ SubsectorsSelector = React.createClass
           div
             className: 'selector-susector bg-info selector-clickable'
             key: "susector-#{subid}"
-            onClick: @_subsector.bind(@, subid)
+            onClick: @_subsector.bind(@, {sector_id: id, subsector_id: subid})
             subsector.name
         )
 

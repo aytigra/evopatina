@@ -54,8 +54,9 @@ WeeksStore = Marty.createStore
   update_activity: (sector_id, subsector_id, activity_id, params = {}) ->
     count_change = 0
     activity_old = @get_activity sector_id, subsector_id, activity_id
-    if _.has(params, 'count') && activity_old
-      count_change = params.count - activity_old.count
+    count_old = if activity_old then activity_old.count else 0
+    if _.has(params, 'count')
+      count_change = params.count - count_old
     progress = @get_sector(sector_id).progress + count_change
 
     data =
