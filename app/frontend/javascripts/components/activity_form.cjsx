@@ -4,7 +4,7 @@ ItemErrorsBlock = require './item_errors_block'
 ActivityForm = React.createClass
   displayName: 'ActivityForm'
 
-  propTypes: 
+  propTypes:
     activity: React.PropTypes.object.isRequired
 
   _onNameChange: (e) ->
@@ -16,12 +16,6 @@ ActivityForm = React.createClass
     params =
       description: e.target.value
     ActivitiesActionCreators.update_text @props.activity, params
-
-  _onHide: ->
-    params =
-      hidden: true
-      editing: false
-    ActivitiesActionCreators.update @props.activity, params
 
   _onSave: ->
     ActivitiesActionCreators.save @props.activity
@@ -68,9 +62,6 @@ ActivityForm = React.createClass
           autoFocus={true}
         />
         <div className='btns-right'>
-          <button onClick={@_onHide} className="btn btn-default btn-sm">
-            <span className="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-          </button>
           <button onClick={@_onSave} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
           </button>
@@ -91,7 +82,7 @@ ActivityForm = React.createClass
             <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           </button>
         </div>
-        <textarea 
+        <textarea
           rows="4"
           placeholder="Description..."
           onChange={@_onDescChange}

@@ -47,7 +47,7 @@ ActivitiesStore = Marty.createStore
     i = 1
     while @get(subsector.sector_id, subsector.id, "new_#{i}")?
       i++
-    @set(subsector.sector_id, subsector.id,"new_#{i}",  
+    @set(subsector.sector_id, subsector.id,"new_#{i}",
       id: 'new_' + i
       subsector_id: subsector.id
       name: ''
@@ -77,7 +77,7 @@ ActivitiesStore = Marty.createStore
       #unset canceled and not saved yet new activity
       @unset activity.sector_id, activity.subsector_id, activity.id
     else if activity.editing
-      params = 
+      params =
         editing: false
         editing_count: false
         name: activity.name_old
@@ -134,7 +134,7 @@ ActivitiesStore = Marty.createStore
       )
 
   save: (activity) ->
-    params = 
+    params =
       editing: false
       name_old: activity.name
       description_old: activity.description

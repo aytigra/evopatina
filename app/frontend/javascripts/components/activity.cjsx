@@ -8,7 +8,7 @@ Activity = React.createClass
   getInitialState: ->
     show_desc: false
 
-  propTypes: 
+  propTypes:
     activity: React.PropTypes.object.isRequired
 
   shouldComponentUpdate: (newProps, newState) ->
@@ -32,10 +32,6 @@ Activity = React.createClass
     @setState
       show_desc: !@state.show_desc
 
-  _onShow: ->
-    params =
-      hidden: false
-    ActivitiesActionCreators.update @props.activity, params
 
   render: ->
     increment_button_disabled = ''
@@ -47,32 +43,20 @@ Activity = React.createClass
     else if @props.activity.editing_count
       activity_elem = <ActivityCountForm key="count-#{@props.activity.id}" activity={@props.activity}/>
     else
-      label = (<label onClick={@_showDescription}>{@props.activity.name}</label>)
-
-      if @props.activity.hidden
-        activity_elem = (
-          <div>
-            {label}
-            <button onClick={@_onShow} className="btn btn-default btn-sm pull-right">
-              <span className="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-            </button>
-          </div>
-        )
-      else
-        activity_elem = (
-          <div>
-            <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left" disabled={increment_button_disabled}>
-              {@props.activity.count || 0}
-            </button>
-            <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm pull-left" disabled={increment_button_disabled}>
-              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            {label}
-            <button onClick={@_onEdit} className="btn btn-default btn-sm pull-right">
-              <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-          </div>
-        )
+      activity_elem = (
+        <div>
+          <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left" disabled={increment_button_disabled}>
+            {@props.activity.count || 0}
+          </button>
+          <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm pull-left" disabled={increment_button_disabled}>
+            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </button>
+          <label onClick={@_showDescription}>{@props.activity.name}</label>
+          <button onClick={@_onEdit} className="btn btn-default btn-sm pull-right">
+            <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          </button>
+        </div>
+      )
 
     if @state.show_desc and not @props.activity.editing
       desc_elem = <div className="description">{@props.activity.description}</div>
