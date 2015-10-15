@@ -6,6 +6,6 @@ class AddPositionToSubsectors < ActiveRecord::Migration
   end
 
   def down
-    remove_column :activities, :position
+    remove_column :subsectors, :position
   end
 end

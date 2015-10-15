@@ -11,7 +11,7 @@ json.set! :sectors do
         subsectors[sector.id] ||= {}
         subsectors[sector.id].each do |id, subsector|
           json.set! id do
-            json.extract! subsector, :id, :sector_id, :name, :description
+            json.extract! subsector, :id, :sector_id, :name, :description, :position
 
             json.set! :activities do
               activities[subsector.id] ||= {}

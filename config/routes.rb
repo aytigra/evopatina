@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   put 'move_activity/:id', to: 'activities#move', as: 'move_activity'
 
   resources :subsectors
+  put 'move_subsector/:id', to: 'subsectors#move', as: 'move_subsector'
 
   root 'weeks#index'
   get 'weeks/index'
@@ -12,12 +13,12 @@ Rails.application.routes.draw do
 
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'
 
-  devise_for :users, :skip => [:sessions], 
-    controllers: { 
+  devise_for :users, :skip => [:sessions],
+    controllers: {
       registrations: "users/registrations",
       passwords: "users/passwords",
       confirmations: "users/confirmations",
-      sessions: "users/sessions" 
+      sessions: "users/sessions"
     }
   as :user do
     get '/confirm', to: 'users/registrations#confirm'

@@ -14,7 +14,13 @@ Sector = React.createClass
 
   render: ->
     subsectors = []
-    for id, subsector of @props.sector.subsectors
+    subsectors_ids = Object.keys(@props.sector.subsectors)
+    subsectors_ids.sort( (a, b) =>
+     @props.sector.subsectors[a].position - @props.sector.subsectors[b].position
+    )
+
+    subsectors_ids.forEach (id) =>
+      subsector = @props.sector.subsectors[id]
       subsectors.push(<Subsector key={id} subsector={subsector}/>) if not subsector.hidden
 
     <div className='sector-content col-lg-2 col-md-4 col-sm-6 col-xs-12'>

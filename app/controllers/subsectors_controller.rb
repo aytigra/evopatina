@@ -1,6 +1,7 @@
 class SubsectorsController < ApplicationController
-  before_action :set_subsector, only: [:show, :edit, :update, :destroy]
+  before_action :set_subsector, only: [:update, :destroy, :move]
   before_action :authenticate_user!
+  before_action :set_default_response_format
 
   # GET /subsectors
   # GET /subsectors.json
@@ -8,54 +9,37 @@ class SubsectorsController < ApplicationController
     @subsectors = Subsector.all
   end
 
-  # GET /subsectors/1
-  # GET /subsectors/1.json
-  def show
-  end
-
-  # GET /subsectors/new
-  def new
-    @subsector = Subsector.new
-  end
-
-  # GET /subsectors/1/edit
-  def edit
-  end
-
   # POST /subsectors.json
   def create
     data = subsector_params
     data[:user_id] = current_user.id
     @subsector = Subsector.new(data)
-    respond_to do |format|
-      if @subsector.save
-        format.json { render json: response_json, status: :created }
-      else
-        format.json { render json: response_json, status: :unprocessable_entity }
-      end
-    end
+    render_response @subsector.save
   end
 
   # PATCH/PUT /subsectors/1.json
   def update
-    respond_to do |format|
-      if @subsector.update(subsector_params)
-        format.json { render json: response_json, status: :ok }
-      else
-        format.json { render json: response_json, status: :unprocessable_entity }
-      end
-    end
+    render_response @subsector.update(subsector_params)
   end
 
   # DELETE /subsectors/1.json
   def destroy
-    respond_to do |format|
-      if @subsector.destroy
-        format.json { render json: response_json, status: :ok }
-      else
-        format.json { render json: response_json, status: :unprocessable_entity }
-      end
+    render_response @subsector.destroy
+  end
+
+  # PUT /move_subsectors/1.json
+  def move
+    status_ok = true
+    case params[:to]
+    when 'up'
+      @subsector.row_order_position = :up
+    when 'down'
+      @subsector.row_order_position = :down
+    when 'sector'
+      @subsector.sector_id = params[:sector_id].to_i
     end
+    status_ok = @subsector.save
+    render_response status_ok
   end
 
   private
@@ -71,6 +55,15 @@ class SubsectorsController < ApplicationController
 
     def response_json
       { id: @subsector.id, sector_id: @subsector.sector_id, errors: @subsector.errors,
-        old_id: params[:id].to_s.gsub(/\W/, '') }
+        old_id: params[:id].to_s.gsub(/\W/, ''), position: @subsector.position }
+    end
+
+    def render_response(status_ok)
+      status = status_ok ? :ok : :unprocessable_entity
+      render json: response_json, status: status
+    end
+
+    def set_default_response_format
+      request.format = :json
     end
 end

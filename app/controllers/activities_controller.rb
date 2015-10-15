@@ -1,5 +1,5 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activity, only: [:show, :edit, :update, :destroy, :move]
+  before_action :set_activity, only: [:update, :destroy, :move]
   before_action :authenticate_user!
   before_action :set_default_response_format
 
