@@ -59,7 +59,7 @@
         padding-right: 10px;
       }
       .errors_block_body {
-        
+
       }
     }
 
@@ -86,7 +86,7 @@
         font-size: 16px;
         font-weight: normal;
         border-bottom: 1px solid gray;
-        input { 
+        input {
           width: 100%;
           border: none;
           padding: 0;
@@ -100,7 +100,7 @@
       padding-left: 2px;
       padding-right: 2px;
       line-height: 20px;
-      textarea { 
+      textarea {
         width: 100%;
         border: none;
         padding: 0;
@@ -183,7 +183,7 @@
         position: relative;
         padding-left: 32px;
         min-height: 84px;
-        textarea { 
+        textarea {
           width: 100%;
           border: none;
           padding: 0;
@@ -224,4 +224,25 @@
       }
     }
   }
+}
+
+.selector-sector {
+  margin-bottom: 5px;
+  margin-top: 15px;
+  line-height: 28px;
+  padding-left: 20px;
+  padding-right: 10px;
+  font-size: 18px;
+}
+
+.selector-susector {
+  margin-bottom: 5px;
+  line-height: 26px;
+  padding-left: 10px;
+  padding-right: 5px;
+  font-size: 16px;
+}
+
+.selector-clickable {
+  cursor: pointer;
 }

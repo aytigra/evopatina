@@ -32,7 +32,7 @@ WeeksStore = Marty.createStore
     WeeksAPI.get_week +id
 
   update_subsector: (sector_id, subsector_id, params = {}) ->
-    data = 
+    data =
       sectors:
         "#{sector_id}":
           subsectors:
@@ -58,7 +58,7 @@ WeeksStore = Marty.createStore
       count_change = params.count - activity_old.count
     progress = @get_sector(sector_id).progress + count_change
 
-    data = 
+    data =
       sectors:
         "#{sector_id}":
           progress: progress
@@ -66,7 +66,7 @@ WeeksStore = Marty.createStore
             "#{subsector_id}":
               activities:
                 "#{activity_id}": params
-              
+
     @state.current_week = @state.current_week.merge(data, {deep: true})
 
     @hasChanged()
@@ -79,10 +79,11 @@ WeeksStore = Marty.createStore
     current_week.sectors[sector_id].progress -= minus_count
     @state.current_week = Immutable current_week
     @hasChanged()
-    
+
   move_activity: (sector_id, subsector_id, activity_id, to) ->
     activities = @get_subsector(sector_id, subsector_id).activities
     position = activities[activity_id].position
+    # ranked-model gem range
     position_before = -8388607
     position_after = 8388607
     for id, activity of activities
@@ -94,7 +95,7 @@ WeeksStore = Marty.createStore
       position = position_before - 0.001
     if to == 'down' && position_after isnt 8388607
       position = position_after + 0.001
-    data = 
+    data =
       sectors:
         "#{sector_id}":
           subsectors:
@@ -102,7 +103,7 @@ WeeksStore = Marty.createStore
               activities:
                 "#{activity_id}":
                   position: position
-              
+
     @state.current_week = @state.current_week.merge(data, {deep: true})
 
     @hasChanged()

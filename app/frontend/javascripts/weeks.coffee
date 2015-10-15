@@ -5,6 +5,7 @@ ActivitiesStore = require './stores/activities_store'
 
 WeekContent = require './components/week_content'
 Confirm = require './components/confirm'
+SubsectorsSelector = require './components/subsectors_selector'
 
 Marty.HttpStateSource.addHook(
   priority: 1
@@ -13,23 +14,34 @@ Marty.HttpStateSource.addHook(
     NProgress.start()
   after: (req) ->
     NProgress.done()
-    if req.status in [200, 201] 
-      req.ok ||= true 
+    if req.status in [200, 201]
+      req.ok ||= true
       req.body.errors ||= {}
     else if req.status is 422
-      req.ok ||= false 
+      req.ok ||= false
       req.body.errors ||= {}
     req
 )
 
-window.react_confirm = (message, options = {}) ->
-  props = $.extend({message: message}, options)
+
+window.react_modal = (Component, props) ->
   wrapper = document.body.appendChild(document.createElement('div'))
-  component = React.render(React.createElement(Confirm, props), wrapper)
+  component = React.render(React.createElement(Component, props), wrapper)
+  $("body").addClass("modal-open")
   cleanup = ->
     React.unmountComponentAtNode(wrapper)
     setTimeout -> wrapper.remove()
+    $("body").removeClass("modal-open")
   component.promise.always(cleanup).promise()
+
+window.react_confirm = (message, options = {}) ->
+  props = $.extend({message: message}, options)
+  react_modal Confirm, props
+
+window.select_subsector = (activity, sectors) ->
+  props = { activity: activity, sectors: sectors }
+  react_modal SubsectorsSelector, props
+
 
 $(document).on "ready page:change", ->
   # root react component
@@ -37,4 +49,4 @@ $(document).on "ready page:change", ->
 
   WeeksStore.loadWeek(window.location.pathname.split('/').pop())
 
-  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }}) 
+  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})

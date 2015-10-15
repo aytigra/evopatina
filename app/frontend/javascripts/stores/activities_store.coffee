@@ -180,6 +180,10 @@ ActivitiesStore = Marty.createStore
     if to in ['up', 'down']
       WeeksStore.move_activity activity.sector_id, activity.subsector_id, activity.id, to
       ActivitiesAPI.move(activity, to)
+    if to is 'subsector'
+      select_subsector(activity, WeeksStore.getSectors())
+        .then (response) =>
+          console.log response
 
   move_response: (activity, ok) ->
 

@@ -18,6 +18,7 @@ Modal = React.createClass
         display: 'block'
       div
         className: 'modal-dialog'
+        role='document'
         div
           className: 'modal-content'
           @props.children
