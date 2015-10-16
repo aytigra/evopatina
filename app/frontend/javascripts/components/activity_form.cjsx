@@ -46,7 +46,7 @@ ActivityForm = React.createClass
       errors_elem = <ItemErrorsBlock errors={@props.activity.errors} title='Server errors' />
 
     <div className='activity-form'>
-      <div className='activity-head'>
+      <div className='list-form-head'>
         <div className='btns-left'>
           <button onClick={@_onDelete} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -70,7 +70,7 @@ ActivityForm = React.createClass
           </button>
         </div>
       </div>
-      <div className='activity-body'>
+      <div className='list-form-body'>
         <div className='btns-left'>
           <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>

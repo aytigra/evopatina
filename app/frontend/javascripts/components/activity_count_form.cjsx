@@ -5,7 +5,7 @@ EPutils = require '../ep_utils'
 ActivityCountForm = React.createClass
   displayName: 'ActivityCountForm'
 
-  propTypes: 
+  propTypes:
     activity: React.PropTypes.object.isRequired
 
   getInitialState: ->
@@ -55,9 +55,9 @@ ActivityCountForm = React.createClass
     if @props.activity.have_errors
       errors_elem = <ItemErrorsBlock errors={@props.activity.errors} title='Server errors' />
 
-    <div>
-      <div>
-        <div className='count_inputs'>
+    <div className='activity-count-form'>
+      <div className='list-form-head'>
+        <div className='count-inputs'>
           <input
             ref='count_input'
             onChange={@_onCountChange}
@@ -72,14 +72,16 @@ ActivityCountForm = React.createClass
             value={@state.count_add}
             autoFocus={true}
           />
-          <label> fragment </label>
+          <label className='count-name'>fragment</label>
         </div>
-        <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </button>
-        <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
-          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        </button>
+        <div className='btns-right'>
+          <button onClick={@_onCancel} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onSave} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
       {errors_elem}
     </div>

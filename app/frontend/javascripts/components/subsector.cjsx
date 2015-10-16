@@ -45,19 +45,21 @@ Subsector = React.createClass
       subsector_elem = <SubsectorForm key={@props.subsector.id} subsector={@props.subsector}/>
     else
       subsector_elem = (
-        <div>
+        <div className='list-name'>
           <label onClick={@_showDescription}>{@props.subsector.name}</label>
-          <button onClick={@_onEdit}  className="btn btn-default btn-sm pull-right">
-            <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-          </button>
-          <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm pull-right">
-            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </button>
+          <div className='btns-right'>
+            <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm">
+              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+            <button onClick={@_onEdit}  className="btn btn-default btn-sm">
+              <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
       )
 
     if @state.show_desc and not @props.subsector.editing
-      desc_elem = <div className="description">{@props.subsector.description}</div>
+      desc_elem = <div className="list-description">{@props.subsector.description}</div>
 
     <div>
       <div className='row subsector bg-info'>

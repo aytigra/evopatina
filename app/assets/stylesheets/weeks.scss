@@ -2,244 +2,238 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.weeks {
- .list-row>div {
-    padding: 0 2px 0 2px;
+
+.list-row>div {
+  padding: 0 2px 0 2px;
+}
+
+.list-head {
+  margin: 0 0 5px;
+  line-height: 1.2;
+}
+
+.list-progress {
+  margin: 0 0 10px;
+  height: 30px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#week-action-toggle {
+  ul li a {
+    padding: 2px 5px 2px 5px;
+    text-align: center;
+  }
+}
+
+.tooltip-inner {
+  white-space:pre-wrap;
+  max-width:400px;
+  text-align: left;
+}
+
+.lapa_form {
+  .form-group input {
+    width: 50px;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .lapa-sector-name {
+    margin-left: 5px;
+  }
+}
+
+.sector-content {
+  padding-top: 20px;
+  padding-bottom: 5px;
+
+  div.row {
+    margin-left: -10px;
+    margin-right: -10px;
   }
 
-  .list-head {
-    margin: 0 0 5px;
-    line-height: 1.2;
-  }
+  .errors_block {
+    clear: both;
+    .errors_block_title {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .errors_block_body {
 
-  .list-progress {
-    margin: 0 0 10px;
-    height: 30px;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  #week-action-toggle {
-    ul li a {
-      padding: 2px 5px 2px 5px;
-      text-align: center;
     }
   }
 
-  .tooltip-inner {
-    white-space:pre-wrap;
-    max-width:400px;
-    text-align: left;
-  }
-
-  .lapa_form {
-    .form-group input {
-      width: 50px;
-      display: inline-block;
-      margin-right: 10px;
+  .sector-header {
+    margin-bottom: 5px;
+    line-height: 18px;
+    .sector-icon, .sector-status {
+      margin-right: 5px;
     }
-    .lapa-sector-name {
-      margin-left: 5px;
-    }
-  }
-
-  .sector-content {
-    padding-top: 20px;
-    padding-bottom: 5px;
-
-    div.row {
-      margin-left: -10px;
-      margin-right: -10px;
-    }
-
-    .errors_block {
-      clear: both;
-      .errors_block_title {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-      .errors_block_body {
-
-      }
-    }
-
-    .sector-header {
-      margin-bottom: 5px;
-      line-height: 18px;
-      .sector-icon, .sector-status {
-        margin-right: 5px;
-      }
-      .sector-name {
-        font-size: 20px;
-        font-weight: normal;
-      }
-    }
-    .progress {
-      margin-bottom: 0px;
-    }
-    .activity button, .subsector button {
-      border: none;
-      background-color: inherit;
-    }
-    .subsector_input{
-        display: inline-block;
-        font-size: 16px;
-        font-weight: normal;
-        border-bottom: 1px solid gray;
-        input {
-          width: 100%;
-          border: none;
-          padding: 0;
-          outline: none;
-          background-color: inherit;
-        }
-      }
-    .subsector_textarea  {
-      font-size: 13px;
+    .sector-name {
+      font-size: 20px;
       font-weight: normal;
-      padding-left: 2px;
-      padding-right: 2px;
-      line-height: 20px;
-      textarea {
-        width: 100%;
-        border: none;
-        padding: 0;
-        outline: none;
-        background-color: inherit;
-        resize: vertical;
-        overflow: hidden;
-      }
     }
-    .activity label, .subsector label {
+  }
+  .progress {
+    margin-bottom: 0px;
+  }
+}
+
+
+
+.toolbar {
+  position: relative;
+  button {
+    border: none;
+    background-color: inherit;
+  }
+  .btns-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .btns-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.activity, .subsector {
+  .list-name {
+    @extend .toolbar;
+    label {
       font-size: 16px;
       font-weight: normal;
-      line-height: 27px;
+      line-height: 28px;
+      background-color: inherit;
       margin-bottom: 0px;
       padding-left: 4px;
-      background-color: inherit;
+      word-break: break-word;
+    }
+  }
+  .list-description {
+    clear: both;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+.activity {
+  background-color: #F5F5F5;
+  margin-top: 7px;
+  .list-name {
+    padding-left: 64px;
+    padding-right: 32px;
+    .btn-count {
+      padding: 5px;
+      min-width: 30px;
+      background-color: #EDEDED;
+    }
+    .btn-add-count {
+      background-color: #EDEDED;
     }
 
-    .activity .description, .subsector .description {
-      clear: both;
+  }
+}
+
+.subsector {
+  margin-top: 14px;
+  .list-name {
+    padding-right: 64px;
+  }
+}
+
+  .activity-form, .activity-count-form, .subsector-form {
+    .list-form-head {
+      @extend .toolbar;
+      padding-left: 32px;
+      padding-right: 64px;
+      input {
+        width: 100%;
+        padding: 0;
+        padding-left: 4px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 27px;
+        border-bottom: 1px solid gray;
+        background-color: inherit;
+      }
+
     }
-    .activity {
-      background-color: #F5F5F5;
-      margin-top: 7px;
-      label {
-        width: calc(100% - 96px);
+    .list-form-body {
+      @extend .toolbar;
+      padding-left: 32px;
+      textarea {
+        width: 100%;
+        min-height: 84px;
+        padding: 0, 4px, 0, 4px;
+        resize: vertical;
+        overflow: hidden;
+        border: none;
+        outline: none;
+        background-color: inherit;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 20px;
       }
-      .activity_input {
-        padding-left: 3px;
-        width: calc(100% - 128px);
-        line-height: 26px;
+      .btns-left {
+        width: 32px;
       }
-      .btn-count {
-        padding: 5px;
-        min-width: 30px;
-        background-color: #EDEDED;
-      }
-      .btn-add-count {
-        background-color: #EDEDED;
-      }
-      .count_inputs {
+    }
+  }
+  .activity-count-form {
+    .list-form-head {
+      padding-left: 2px;
+    }
+      .count-inputs {
+        width: 100%;
         display: inline-block;
         input, label {
           width: 30px;
           display: inline-block;
+          text-align: center;
+          padding-left: 0;
+          font-size: 14px;
+          line-height: 27px;
+          margin-bottom: 0px;
         }
-      }
-    }
-
-    .activity-form {
-
-      .btns-left {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-      .btns-right {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-
-      .activity-head {
-        position: relative;
-        padding-left: 32px;
-        padding-right: 96px;
-        input {
-          border: none;
-          outline: none;
-          width: 100%;
-          padding: 0;
-          font-size: 16px;
+        .count-name {
+          padding-left: 15px;
           font-weight: normal;
-          border-bottom: 1px solid gray;
-          background-color: inherit;
         }
+      }
+  }
 
-      }
-      .activity-body {
-        position: relative;
-        padding-left: 32px;
-        min-height: 84px;
-        textarea {
-          width: 100%;
-          border: none;
-          padding: 0;
-          outline: none;
-          background-color: inherit;
-          resize: vertical;
-          overflow: hidden;
-          font-size: 13px;
-          font-weight: normal;
-          padding-left: 2px;
-          padding-right: 2px;
-          line-height: 20px;
-        }
-        .btns-left {
-          position: absolute;
-          width: 32px;
-        }
-      }
-
-    }
-    .subsector {
-      margin-top: 14px;
-      label {
-        width: calc(100% - 96px);
-      }
-      .subsector_input {
-        padding-left: 4px;
-        width: calc(100% - 96px);
-        line-height: 27px;
-      }
-    }
-    .subsector-add {
-      margin-top: 10px;
-      text-align: center;
-      button {
-        text-align: center;
-        border: none;
-      }
-    }
+.subsector-add {
+  margin-top: 10px;
+  text-align: center;
+  button {
+    text-align: center;
+    border: none;
   }
 }
 
+//selector modal
 .selector-sector {
   margin-bottom: 5px;
   margin-top: 15px;
-  line-height: 28px;
   padding-left: 20px;
   padding-right: 10px;
+  line-height: 28px;
   font-size: 18px;
 }
 
 .selector-susector {
   margin-bottom: 5px;
-  line-height: 26px;
   padding-left: 10px;
   padding-right: 5px;
+  line-height: 26px;
   font-size: 16px;
 }
 

@@ -44,22 +44,26 @@ Activity = React.createClass
       activity_elem = <ActivityCountForm key="count-#{@props.activity.id}" activity={@props.activity}/>
     else
       activity_elem = (
-        <div>
-          <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm pull-left" disabled={increment_button_disabled}>
-            {@props.activity.count || 0}
-          </button>
-          <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm pull-left" disabled={increment_button_disabled}>
-            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </button>
+        <div className='list-name'>
+          <div className='btns-left'>
+            <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm" disabled={increment_button_disabled}>
+              {@props.activity.count || 0}
+            </button>
+            <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm" disabled={increment_button_disabled}>
+              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </div>
           <label onClick={@_showDescription}>{@props.activity.name}</label>
-          <button onClick={@_onEdit} className="btn btn-default btn-sm pull-right">
-            <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-          </button>
+          <div className='btns-right'>
+            <button onClick={@_onEdit} className="btn btn-default btn-sm">
+              <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
       )
 
     if @state.show_desc and not @props.activity.editing
-      desc_elem = <div className="description">{@props.activity.description}</div>
+      desc_elem = <div className="list-description">{@props.activity.description}</div>
 
     <div className='row activity'>
       {activity_elem}
