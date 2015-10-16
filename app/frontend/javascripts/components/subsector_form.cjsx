@@ -54,7 +54,7 @@ SubsectorForm = React.createClass
     <div className='subsector-form'>
       <div className='list-form-head'>
         <div className='btns-left'>
-          <button onClick={@_onDelete} className="btn btn-default btn-sm pull-left">
+          <button onClick={@_onDelete} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
           </button>
         </div>
@@ -68,11 +68,11 @@ SubsectorForm = React.createClass
           autoFocus={true}
         />
         <div className='btns-right'>
-          <button onClick={@_onCancel} className="btn btn-default btn-sm pull-right">
-            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </button>
-          <button onClick={@_onSave} className="btn btn-default btn-sm pull-right">
+          <button onClick={@_onSave} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onCancel} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </button>
         </div>
       </div>
