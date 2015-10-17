@@ -37,6 +37,7 @@ class SubsectorsController < ApplicationController
       @subsector.row_order_position = :down
     when 'sector'
       @subsector.sector_id = params[:sector_id].to_i
+      @subsector.row_order_position = :last
     end
     status_ok = @subsector.save
     render_response status_ok

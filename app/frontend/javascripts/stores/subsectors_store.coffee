@@ -145,13 +145,8 @@ SubsectorsStore = Marty.createStore
     if to is 'sector'
       select_sector(subsector, WeeksStore.getSectors())
         .then (dest) =>
-          new_subsector = subsector.merge(
-            sector_id: dest.sector_id
-            editing: false
-          )
-          @set dest.sector_id, subsector.id, new_subsector
-          @unset subsector.sector_id, subsector.id
-          SubsectorsAPI.move(new_subsector, 'sector')
+          WeeksStore.move_subsector subsector.sector_id, subsector.id, to, dest
+          SubsectorsAPI.move({id: subsector.id, sector_id: dest.sector_id}, 'sector')
 
 
   move_response: (subsector, ok) ->

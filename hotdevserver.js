@@ -4,7 +4,7 @@ var config = require('./webpack.config');
 
 config.entry.unshift("webpack-dev-server/client?/", "webpack/hot/dev-server");
 config.plugins.unshift(new webpack.HotModuleReplacementPlugin(), new webpack.NoErrorsPlugin());
-config.devtool = 'eval';
+//config.devtool = 'eval';
 config.module.loaders.forEach(function(l) {
   if (l.loaders != undefined) {
     l.loaders.unshift('react-hot');

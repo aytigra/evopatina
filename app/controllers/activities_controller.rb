@@ -34,6 +34,7 @@ class ActivitiesController < ApplicationController
       @activity.row_order_position = :down
     when 'subsector'
       @activity.subsector_id = params[:subsector_id].to_i
+      @activity.row_order_position = :last
     end
     status_ok = @activity.save
     render_response status_ok
