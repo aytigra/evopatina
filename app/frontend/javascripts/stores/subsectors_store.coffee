@@ -154,6 +154,6 @@ SubsectorsStore = Marty.createStore
           SubsectorsAPI.move(new_subsector, 'sector')
 
 
-  move_response: (activity, ok) ->
+  move_response: (subsector, ok) ->
 
 module.exports = SubsectorsStore
