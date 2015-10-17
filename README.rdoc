@@ -1,4 +1,4 @@
-== This is a service for self improvement.
+== This is an app for self improvement.
 Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal weekly program.
 
 ==== Features
