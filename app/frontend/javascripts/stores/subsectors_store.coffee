@@ -34,13 +34,15 @@ SubsectorsStore = Marty.createStore
     save: SubsectorsConstants.SUBSECTOR_SAVE
     destroy: SubsectorsConstants.SUBSECTOR_DELETE
     destroy_response: SubsectorsConstants.SUBSECTOR_DELETE_RESPONSE
+    move: SubsectorsConstants.SUBSECTOR_MOVE
+    move_response: SubsectorsConstants.SUBSECTOR_MOVE_RESPONSE
 
   #create empty subsector in sector with placeholder ID
   create: (sector) ->
     i = 1
     while @get(sector.id, "new_#{i}")?
       i++
-    @set(sector.id, "new_#{i}",  
+    @set(sector.id, "new_#{i}",
       id: 'new_' + i
       sector_id: sector.id
       name: ''
@@ -62,7 +64,7 @@ SubsectorsStore = Marty.createStore
       #unset canceled and not saved yet new subsector
       @unset subsector.sector_id, subsector.id
     else
-      prpams = 
+      prpams =
         editing: false
         name: subsector.name_old
         description: subsector.description_old
@@ -94,7 +96,7 @@ SubsectorsStore = Marty.createStore
       )
 
   save: (subsector) ->
-    prpams = 
+    prpams =
       editing: false
       name_old: subsector.name
       description_old: subsector.description
@@ -135,5 +137,23 @@ SubsectorsStore = Marty.createStore
       )
     else
       @unset subsector.sector_id, subsector.id
+
+  move: (subsector, to) ->
+    if to in ['up', 'down']
+      WeeksStore.move_subsector subsector.sector_id, subsector.id, to
+      SubsectorsAPI.move(subsector, to)
+    if to is 'sector'
+      select_sector(subsector, WeeksStore.getSectors())
+        .then (dest) =>
+          new_subsector = subsector.merge(
+            sector_id: dest.sector_id
+            editing: false
+          )
+          @set dest.sector_id, subsector.id, new_subsector
+          @unset subsector.sector_id, subsector.id
+          SubsectorsAPI.move(new_subsector, 'sector')
+
+
+  move_response: (activity, ok) ->
 
 module.exports = SubsectorsStore

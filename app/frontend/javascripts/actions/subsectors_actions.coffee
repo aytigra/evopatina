@@ -23,5 +23,9 @@ SubsectorsActionCreators = Marty.createActionCreators
     @dispatch SubsectorsConstants.SUBSECTOR_CREATE, sector
   create_response: (subsector, ok) ->
     @dispatch SubsectorsConstants.SUBSECTOR_CREATE_RESPONSE, subsector, ok
+  move: (subsector, to) ->
+    @dispatch SubsectorsConstants.SUBSECTOR_MOVE, subsector, to
+  move_response: (subsector, ok) ->
+    @dispatch SubsectorsConstants.SUBSECTOR_MOVE_RESPONSE, subsector, ok
 
 module.exports = SubsectorsActionCreators

@@ -9,6 +9,8 @@ SubsectorsConstants = Marty.createConstants [
   "SUBSECTOR_SAVE"
   "SUBSECTOR_DELETE"
   "SUBSECTOR_DELETE_RESPONSE"
+  "SUBSECTOR_MOVE"
+  "SUBSECTOR_MOVE_RESPONSE"
 ]
 
 module.exports = SubsectorsConstants

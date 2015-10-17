@@ -51,6 +51,20 @@ WeeksStore = Marty.createStore
     @state.current_week = Immutable current_week
     @hasChanged()
 
+  move_subsector: (sector_id, subsector_id, to) ->
+    subsectors = @get_sector(sector_id).subsectors
+    position = @get_new_position(subsectors, subsectors[subsector_id].position, to)
+    data =
+      sectors:
+        "#{sector_id}":
+          subsectors:
+            "#{subsector_id}":
+                  position: position
+
+    @state.current_week = @state.current_week.merge(data, {deep: true})
+
+    @hasChanged()
+
   update_activity: (sector_id, subsector_id, activity_id, params = {}) ->
     count_change = 0
     activity_old = @get_activity sector_id, subsector_id, activity_id
@@ -83,19 +97,7 @@ WeeksStore = Marty.createStore
 
   move_activity: (sector_id, subsector_id, activity_id, to) ->
     activities = @get_subsector(sector_id, subsector_id).activities
-    position = activities[activity_id].position
-    # ranked-model gem range
-    position_before = -8388607
-    position_after = 8388607
-    for id, activity of activities
-      if activity.position > position and activity.position < position_after
-        position_after = activity.position
-      if activity.position < position and activity.position > position_before
-        position_before = activity.position
-    if to == 'up' && position_before isnt -8388607
-      position = position_before - 0.001
-    if to == 'down' && position_after isnt 8388607
-      position = position_after + 0.001
+    position = @get_new_position(activities, activities[activity_id].position, to)
     data =
       sectors:
         "#{sector_id}":
@@ -132,5 +134,20 @@ WeeksStore = Marty.createStore
 
   get_activity: (sector_id, subsector_id, activity_id) ->
     @state.current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
+
+  get_new_position: (entries, position, to) ->
+    # ranked-model gem range
+    position_before = -8388607
+    position_after = 8388607
+    for id, entry of entries
+      if entry.position > position and entry.position < position_after
+        position_after = entry.position
+      if entry.position < position and entry.position > position_before
+        position_before = entry.position
+    if to == 'up' && position_before isnt -8388607
+      position = position_before - 0.001
+    if to == 'down' && position_after isnt 8388607
+      position = position_after + 0.001
+    position
 
 module.exports = WeeksStore

@@ -45,4 +45,16 @@ SubsectorsAPI = Marty.createStateSource
     .catch (error) ->
       alert error
 
+  move: (subsector, to) ->
+    url = Routes.move_subsector_path subsector.id, {format: 'json'}
+    @put(
+      url: url
+      body: {sector_id: subsector.sector_id, to: to}
+    )
+    .then(@status)
+    .then (res) ->
+      SubsectorsActionCreators.move_response res.body, res.ok
+    .catch (error) ->
+      alert error
+
 module.exports = SubsectorsAPI
