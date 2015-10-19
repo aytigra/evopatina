@@ -6,6 +6,8 @@ json.set! :sectors do
       json.extract! sector, :id, :name, :description, :icon
       json.lapa week.lapa[sector.id]
       json.progress week.progress[sector.id]
+      json.lapa_sum week.lapa_sum[sector.id]
+      json.progress_sum week.progress_sum[sector.id]
 
       json.set! :subsectors do
         subsectors[sector.id] ||= {}

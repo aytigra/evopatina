@@ -1,6 +1,8 @@
 class Week < ActiveRecord::Base
   belongs_to :user
 
+  attr_accessor :lapa_sum, :progress_sum
+
   store :progress
   store :lapa
 

@@ -10,7 +10,7 @@ WeeksAPI = Marty.createStateSource
     res
 
   get_week: (week_id) ->
-    url = Routes.week_json_path week_id, {format: 'json'}
+    url = Routes.week_path week_id, {format: 'json'}
     @get url
     .then(@status)
     .then (res) ->
