@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015122922) do
+ActiveRecord::Schema.define(version: 20151027082815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,30 @@ ActiveRecord::Schema.define(version: 20151015122922) do
 
   add_index "fragments", ["activity_id"], name: "index_fragments_on_activity_id", using: :btree
   add_index "fragments", ["week_id"], name: "index_fragments_on_week_id", using: :btree
+
+  create_table "sector_weeks", force: :cascade do |t|
+    t.integer  "sector_id",  null: false
+    t.integer  "week_id",    null: false
+    t.float    "lapa"
+    t.float    "progress"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "sector_weeks", ["sector_id"], name: "index_sector_weeks_on_sector_id", using: :btree
+  add_index "sector_weeks", ["week_id"], name: "index_sector_weeks_on_week_id", using: :btree
+
+  create_table "sectors", force: :cascade do |t|
+    t.integer  "user_id",     null: false
+    t.string   "name"
+    t.text     "description"
+    t.string   "icon"
+    t.integer  "position"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "sectors", ["user_id"], name: "index_sectors_on_user_id", using: :btree
 
   create_table "subsectors", force: :cascade do |t|
     t.integer  "user_id",     null: false
@@ -87,5 +111,6 @@ ActiveRecord::Schema.define(version: 20151015122922) do
   add_index "weeks", ["user_id"], name: "index_weeks_on_user_id", using: :btree
 
   add_foreign_key "activities", "subsectors"
+  add_foreign_key "sectors", "users"
   add_foreign_key "subsectors", "users"
 end

@@ -1,55 +1,20 @@
-class Sector
-  @@all = []
+class Sector < ActiveRecord::Base
+  belongs_to :user
+  has_many :subsectors, dependent: :destroy
 
-  KEYS = [1,2,3,4,5,6]
+  include RankedModel
+  ranks :row_order,
+    :column => :position,
+    :with_same => :user_id
 
-  GLYPHONS = {
-    1 => 'compressed',
-    2 => 'education',
-    3 => 'fire',
-    4 => 'usd',
-    5 => 'comment',
-    6 => 'plane'
-  }
-
-  def initialize (id)
-    @id = id
-  end
-
-  def self.keys
-    self::KEYS
-  end
-
-  def self.all
-    return @@all if @@all.size == 6
-
-    self.keys.each do |id|
-      @@all << self.new(id)
-    end
-    @@all
-  end
+  validates :user, :name, presence: true
 
   def self.hash(values = {})
     res = {}
-    self.keys.each do |i|
+    values.each do |i|
       res[i] = values[i] || 0
     end
     res
   end
 
-  def id
-    @id
-  end
-
-  def name
-    I18n.translate("sector.id_#{@id}.name")
-  end
-
-  def description
-    I18n.translate("sector.id_#{@id}.description")
-  end
-
-  def icon
-    "glyphicon glyphicon-#{GLYPHONS[id]}"
-  end
 end

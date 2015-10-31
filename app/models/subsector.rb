@@ -1,5 +1,5 @@
 class Subsector < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :sector
   has_many :activities, dependent: :destroy
 
   include RankedModel
@@ -7,11 +7,10 @@ class Subsector < ActiveRecord::Base
     :column => :position,
     :with_same => :sector_id
 
-  validates :user, :sector_id, :name, presence: true
-  validates :sector_id, inclusion: { in: Sector.keys, message: 'is wrong' }
+  validates :sector, :name, presence: true
 
   def self.subsectors_by_sectors(user)
-    raw = self.where(user_id: user.id).order(created_at: :desc)
+    raw = self.joins(:sector).where(sectors: {user_id: user.id})
 
     result = {}
 
