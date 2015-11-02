@@ -1,6 +1,7 @@
 class Sector < ActiveRecord::Base
   belongs_to :user
   has_many :subsectors, dependent: :destroy
+  has_many :sector_weeks, dependent: :destroy
 
   include RankedModel
   ranks :row_order,
