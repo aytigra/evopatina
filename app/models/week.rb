@@ -1,7 +1,11 @@
 class Week < ActiveRecord::Base
-  belongs_to :user
+  after_create :copy_lapa_from_previous_week
 
-  attr_accessor :lapa_sum, :progress_sum
+  belongs_to :user
+  has_many :sector_weeks, dependent: :destroy
+  has_many :fragments, dependent: :destroy
+
+  attr_accessor :lapa_sum, :progress_sum, :previous_weeks
 
   store :progress
   store :lapa
@@ -16,13 +20,18 @@ class Week < ActiveRecord::Base
     write_attribute(:date, date.beginning_of_week)
   end
 
-  def self.last_week(user)
-    week = self.where(user: user).by_date.limit(1).take
-    if week == nil || week.date != Date.today.at_beginning_of_week
-      lapa = week == nil ? Sector.hash : week.lapa
-      week = self.create(date: Date.today, lapa: lapa, progress: Sector.hash, user: user)
+  def self.get_week(user, date)
+    week = self.find_or_create_by(user: user, date: date)
+  end
+
+  def previous_weeks
+    if @previous_weeks
+      @previous_weeks
+    else
+      @previous_weeks = Week.where(user_id: self.user_id)
+                            .where('date < ? and date > ?', self.date, self.date - 8.week)
+                            .by_date.limit(8)
     end
-    week
   end
 
   def lapa_unset?
@@ -43,4 +52,14 @@ class Week < ActiveRecord::Base
     self
   end
 
+  private
+
+    def copy_lapa_from_previous_week
+      if previous_week = Week.where(user: user, date: self.date - 1.week).take
+        sector_weeks = SectorWeek.where(week: previous_week)
+        sector_weeks.each do |sw|
+          SectorWeek.create_with(lapa: sw.lapa).find_or_create_by(sector_id: sw.sector_id, week: self)
+        end
+      end
+    end
 end

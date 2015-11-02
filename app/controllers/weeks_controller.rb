@@ -2,60 +2,53 @@ class WeeksController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    init_current_week
+
   end
 
   # GET /weeks/1
   # GET /weeks/1.json
   def show
-    week = Week.find_by_id(url_id)
-    init_current_week(week)
+    @week = Week.get_week current_user, params_date
+    @weeks = Week.none.push(@week) + @week.previous_weeks
+    debug
+    @sectors = Sector.where(user: current_user)
+    @subsectors = Subsector.subsectors_by_sectors(current_user)
+    @activities = Activity.activities_by_subsectors(current_user, @current_week)
+    @sector_weeks = SectorWeek.sector_weeks_by_sectors(@sectors, @weeks)
+    @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
     respond_to do |format|
-      format.html { render 'index' }
-      locals = { week: @current_week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
-      format.json { render partial: 'week', locals: locals, status: :ok }
+      format.html { render @week }
+      format.json { render partial: 'week', locals: @json_locals, status: :ok }
     end
   end
 
   def init_current_week(week = nil)
-    if week
-      @current_week = week
-    else
-      @current_week = Week.last_week(current_user)
-    end
-    @current_week.recount_progress.save
-    make_prev_week(@current_week)
-    @after_weeks = Week.where(user: current_user).where('date >= ?', @current_week.date).by_rev_date.limit(5).reverse
-    after_weeks_count = @after_weeks.length
-    @before_weeks = Week.where(user: current_user).where('date < ?', @current_week.date).by_date.limit(10 - after_weeks_count)
-    @weeks = @after_weeks + @before_weeks
-    @next_week = @after_weeks[after_weeks_count - 2] if after_weeks_count >= 2
-    @prev_week = @before_weeks[0]
-    @sectors = Sector.all
-    @subsectors = Subsector.subsectors_by_sectors(current_user)
-    @activities = Activity.activities_by_subsectors(current_user, @current_week)
 
-    #find sums of lapas and progresses by last 4 weeks
-    #starting from last week
-    lapa_sum = Sector.hash
-    progress_sum = Sector.hash
-    (0..@weeks.length-1).reverse_each do |i|
-      Sector.keys.each do |s|
-        lapa_sum[s] += @weeks[i].lapa[s]
-        progress_sum[s] += @weeks[i].progress[s]
-        if i+4 < @weeks.length #if not out of range
-          lapa_sum[s] -= @weeks[i+4].lapa[s]
-          progress_sum[s] -= @weeks[i+4].progress[s]
-        end
-      end
-      @weeks[i].lapa_sum = lapa_sum.clone
-      @weeks[i].progress_sum = progress_sum.clone
-      #hmm
-      if @weeks[i].id == @current_week.id
-        @current_week = @weeks[i]
-      end
-    end
+    #@current_week.recount_progress.save
+
+    # find sums of lapas and progresses by last 4 weeks
+    # starting from last week
+    # lapa_sum = {}
+    # progress_sum = {}
+    # (0..@weeks.length-1).reverse_each do |i|
+    #   @sectors.each do |sector|
+    #     lapa_sum[sector.id] ||= 0
+    #     progress_sum[sector.id] ||= 0
+    #     lapa_sum[sector.id] += @sector_weeks[sector.id][@weeks[i].id][:lapa]
+    #     progress_sum[sector.id] += @sector_weeks[sector.id][@weeks[i].id][:progress]
+    #     if i+4 < @weeks.length #if not out of range
+    #       lapa_sum[sector.id] -= @sector_weeks[sector.id][@weeks[i+4].id][:lapa]
+    #       progress_sum[sector.id] -= @sector_weeks[sector.id][@weeks[i+4].id][:progress]
+    #     end
+    #   end
+    #   @weeks[i].lapa_sum = lapa_sum.clone
+    #   @weeks[i].progress_sum = progress_sum.clone
+    #   #hmm
+    #   if @weeks[i].id == @current_week.id
+    #     @current_week = @weeks[i]
+    #   end
+    # end
     #debug
   end
 
@@ -83,11 +76,12 @@ class WeeksController < ApplicationController
     params[:id].to_i
   end
 
-  def make_prev_week(current_week)
-    prew_week_date = (current_week.date - 1.week).at_beginning_of_week
-    prev_week = Week.where(user: current_user, date: prew_week_date).first_or_create do |pw|
-      pw.lapa = current_week.lapa
-      pw.progress = Sector.hash
+  def params_date
+    begin
+      params[:date].to_s.to_date.at_beginning_of_week
+    rescue
+      notice = 'unexpected date parameter, open current week' if params[:date]
+      Date.today.at_beginning_of_week
     end
   end
 
