@@ -7,7 +7,8 @@ class Week < ActiveRecord::Base
   has_many :fragments, dependent: :destroy
 
   validates :user, presence: true
-  validates_uniqueness_of :date, scope: :user_id
+  validates :date, uniqueness: {scope: :user_id}
+  validate date_in_past_or_present
 
   after_create :copy_lapa_from_previous_week
 
@@ -66,7 +67,7 @@ class Week < ActiveRecord::Base
   end
 
   def to_param
-    date.to_s
+    date.strftime '%d-%m-%Y'
   end
 
   private
@@ -79,6 +80,12 @@ class Week < ActiveRecord::Base
             SectorWeek.create(sector_id: sw.sector_id, week: self, lapa: sw.lapa)
           end
         end
+      end
+    end
+
+    def date_in_past_or_present
+      if date > Date.current.beginning_of_week
+        errors.add(:date, "can't be in the future week")
       end
     end
 end

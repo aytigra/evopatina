@@ -8,9 +8,9 @@ module WeeksHelper
     (0..6).each do |i|
       date = week.date + i.days
       status = case
-      when date == Date.today
+      when date == Date.current
         'primary'
-      when date < Date.today
+      when date < Date.current
         'info'
       else
         'success'

@@ -14,6 +14,9 @@ class WeeksController < ApplicationController
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @week)
     @sector_weeks = SectorWeek.sector_weeks_by_sectors(@sectors, @weeks)
+
+    @prev_week_path = week_path(@weeks[1])
+    @next_week_path = week_path(Week.new(date: @week.date + 1.week)) if @week.date < Date.current.beginning_of_week
     @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
     respond_to do |format|
@@ -76,12 +79,19 @@ class WeeksController < ApplicationController
   end
 
   def params_date
-    begin
-      params[:date].to_s.to_date.beginning_of_week
-    rescue
-      notice = 'unexpected date parameter, open current week' if params[:date]
-      Date.today.beginning_of_week
+    if !params[:date] || params[:date] == '0'
+      date = nil
+    elsif /(\d{2}-\d{2}-\d{4})/.match(params[:date])
+      date = Date.strptime(params[:date], '%d-%m-%Y').beginning_of_week
+      if date > Date.current.end_of_week
+        flash.notice = 'I can not control future, showing current week'
+        date = nil
+      end
+    else
+      flash.notice = 'Invalid date parameter, showing current week'
+      date = nil
     end
+    date ||= Date.current.beginning_of_week
   end
 
 end

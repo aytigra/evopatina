@@ -2,12 +2,12 @@ div id="main-container" class="container-fluid"
   /! week header
   div class='row' id="week-header"
     div class='text-center bg-success'
-      = link_to week_path(date: @week.date - 1.week), id: "prev-week-link" do
+      = link_to @prev_week_path, id: "prev-week-link" do
         button class='btn btn-small pull-left'
           span class="glyphicon glyphicon-arrow-left" aria-hidden="true"
 
-      - if @week.date < Date.today.beginning_of_week
-        = link_to week_path(date: @week.date + 1.week), id: "next-week-link" do
+      - if @next_week_path
+        = link_to @next_week_path, id: "next-week-link" do
           button class='btn btn-small pull-right'
             span class="glyphicon glyphicon-arrow-right" aria-hidden="true"
 
