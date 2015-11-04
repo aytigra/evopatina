@@ -10,10 +10,9 @@ class WeeksController < ApplicationController
   def show
     @week = Week.get_week current_user, params_date
     @weeks = [@week] + @week.previous_weeks
-    @sectors = Sector.where(user: current_user)
+    @sectors = Sector.sectors_with_weeks(current_user, @weeks)
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @week)
-    @sector_weeks = SectorWeek.sector_weeks_by_sectors(@sectors, @weeks)
 
     @prev_week_path = week_path(@weeks[1])
     @next_week_path = week_path(Week.new(date: @week.date + 1.week)) if @week.date < Date.current.beginning_of_week
@@ -23,35 +22,6 @@ class WeeksController < ApplicationController
       format.html { render 'show' }
       format.json { render partial: 'week', locals: @json_locals, status: :ok }
     end
-  end
-
-  def init_current_week(week = nil)
-
-    #@current_week.recount_progress.save
-
-    # find sums of lapas and progresses by last 4 weeks
-    # starting from last week
-    # lapa_sum = {}
-    # progress_sum = {}
-    # (0..@weeks.length-1).reverse_each do |i|
-    #   @sectors.each do |sector|
-    #     lapa_sum[sector.id] ||= 0
-    #     progress_sum[sector.id] ||= 0
-    #     lapa_sum[sector.id] += @sector_weeks[sector.id][@weeks[i].id][:lapa]
-    #     progress_sum[sector.id] += @sector_weeks[sector.id][@weeks[i].id][:progress]
-    #     if i+4 < @weeks.length #if not out of range
-    #       lapa_sum[sector.id] -= @sector_weeks[sector.id][@weeks[i+4].id][:lapa]
-    #       progress_sum[sector.id] -= @sector_weeks[sector.id][@weeks[i+4].id][:progress]
-    #     end
-    #   end
-    #   @weeks[i].lapa_sum = lapa_sum.clone
-    #   @weeks[i].progress_sum = progress_sum.clone
-    #   #hmm
-    #   if @weeks[i].id == @current_week.id
-    #     @current_week = @weeks[i]
-    #   end
-    # end
-    #debug
   end
 
   def update

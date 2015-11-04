@@ -8,7 +8,7 @@ class Week < ActiveRecord::Base
 
   validates :user, presence: true
   validates :date, uniqueness: {scope: :user_id}
-  validate date_in_past_or_present
+  validate :date_in_past_or_present
 
   after_create :copy_lapa_from_previous_week
 

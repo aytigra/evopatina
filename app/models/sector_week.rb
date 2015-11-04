@@ -15,4 +15,12 @@ class SectorWeek < ActiveRecord::Base
     result
   end
 
+  def progress
+    self[:progress] ||= 0.0
+  end
+
+  def lapa
+    self[:lapa] ||= 0.0
+  end
+
 end
