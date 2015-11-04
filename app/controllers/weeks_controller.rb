@@ -9,11 +9,10 @@ class WeeksController < ApplicationController
   # GET /weeks/1.json
   def show
     @week = Week.get_week current_user, params_date
-    @weeks = Week.none.push(@week) + @week.previous_weeks
-    debug
+    @weeks = [@week] + @week.previous_weeks
     @sectors = Sector.where(user: current_user)
     @subsectors = Subsector.subsectors_by_sectors(current_user)
-    @activities = Activity.activities_by_subsectors(current_user, @current_week)
+    @activities = Activity.activities_by_subsectors(current_user, @week)
     @sector_weeks = SectorWeek.sector_weeks_by_sectors(@sectors, @weeks)
     @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
