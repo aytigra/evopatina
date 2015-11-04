@@ -17,7 +17,7 @@ class WeeksController < ApplicationController
     @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
     respond_to do |format|
-      format.html { render @week }
+      format.html { render 'show' }
       format.json { render partial: 'week', locals: @json_locals, status: :ok }
     end
   end

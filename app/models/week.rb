@@ -65,6 +65,10 @@ class Week < ActiveRecord::Base
     self
   end
 
+  def to_param
+    date.to_s
+  end
+
   private
 
     def copy_lapa_from_previous_week

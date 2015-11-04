@@ -1,13 +1,13 @@
-json.extract! week, :id, :date, :progress, :lapa
+json.extract! week, :id, :date
 
 json.set! :sectors do
   sectors.each do |sector|
     json.set! sector.id do
       json.extract! sector, :id, :name, :description, :icon
-      json.lapa week.lapa[sector.id]
-      json.progress week.progress[sector.id]
-      json.lapa_sum week.lapa_sum[sector.id]
-      json.progress_sum week.progress_sum[sector.id]
+      #json.lapa week.lapa[sector.id]
+      #json.progress week.progress[sector.id]
+      #json.lapa_sum week.lapa_sum[sector.id]
+      #json.progress_sum week.progress_sum[sector.id]
 
       json.set! :subsectors do
         subsectors[sector.id] ||= {}

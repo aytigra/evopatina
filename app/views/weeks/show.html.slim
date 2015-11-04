@@ -1,0 +1,20 @@
+div id="main-container" class="container-fluid"
+  /! week header
+  div class='row' id="week-header"
+    div class='text-center bg-success'
+      = link_to @weeks[1], id: "prev-week-link" do
+        button class='btn btn-small pull-left'
+          span class="glyphicon glyphicon-arrow-left" aria-hidden="true"
+
+      - if @week.date < Date.today.at_beginning_of_week
+        = link_to @week, id: "next-week-link" do
+          button class='btn btn-small pull-right'
+            span class="glyphicon glyphicon-arrow-right" aria-hidden="true"
+
+      span id='week-dates' = week_begin_end_text(@week)
+
+  div class='row' id="week-content"
+    javascript:
+      window.INIT_JSON = {
+        current_week: #{raw(render('/weeks/week.json', @json_locals))},
+      };
