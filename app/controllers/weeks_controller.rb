@@ -77,10 +77,10 @@ class WeeksController < ApplicationController
 
   def params_date
     begin
-      params[:date].to_s.to_date.at_beginning_of_week
+      params[:date].to_s.to_date.beginning_of_week
     rescue
       notice = 'unexpected date parameter, open current week' if params[:date]
-      Date.today.at_beginning_of_week
+      Date.today.beginning_of_week
     end
   end
 

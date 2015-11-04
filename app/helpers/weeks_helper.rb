@@ -3,6 +3,23 @@ module WeeksHelper
     I18n.l(week.date, format: :short) + ' - ' + I18n.l(week.date.end_of_week, format: :short)
   end
 
+  def week_days(week)
+    result = []
+    (0..6).each do |i|
+      date = week.date + i.days
+      status = case
+      when date == Date.today
+        'primary'
+      when date < Date.today
+        'info'
+      else
+        'success'
+      end
+      result << {date: date.day, name: I18n.l(date, format: '%a'), status: status}
+    end
+    result
+  end
+
   def week_ratio_text(week, sector_id)
     number_to_human(week.progress[sector_id]) + '/' + number_to_human(week.lapa[sector_id])
   end
