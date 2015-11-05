@@ -18,10 +18,9 @@ class Activity < ActiveRecord::Base
               .where(sectors: {user_id: user.id})
               .select('activities.*, subsectors.sector_id as sector_id, fragments.count as count')
 
-    result = {}
+    result = Hash.new { |h,k| h[k] = {} }
 
     raw.each do |activity|
-      result[activity.subsector_id] ||= {}
       result[activity.subsector_id][activity.id] = activity
     end
 

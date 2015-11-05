@@ -7,9 +7,8 @@ class SectorWeek < ActiveRecord::Base
   def self.sector_weeks_by_sectors(sectors, weeks)
     raw = self.where(sector_id: sectors, week_id: weeks)
 
-    result = {}
+    result = Hash.new { |h, k| h[k] = Hash.new { |hh, kk| hh[kk] = {} } }
     raw.each do |sw|
-      result[sw.sector_id] ||= {}
       result[sw.sector_id][sw.week_id] = {lapa: sw.lapa, progress: sw.progress}
     end
     result
