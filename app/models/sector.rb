@@ -18,17 +18,15 @@ class Sector < ActiveRecord::Base
 
     sectors.each do |sector|
       sector.weeks = Hash.new { |h,k| h[k] = {} }
-      #fill sector.weeks
-      #find sums of lapas and progresses by last 4 weeks for each week
-      #starting from last week
       lapa_sum = 0.0
       progress_sum = 0.0
-      (0..weeks.length-1).reverse_each do |i|
-        week_id = weeks[i].id
 
+      (0..weeks.length-1).reverse_each do |i| #starting from the last week
+        week_id = weeks[i].id
+        #fill sector.weeks
         sector.weeks[week_id][:lapa] = sector_weeks[sector.id][week_id][:lapa] || 0.0
         sector.weeks[week_id][:progress] = sector_weeks[sector.id][week_id][:progress] || 0.0
-
+        #find sums of lapas and progresses by last 4 weeks for each week
         lapa_sum += sector.weeks[week_id][:lapa]
         progress_sum += sector.weeks[week_id][:progress]
 
