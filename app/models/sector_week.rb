@@ -14,12 +14,9 @@ class SectorWeek < ActiveRecord::Base
     result
   end
 
-  def progress
-    self[:progress] ||= 0.0
-  end
-
-  def lapa
-    self[:lapa] ||= 0.0
+  def self.recount_progress(sector, week)
+    progress = Fragment.joins(activity: :subsector).where(week: week, subsectors: {sector_id: sector.id}).sum(:count)
+    SectorWeek.find_or_initialize_by(sector: sector, week: week).update(progress: progress)
   end
 
 end
