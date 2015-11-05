@@ -5,8 +5,8 @@ class WeeksController < ApplicationController
 
   end
 
-  # GET /weeks/1
-  # GET /weeks/1.json
+  # GET /weeks/01-01-2015
+  # GET /weeks/01-01-2015.json
   def show
     @week = Week.get_week current_user, params_date
     @weeks = [@week] + @week.previous_weeks
@@ -17,23 +17,21 @@ class WeeksController < ApplicationController
     @prev_week_path = week_path(@weeks[1])
     @next_week_path = week_path(Week.new(date: @week.date + 1.week)) if @week.date < Date.current.beginning_of_week
     @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
-
+    #debug
     respond_to do |format|
       format.html { render 'show' }
       format.json { render partial: 'week', locals: @json_locals, status: :ok }
     end
   end
 
+  # PATCH /weeks/1.json
   def update
-    week = Week.find_by_id(url_id)
-    week.lapa = Sector.hash lapa_params if week
-    respond_to do |format|
-      if week && week.save
-        format.html { redirect_to :back }
-      else
-        format.html { redirect_to root_path, notice: 'wrong lapa'}
-      end
+    week = Week.find params[:id]
+    lapa_params.each do |sector_id, lapa|
+      SectorWeek.find_or_initialize_by(sector_id: sector_id, week: week).update(lapa: lapa)
     end
+
+    format.json { render json: {}, status: :ok }
   end
 
   private
@@ -42,10 +40,6 @@ class WeeksController < ApplicationController
     lapa_params = {}
     params[:week][:lapa].each { |k,v| lapa_params[k.to_i] = v.to_f}
     lapa_params
-  end
-
-  def url_id
-    params[:id].to_i
   end
 
   def params_date

@@ -1,5 +1,4 @@
 class Week < ActiveRecord::Base
-  attr_accessor :lapa_sum, :progress_sum
   attr_reader :previous_weeks
 
   belongs_to :user
@@ -48,23 +47,6 @@ class Week < ActiveRecord::Base
     @previous_weeks
   end
 
-  def lapa_unset?
-    lapa.any? { |s, l|  l == 0 }
-  end
-
-  def ratio(sector_id)
-    if lapa[sector_id] > 0 && progress[sector_id] > 0
-      ((progress[sector_id] / lapa[sector_id]) * 100).to_i
-    else
-      0
-    end
-  end
-
-  def recount_progress
-    res = Sector.hash(Fragment.joins(activity: :subsector).where(week_id: id).group(:sector_id).sum(:count))
-    self.progress = res
-    self
-  end
 
   def to_param
     date.strftime '%d-%m-%Y'
