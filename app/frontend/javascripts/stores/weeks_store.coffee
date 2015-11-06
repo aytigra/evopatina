@@ -9,6 +9,7 @@ WeeksStore = Marty.createStore
   getInitialState: ->
     weeks: {}
     current_week: {sectors: {}}
+    current_sector: null
 
   setInitialState: (week, ok) ->
     if ok && not _.isEmpty(week)
@@ -137,6 +138,11 @@ WeeksStore = Marty.createStore
 
   getCurrentWeek: ->
     @state.current_week
+
+  getCurrentSector: ->
+    if @state.current_sector == null && sectors = @getSectors()
+      @state.current_sector = sectors[Object.keys(sectors)[0]]
+    @state.current_sector
 
   getSectors: ->
     @state.current_week.sectors

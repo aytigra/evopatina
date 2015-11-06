@@ -1,20 +1,28 @@
 WeeksStore = require '../stores/weeks_store'
 
 Sector = require './sector'
+SectorContent = require './sector_content'
 
 WeekContent = React.createClass
   displayName: 'WeekContent'
 
   render: ->
     sectors = []
-    for id, sector of @props.sectors
-      sectors.push(<Sector key={id} sector={sector}/>)
-      #prevent wrapping
-      if id%3 is 0 or id%2 is 0
-        size = if id%3 is 0 then "md" else "sm"
-        sectors.push(<div key={"clearfix-#{id}"} className="clearfix visible-#{size}-block"></div>)
+    if current_sector = WeeksStore.getCurrentSector()
+      for id, sector of @props.sectors
+        sectors.push(<Sector key={id} sector={sector}/>)
+      sector_content = <SectorContent  key={current_sector.id} sector={current_sector} />
+    else
+      content_error = <div className='error'>something wrong with data, try to reload page</div>
 
-    <div>{sectors}</div>
+    <div>
+      <div className='sector-list col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+        {sectors}
+      </div>
+      {sector_content}
+      {content_error}
+    </div>
+
 
 module.exports = Marty.createContainer WeekContent,
   listenTo: [WeeksStore]
