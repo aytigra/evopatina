@@ -7,7 +7,6 @@ class FragmentsController < ApplicationController
     fragment = Fragment.find_or_create(@activity, @week)
     fragment.count = params[:count].to_f
     if fragment.save
-      SectorWeek.recount_progress(@activity.subsector.sector, @week)
       render json: response_json, status: :ok
     else
       response_json[:errors] = @activity.errors

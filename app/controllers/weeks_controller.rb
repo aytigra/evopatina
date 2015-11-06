@@ -10,6 +10,7 @@ class WeeksController < ApplicationController
   def show
     @week = Week.get_week current_user, params_date
     @weeks = [@week] + @week.previous_weeks
+    SectorWeek.recount_progress(@week)
     @sectors = Sector.sectors_with_weeks(current_user, @weeks)
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @week)
@@ -17,7 +18,7 @@ class WeeksController < ApplicationController
     @prev_week_path = week_path(@weeks[1])
     @next_week_path = week_path(Week.new(date: @week.date + 1.week)) if @week.date < Date.current.beginning_of_week
     @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
-    #debug
+
     respond_to do |format|
       format.html { render 'show' }
       format.json { render partial: 'week', locals: @json_locals, status: :ok }
