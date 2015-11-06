@@ -1,4 +1,4 @@
-json.extract! week, :id, :date
+json.extract! week, :id, :date, :route_path, :prev_path, :next_path, :begin_end_text, :days
 
 json.set! :sectors do
   sectors.each do |sector|

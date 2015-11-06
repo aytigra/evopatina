@@ -51,6 +51,6 @@ $(document).on "ready, page:change", ->
   WeeksStore.setInitialState(window.INIT_JSON.current_week, true)
 
   # root react component
-  React.render React.createElement(WeekContent, null), document.getElementById('week-content')
+  React.render React.createElement(WeekContent, null), document.getElementById('main-container')
 
   $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})

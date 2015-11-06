@@ -52,6 +52,39 @@ class Week < ActiveRecord::Base
     date.strftime '%d-%m-%Y'
   end
 
+  def route_path
+    "/#{self.model_name.route_key}/#{to_param}"
+  end
+
+  def prev_path
+    Week.new(date: date - 1.week).route_path
+  end
+
+  def next_path
+    Week.new(date: date + 1.week).route_path if date < Date.current.beginning_of_week
+  end
+
+  def begin_end_text
+    I18n.l(date, format: :short) + ' - ' + I18n.l(date.end_of_week, format: :short)
+  end
+
+  def days
+    result = []
+    (0..6).each do |i|
+      ddate = date + i.days
+      status = case
+      when ddate == Date.current
+        'primary'
+      when ddate < Date.current
+        'info'
+      else
+        'success'
+      end
+      result << {date: ddate.day, name: I18n.l(ddate, format: '%a'), status: status}
+    end
+    result
+  end
+
   private
 
     def copy_lapa_from_previous_week

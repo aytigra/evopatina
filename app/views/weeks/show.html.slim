@@ -1,22 +1,6 @@
 div id="main-container" class="container-fluid"
-  /! week header
-  div class='row' id="week-header"
-    div class='text-center bg-success'
-      = link_to @prev_week_path, id: "prev-week-link" do
-        button class='btn btn-small pull-left'
-          span class="glyphicon glyphicon-arrow-left" aria-hidden="true"
 
-      - if @next_week_path
-        = link_to @next_week_path, id: "next-week-link" do
-          button class='btn btn-small pull-right'
-            span class="glyphicon glyphicon-arrow-right" aria-hidden="true"
-
-      span id='week-dates' = week_begin_end_text(@week)
-      - week_days(@week).each do |day|
-        span class="label label-#{day[:status]}" = day[:name]
-
-  div class='row' id="week-content"
-    javascript:
-      window.INIT_JSON = {
-        current_week: #{raw(render('/weeks/week.json', @json_locals))},
-      };
+  javascript:
+    window.INIT_JSON = {
+      current_week: #{raw(render('/weeks/week.json', @json_locals))},
+    };

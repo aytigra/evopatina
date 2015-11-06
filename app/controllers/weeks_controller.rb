@@ -15,8 +15,6 @@ class WeeksController < ApplicationController
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @week)
 
-    @prev_week_path = week_path(@weeks[1])
-    @next_week_path = week_path(Week.new(date: @week.date + 1.week)) if @week.date < Date.current.beginning_of_week
     @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
     respond_to do |format|
