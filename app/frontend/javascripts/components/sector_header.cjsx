@@ -8,7 +8,7 @@ SectorHeader = React.createClass
     sector = @props.sector
     status = EPutils.sector_status_icon(sector.weeks[WeeksStore.getCurrentWeek().id])
 
-    <div className="row sector-header">
+    <div className="sector-header">
       <div className="sector-icon pull-left">
         <span className={sector.icon + ""} aria-hidden="true"></span>
       </div>
