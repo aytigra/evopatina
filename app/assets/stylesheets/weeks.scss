@@ -36,6 +36,10 @@
   z-index: 1;
 }
 
+.navbar-default {
+  margin-bottom: 0;
+}
+
 #week-header{
   height: 34px;
 }
@@ -51,8 +55,35 @@
   }
 }
 
+.sector-list {
+
+}
+  .sector {
+    margin-top: 14px;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 5px;
+  }
+    .sector-header {
+      margin-top: 5px;
+      line-height: 18px;
+      .sector-icon, .sector-status {
+        margin-right: 5px;
+      }
+      .sector-name {
+        font-size: 20px;
+        font-weight: normal;
+      }
+    }
+    .sector-progress {
+      margin-top: 5px;
+      .progress {
+        margin-bottom: 0px;
+      }
+    }
+
+
 .sector-content {
-  padding-top: 20px;
   padding-bottom: 5px;
 
   div.row {
@@ -71,23 +102,11 @@
     }
   }
 
-  .sector-header {
-    margin-bottom: 5px;
-    line-height: 18px;
-    .sector-icon, .sector-status {
-      margin-right: 5px;
-    }
-    .sector-name {
-      font-size: 20px;
-      font-weight: normal;
-    }
-  }
-  .progress {
-    margin-bottom: 0px;
-  }
 }
 
-
+.sector-statistics {
+  margin-top: 14px;
+}
 
 .toolbar {
   position: relative;

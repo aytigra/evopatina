@@ -21,7 +21,7 @@ SectorContent = React.createClass
       subsector = @props.sector.subsectors[id]
       subsectors.push(<Subsector key={id} subsector={subsector}/>) if not subsector.hidden
 
-    <div className='sector-content col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+    <div className='sector-content col-lg-4 col-md-6 col-sm-7 col-xs-12'>
       <div>{subsectors}</div>
       <div className='row subsector-add'>
         <button onClick={@_onSubsectorCreate}  className="btn btn-sm bg-info">

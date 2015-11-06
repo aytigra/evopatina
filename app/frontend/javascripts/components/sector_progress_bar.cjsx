@@ -1,13 +1,12 @@
 EPutils = require '../ep_utils'
-WeeksStore = require '../stores/weeks_store'
 
 SectorProgressBar = React.createClass
   displayName: 'SectorProgressBar'
 
   render: ->
-    sector = @props.sector
-    progress = sector.weeks[WeeksStore.getCurrentWeek().id].progress
-    lapa = sector.weeks[WeeksStore.getCurrentWeek().id].lapa
+    data = @props.data
+    progress = @props.data.progress
+    lapa = @props.data.lapa
     ratio = if progress > 0 && lapa > 0 then (progress/lapa) * 100 else 0
     <div className='sector-progress'>
       <div className='progress'>

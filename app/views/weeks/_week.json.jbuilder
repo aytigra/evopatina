@@ -7,7 +7,7 @@ json.set! :sectors do
       json.set! :weeks do
         sector.weeks.each do |id, week|
           json.set! id do
-            json.extract! week, :lapa, :progress, :lapa_sum, :progress_sum
+            json.extract! week, :lapa, :progress, :lapa_sum, :progress_sum, :position
           end
         end
       end

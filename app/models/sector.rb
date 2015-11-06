@@ -38,6 +38,7 @@ class Sector < ActiveRecord::Base
 
         sector.weeks[week_id][:lapa_sum] = lapa_sum
         sector.weeks[week_id][:progress_sum] = progress_sum
+        sector.weeks[week_id][:position] = i
       end
     end
 
