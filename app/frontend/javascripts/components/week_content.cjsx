@@ -10,8 +10,9 @@ WeekContent = React.createClass
     sectors = []
     if current_sector = WeeksStore.getCurrentSector()
       for id, sector of @props.sectors
-        sectors.push(<Sector key={id} sector={sector}/>)
-      sector_content = <SectorContent  key={current_sector.id} sector={current_sector} />
+        current = sector.id == current_sector
+        sectors.push(<Sector key={id} sector={sector} current={current}/>)
+      sector_content = <SectorContent  key={current_sector} sector={@props.sectors[current_sector]} />
     else
       content_error = <div className='error'>something wrong with data, try to reload page</div>
 

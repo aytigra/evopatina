@@ -28,6 +28,7 @@ WeeksStore = Marty.createStore
   handlers:
     updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
     setInitialState: WeeksConstants.WEEK_GET_RESPONSE
+    setCurrentSector: WeeksConstants.WEEK_SELECT_SECTOR
 
   loadWeek: (id) ->
     WeeksAPI.get_week +id
@@ -141,8 +142,12 @@ WeeksStore = Marty.createStore
 
   getCurrentSector: ->
     if @state.current_sector == null && sectors = @getSectors()
-      @state.current_sector = sectors[Object.keys(sectors)[0]]
+      @state.current_sector = sectors[Object.keys(sectors)[0]].id
     @state.current_sector
+
+  setCurrentSector: (sector)->
+    @state.current_sector = sector.id
+    @hasChanged()
 
   getSectors: ->
     @state.current_week.sectors
