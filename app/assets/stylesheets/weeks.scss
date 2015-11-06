@@ -32,7 +32,11 @@
   text-align: left;
 }
 
-#week-header div{
+.z-index-top {
+  z-index: 1;
+}
+
+#week-header{
   height: 34px;
 }
 
