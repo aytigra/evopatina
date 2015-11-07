@@ -12,4 +12,7 @@ WeeksActionCreators = Marty.createActionCreators
   edit_lapa: (week)->
     @dispatch WeeksConstants.WEEK_EDIT_LAPA, week
 
+  update_lapa: (lapa)->
+    @dispatch WeeksConstants.WEEK_LAPA_UPDATE, lapa
+
 module.exports = WeeksActionCreators

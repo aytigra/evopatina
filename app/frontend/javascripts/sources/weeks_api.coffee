@@ -18,5 +18,15 @@ WeeksAPI = Marty.createStateSource
     .catch (error) ->
       alert error
 
+  update: (week_id, params) ->
+    url = Routes.week_path week_id, {format: 'json'}
+    @patch(
+      url: url
+      body: params
+    )
+    .then(@status)
+    .catch (error) ->
+      alert error
+
 
 module.exports = WeeksAPI

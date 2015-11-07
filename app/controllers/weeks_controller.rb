@@ -30,14 +30,14 @@ class WeeksController < ApplicationController
       SectorWeek.find_or_initialize_by(sector_id: sector_id, week: week).update(lapa: lapa)
     end
 
-    format.json { render json: {}, status: :ok }
+    render json: {}, status: :ok
   end
 
   private
 
   def lapa_params
     lapa_params = {}
-    params[:week][:lapa].each { |k,v| lapa_params[k.to_i] = v.to_f}
+    params[:lapa].each { |k,v| lapa_params[k.to_i] = v.to_f}
     lapa_params
   end
 

@@ -5,6 +5,7 @@ Immutable = require 'seamless-immutable'
 WeeksStore = Marty.createStore
   id: 'WeeksStore'
   displayName: 'WeeksStore'
+  edit_lapa_timer: null
 
   getInitialState: ->
     weeks: {}
@@ -26,7 +27,7 @@ WeeksStore = Marty.createStore
       alert('arrr! boat is sinking')
 
   handlers:
-    updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
+    update_lapa: WeeksConstants.WEEK_LAPA_UPDATE
     setInitialState: WeeksConstants.WEEK_GET_RESPONSE
     setCurrentSector: WeeksConstants.WEEK_SELECT_SECTOR
     edit_lapa: WeeksConstants.WEEK_EDIT_LAPA
@@ -140,10 +141,21 @@ WeeksStore = Marty.createStore
     )
     @hasChanged()
 
-  updateWeekLapa: (lapa) ->
-    @setState
-      current_week:
-        lapa: lapa
+  update_lapa: (lapa) ->
+    week_id = @state.current_week.id
+    sectors = {}
+    for sector_id, value of lapa
+      sectors[sector_id] =
+        weeks:
+          "#{week_id}":
+            lapa: value
+
+    @state.current_week = @state.current_week.merge({sectors: sectors}, {deep: true})
+    @hasChanged()
+
+    clearTimeout @edit_lapa_timer
+    callback = => WeeksAPI.update(week_id, {lapa: lapa})
+    @edit_lapa_timer = setTimeout(callback , 500)
 
   getCurrentLapa: (sector_id) ->
     @state.current_week.lapa[sector_id]

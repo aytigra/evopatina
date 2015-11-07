@@ -14,8 +14,12 @@ Sector = React.createClass
   _onSectorSelect: ->
     WeeksActionCreators.select_sector @props.sector
 
+  _onLapaChange: (e)->
+    WeeksActionCreators.update_lapa {"#{@props.sector.id}": e.target.value}
+
   render: ->
     current_class = if @props.current then 'bg-info' else ''
+    lapa = @props.sector.weeks[WeeksStore.getCurrentWeek().id].lapa
 
     progress_bar = <SectorProgressBar data={@props.sector.weeks[WeeksStore.getCurrentWeek().id]}/>
 
@@ -25,7 +29,7 @@ Sector = React.createClass
           <div className='progress-bar-elem'>
             {progress_bar}
           </div>
-          <input onChange={@_onLapaChange} value={@props.sector.weeks[WeeksStore.getCurrentWeek().id].lapa} />
+          <input onChange={@_onLapaChange} value={lapa} autoFocus={@props.current && @props.lapa_editing}/>
         </div>
 
     <div className="sector row #{current_class}" onClick={@_onSectorSelect}>
