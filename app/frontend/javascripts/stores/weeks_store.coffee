@@ -49,7 +49,7 @@ WeeksStore = Marty.createStore
       minus_count += activity.count
     current_week.sectors[sector_id].subsectors[subsector_id] = null
     delete current_week.sectors[sector_id].subsectors[subsector_id]
-    current_week.sectors[sector_id].progress -= minus_count
+    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
     @state.current_week = Immutable current_week
     @hasChanged()
 
@@ -71,7 +71,9 @@ WeeksStore = Marty.createStore
       data =
         sectors:
           "#{dest.sector_id}":
-            progress: current_week.sectors[dest.sector_id].progress + plus_count
+            weeks:
+              "#{@state.current_week.id}":
+                progress: current_week.sectors[dest.sector_id].weeks[current_week.id].progress + plus_count
             subsectors:
               "#{subsector_id}": new_subsector
       @state.current_week = @state.current_week.merge(data, {deep: true})
@@ -87,12 +89,14 @@ WeeksStore = Marty.createStore
     count_old = if activity_old then activity_old.count else 0
     if _.has(params, 'count')
       count_change = params.count - count_old
-    progress = @get_sector(sector_id).progress + count_change
+    progress = @get_sector(sector_id).weeks[@state.current_week.id].progress + count_change
 
     data =
       sectors:
         "#{sector_id}":
-          progress: progress
+          weeks:
+            "#{@state.current_week.id}":
+              progress: progress
           subsectors:
             "#{subsector_id}":
               activities:
@@ -107,7 +111,7 @@ WeeksStore = Marty.createStore
     minus_count = current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id].count
     current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id] = null
     delete current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
-    current_week.sectors[sector_id].progress -= minus_count
+    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
     @state.current_week = Immutable current_week
     @hasChanged()
 
