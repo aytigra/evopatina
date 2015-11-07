@@ -14,9 +14,21 @@ Sector = React.createClass
 
   render: ->
     current_class = if @props.current then 'bg-info' else ''
+
+    progress_bar = <SectorProgressBar data={@props.sector.weeks[WeeksStore.getCurrentWeek().id]}/>
+
+    if WeeksStore.getCurrentWeek().lapa_editing
+      progress_bar =
+        <div className='progress-bar-wrapper'>
+          <div className='progress-bar-elem'>
+            {progress_bar}
+          </div>
+          <input onChange={@_onLapaChange} value={@props.sector.weeks[WeeksStore.getCurrentWeek().id].lapa} />
+        </div>
+
     <div className="sector row #{current_class}" onClick={@_onSectorSelect}>
       <SectorHeader key="header-#{@props.sector.id}" sector={@props.sector}/>
-      <SectorProgressBar key="progress-#{@props.sector.id}" data={@props.sector.weeks[WeeksStore.getCurrentWeek().id]}/>
+      {progress_bar}
     </div>
 
 module.exports = Sector;

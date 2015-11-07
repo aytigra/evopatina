@@ -2,27 +2,25 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
-.list-row>div {
-  padding: 0 2px 0 2px;
+.z-index-top {
+  z-index: 1;
 }
 
-.list-head {
-  margin: 0 0 5px;
-  line-height: 1.2;
-}
-
-.list-progress {
-  margin: 0 0 10px;
-  height: 30px;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-#week-action-toggle {
-  ul li a {
-    padding: 2px 5px 2px 5px;
-    text-align: center;
+.toolbar {
+  position: relative;
+  .btn {
+    border: none;
+    background-color: inherit;
+  }
+  .btns-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .btns-right {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 
@@ -32,26 +30,22 @@
   text-align: left;
 }
 
-.z-index-top {
-  z-index: 1;
-}
-
 .navbar-default {
   margin-bottom: 0;
 }
 
 #week-header{
   height: 34px;
-}
 
-.lapa_form {
-  .form-group input {
-    width: 50px;
+  .week-navbar {
+    @extend .toolbar;
     display: inline-block;
-    margin-right: 10px;
-  }
-  .lapa-sector-name {
-    margin-left: 5px;
+    .week-info {
+      line-height: 1;
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+
   }
 }
 
@@ -82,6 +76,22 @@
       }
     }
 
+    .progress-bar-wrapper {
+      display: table;
+      position: relative;
+      .progress-bar-elem {
+        display: table-cell;
+        width: 100%;
+        vertical-align: middle;
+      }
+      input {
+        display: table-cell;
+        width: 40px;
+        height: 20px;
+        margin-top: 5px;
+      }
+    }
+
 
 .sector-content {
   padding-bottom: 5px;
@@ -106,24 +116,6 @@
 
 .sector-statistics {
   margin-top: 14px;
-}
-
-.toolbar {
-  position: relative;
-  button {
-    border: none;
-    background-color: inherit;
-  }
-  .btns-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .btns-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
 }
 
 .activity, .subsector {

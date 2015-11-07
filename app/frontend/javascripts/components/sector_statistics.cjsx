@@ -18,7 +18,7 @@ SectorStatistics = React.createClass
     weeks_ids.forEach (id) =>
       status = EPutils.sector_status_icon(@props.sector.weeks[id])
       weeks.push(
-        <div style={{display: 'table', position: 'relative'}}>
+        <div style={{display: 'table', position: 'relative'}} key="progress-#{id}">
           <span className="glyphicon glyphicon-#{status}"></span>
           <div style={{display: 'table-cell', width: '100%'}}>
             <SectorProgressBar key={id} data={@props.sector.weeks[id]}/>
