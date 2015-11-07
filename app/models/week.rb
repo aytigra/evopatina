@@ -88,7 +88,7 @@ class Week < ActiveRecord::Base
   private
 
     def copy_lapa_from_previous_week
-      if previous_week = self.class.where(user: user).where('date < ?', date).by_date.limit(1).take
+      if previous_week = self.class.where(user: user).where(date: date - 1.week).by_date.limit(1).take
         sector_weeks = SectorWeek.where(week: previous_week)
         ActiveRecord::Base.transaction do
           sector_weeks.each do |sw|
