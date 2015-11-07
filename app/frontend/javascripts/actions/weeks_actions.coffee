@@ -9,4 +9,7 @@ WeeksActionCreators = Marty.createActionCreators
   select_sector: (sector) ->
     @dispatch WeeksConstants.WEEK_SELECT_SECTOR, sector
 
+  edit_lapa: (week)->
+    @dispatch WeeksConstants.WEEK_EDIT_LAPA, week
+
 module.exports = WeeksActionCreators

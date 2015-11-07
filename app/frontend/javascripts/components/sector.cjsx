@@ -7,7 +7,9 @@ Sector = React.createClass
   displayName: 'Sector'
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.sector isnt @props.sector or newProps.current isnt @props.current
+    newProps.sector isnt @props.sector or
+    newProps.current isnt @props.current or
+    newProps.lapa_editing isnt @props.lapa_editing
 
   _onSectorSelect: ->
     WeeksActionCreators.select_sector @props.sector
@@ -17,7 +19,7 @@ Sector = React.createClass
 
     progress_bar = <SectorProgressBar data={@props.sector.weeks[WeeksStore.getCurrentWeek().id]}/>
 
-    if WeeksStore.getCurrentWeek().lapa_editing
+    if @props.lapa_editing
       progress_bar =
         <div className='progress-bar-wrapper'>
           <div className='progress-bar-elem'>

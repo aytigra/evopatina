@@ -8,7 +8,7 @@ WeeksStore = Marty.createStore
 
   getInitialState: ->
     weeks: {}
-    current_week: {sectors: {}}
+    current_week: {sectors: {}, lapa_editing: false}
     current_sector: null
 
   setInitialState: (week, ok) ->
@@ -29,6 +29,7 @@ WeeksStore = Marty.createStore
     updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
     setInitialState: WeeksConstants.WEEK_GET_RESPONSE
     setCurrentSector: WeeksConstants.WEEK_SELECT_SECTOR
+    edit_lapa: WeeksConstants.WEEK_EDIT_LAPA
 
   loadWeek: (id) ->
     WeeksAPI.get_week +id
@@ -132,6 +133,12 @@ WeeksStore = Marty.createStore
         position: @get_new_position(activities, activities[activity_id].position, to)
       @update_activity(sector_id, subsector_id, activity_id, params)
 
+
+  edit_lapa: (week)->
+    @state.current_week = @state.current_week.merge(
+      lapa_editing: !@state.current_week.lapa_editing
+    )
+    @hasChanged()
 
   updateWeekLapa: (lapa) ->
     @setState

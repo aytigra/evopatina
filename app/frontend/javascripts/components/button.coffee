@@ -8,6 +8,7 @@ Button = React.createClass
     id: null
     href: null
     type: null
+    title: null
     add_class: ''
     size: null
     color: null
@@ -23,6 +24,8 @@ Button = React.createClass
       id: @props.id
       href: @props.href
       type: @props.type
+      title: @props.title
+      onClick: @props.on_click
       className: "btn #{classname}"
       span
         className: "glyphicon glyphicon-#{@props.glyphicon}"

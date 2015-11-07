@@ -9,14 +9,15 @@ WeekContent = React.createClass
   displayName: 'WeekContent'
 
   render: ->
+    week = WeeksStore.getCurrentWeek()
     sectors = []
     current_sector = WeeksStore.getCurrentSector()
     for id, sector of @props.sectors
       current = sector.id == current_sector
-      sectors.push(<Sector key={id} sector={sector} current={current}/>)
+      sectors.push(<Sector key={id} sector={sector} current={current} lapa_editing={week.lapa_editing}/>)
 
     <div id='week-content' className='row'>
-      <WeekHeader week={WeeksStore.getCurrentWeek()} />
+      <WeekHeader week={week} />
       <div className='sector-list col-lg-4 col-md-3 col-sm-5 col-xs-12'>
         {sectors}
       </div>
