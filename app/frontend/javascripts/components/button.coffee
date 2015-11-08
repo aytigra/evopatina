@@ -5,19 +5,14 @@ Button = React.createClass
 
   getDefaultProps: ->
     tag: 'button'
-    id: null
-    href: null
-    type: null
-    title: null
     add_class: ''
-    size: null
-    color: null
-    glyphicon: ''
+    active: false
 
   render: ->
     classname = ''
     ['size', 'color'].forEach (opt)=>
       if @props[opt] then classname += "btn-#{@props[opt]} "
+    if @props.active then classname += 'active '
     classname += @props.add_class
 
     React.DOM[@props.tag]
@@ -27,8 +22,11 @@ Button = React.createClass
       title: @props.title
       onClick: @props.on_click
       className: "btn #{classname}"
-      span
-        className: "glyphicon glyphicon-#{@props.glyphicon}"
-        'aria-hidden': "true"
+      if @props.glyphicon
+        span
+          className: "glyphicon glyphicon-#{@props.glyphicon}"
+          'aria-hidden': "true"
+      else if @props.children
+        @props.children
 
 module.exports = Button
