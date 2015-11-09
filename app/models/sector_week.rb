@@ -18,7 +18,7 @@ class SectorWeek < ActiveRecord::Base
     sectors = Fragment.joins(activity: :subsector).where(week: week).group(:sector_id).sum(:count)
     ActiveRecord::Base.transaction do
       sectors.each do |sector, progress|
-        SectorWeek.find_or_initialize_by(sector: sector, week: week).update(progress: progress)
+        SectorWeek.find_or_initialize_by(sector_id: sector, week: week).update(progress: progress)
       end
     end
   end
