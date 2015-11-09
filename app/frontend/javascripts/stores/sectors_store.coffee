@@ -48,8 +48,12 @@ SectorsStore = Marty.createStore
       description: ''
       icon: ''
       subsectors: {}
-      weks:{}
+      weeks:
+        "#{WeeksStore.getCurrentWeek().id}":
+          lapa: 0
+          progress: 0
       editing: true
+      position: 9000000
     )
 
   edit: (sector) ->

@@ -48,6 +48,7 @@ WeeksStore = Marty.createStore
     current_week.sectors[sector_id] = null
     delete current_week.sectors[sector_id]
     @state.current_week = Immutable current_week
+    @state.current_sector = null
     @hasChanged()
 
   move_sector: (sector_id, to) ->

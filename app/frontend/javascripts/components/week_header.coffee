@@ -2,12 +2,16 @@
 Button = React.createFactory require('./button')
 Sticky = React.createFactory require('react-sticky')
 WeeksActionCreators = require '../actions/weeks_actions'
+SectorsActionCreators = require '../actions/sectors_actions'
 
 WeekHeader = React.createClass
   displayName: 'WeekHeader'
 
   _onEditLapa: ->
     WeeksActionCreators.edit_lapa @props.week
+
+  _onSectorCreate: ->
+    SectorsActionCreators.create null
 
   render: ->
     Sticky className: 'z-index-top',
@@ -16,6 +20,9 @@ WeekHeader = React.createClass
           tag: 'button', on_click: @_onEditLapa,
           active: @props.week.lapa_editing
           glyphicon: 'cog', title: 'edit lapa'
+        Button
+          tag: 'button', on_click: @_onSectorCreate
+          glyphicon: 'plus', title: 'add sector'
 
         div className: 'week-navbar pull-right',
           div className: 'btns-left',

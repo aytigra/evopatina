@@ -1,23 +1,33 @@
+{div, span} = React.DOM
+Button = React.createFactory require('./button')
 EPutils = require '../ep_utils'
 WeeksStore = require '../stores/weeks_store'
+SectorsActionCreators = require '../actions/sectors_actions'
 
 SectorHeader = React.createClass
   displayName: 'SectorHeader'
+
+  _onEdit: (e) ->
+    e.preventDefault()
+    SectorsActionCreators.edit @props.sector
 
   render: ->
     sector = @props.sector
     status = EPutils.sector_status_icon(sector.weeks[WeeksStore.getCurrentWeek().id])
 
-    <div className="sector-header">
-      <div className="sector-icon pull-left">
-        <span className={sector.icon + ""} aria-hidden="true"></span>
-      </div>
-      <div className="sector-status pull-left">
-        <span className={"glyphicon glyphicon-#{status}"} aria-hidden="true"></span>
-      </div>
-      <div className="sector-name">
-        <span>{sector.name}</span>
-      </div>
-    </div>
+    div className: "sector-header toolbar",
+      div className: "btns-left",
+        span className: "glyphicon glyphicon-#{sector.icon}", 'aria-hidden': "true"
+        span className: "glyphicon glyphicon-#{status}", 'aria-hidden': "true"
+
+      div className: "sector-name",
+        span {}, sector.name
+
+      div className: 'btns-right',
+        Button
+          on_click: @_onEdit
+          color: 'default', size: 'sm'
+          glyphicon: 'pencil', title: 'edit sector'
+
 
 module.exports = SectorHeader;

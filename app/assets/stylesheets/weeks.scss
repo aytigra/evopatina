@@ -61,10 +61,11 @@
     .sector-header {
       margin-top: 5px;
       line-height: 18px;
-      .sector-icon, .sector-status {
+      .btns-left span {
         margin-right: 5px;
       }
       .sector-name {
+        padding-left: 40px;
         font-size: 20px;
         font-weight: normal;
       }
@@ -129,6 +130,7 @@
       margin-bottom: 0px;
       padding-left: 4px;
       word-break: break-word;
+      width: 100%;
     }
   }
   .list-description {
@@ -166,7 +168,7 @@
   }
 }
 
-  .activity-form, .activity-count-form, .subsector-form {
+  .activity-form, .activity-count-form, .subsector-form, .sector-form {
     .list-form-head {
       @extend .toolbar;
       padding-left: 32px;
@@ -228,6 +230,17 @@
         }
       }
   }
+
+.sector-form {
+  margin-top: 5px;
+  .list-form-head {
+    input {
+      line-height: 18px;
+      font-size: 20px;
+      font-weight: normal;
+    }
+  }
+}
 
 .subsector-add {
   margin-top: 10px;
