@@ -35,6 +35,28 @@ WeeksStore = Marty.createStore
   loadWeek: (id) ->
     WeeksAPI.get_week +id
 
+
+  update_sector: (sector_id, params = {}) ->
+    data =
+      sectors:
+        "#{sector_id}": params
+    @state.current_week = @state.current_week.merge(data, {deep: true})
+    @hasChanged()
+
+  delete_sector: (sector_id) ->
+    current_week = @state.current_week.asMutable({deep: true})
+    current_week.sectors[sector_id] = null
+    delete current_week.sectors[sector_id]
+    @state.current_week = Immutable current_week
+    @hasChanged()
+
+  move_sector: (sector_id, to) ->
+    sectors = @getSectors()
+    params =
+      position: @get_new_position(sectors, sectors[sector_id].position, to)
+    @update_sector(sector_id, params)
+
+
   update_subsector: (sector_id, subsector_id, params = {}) ->
     data =
       sectors:
@@ -158,7 +180,7 @@ WeeksStore = Marty.createStore
     @edit_lapa_timer = setTimeout(callback , 500)
 
   getCurrentLapa: (sector_id) ->
-    @state.current_week.lapa[sector_id]
+    @state.current_week.sectors[sector_id].weeks[@state.current_week.id].lapa
 
   getCurrentWeek: ->
     @state.current_week
