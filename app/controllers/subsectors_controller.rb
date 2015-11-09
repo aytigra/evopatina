@@ -11,9 +11,11 @@ class SubsectorsController < ApplicationController
 
   # POST /subsectors.json
   def create
+    #TODO remove with user_id column
     data = subsector_params
     data[:user_id] = current_user.id
-    @subsector = Subsector.new(data)
+
+    @subsector = Subsector.new data
     render_response @subsector.save
   end
 
@@ -29,7 +31,6 @@ class SubsectorsController < ApplicationController
 
   # PUT /move_subsectors/1.json
   def move
-    status_ok = true
     case params[:to]
     when 'up'
       @subsector.row_order_position = :up
@@ -39,8 +40,7 @@ class SubsectorsController < ApplicationController
       @subsector.sector_id = params[:sector_id].to_i
       @subsector.row_order_position = :last
     end
-    status_ok = @subsector.save
-    render_response status_ok
+    render_response @subsector.save
   end
 
   private
