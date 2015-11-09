@@ -5,16 +5,17 @@ Sector = require './sector'
 SectorContent = require './sector_content'
 SectorStatistics = require './sector_statistics'
 
+EPutils = require '../ep_utils'
+
 WeekContent = React.createClass
   displayName: 'WeekContent'
 
   render: ->
     week = WeeksStore.getCurrentWeek()
-    sectors = []
     current_sector = WeeksStore.getCurrentSector()
-    for id, sector of @props.sectors
-      current = sector.id == current_sector
-      sectors.push(<Sector key={id} sector={sector} current={current} lapa_editing={week.lapa_editing}/>)
+
+    sectors = EPutils.map_by_position @props.sectors, (sector, id) ->
+      <Sector key={id} sector={sector} current={sector.id == current_sector} lapa_editing={week.lapa_editing}/>
 
     <div id='week-content' className='row'>
       <WeekHeader week={week} />

@@ -2,6 +2,7 @@ Activity = require './activity'
 ActivitiesActionCreators = require '../actions/activities_actions'
 SubsectorForm = require './subsector_form'
 SubsectorsActionCreators = require '../actions/subsectors_actions'
+EPutils = require '../ep_utils'
 
 Subsector = React.createClass
   displayName: 'Subsector'
@@ -29,17 +30,10 @@ Subsector = React.createClass
 
 
   render: ->
-    activities = []
     have_hidden = false
 
-    activities_ids = Object.keys(@props.subsector.activities)
-    activities_ids.sort( (a, b) =>
-     @props.subsector.activities[a].position - @props.subsector.activities[b].position
-    )
-
-    activities_ids.forEach (id) =>
-      activity = @props.subsector.activities[id]
-      activities.push(<Activity key={id} activity={activity}/>) if not activity.hidden
+    activities = EPutils.map_by_position @props.subsector.activities, (activity)=>
+      <Activity key={activity.id} activity={activity}/> if not activity.hidden
 
     if @props.subsector.editing
       subsector_elem = <SubsectorForm key={@props.subsector.id} subsector={@props.subsector}/>

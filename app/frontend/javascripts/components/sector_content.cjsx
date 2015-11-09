@@ -1,5 +1,6 @@
 Subsector = require './subsector'
 SubsectorsActionCreators = require '../actions/subsectors_actions'
+EPutils = require '../ep_utils'
 
 SectorContent = React.createClass
   displayName: 'SectorContent'
@@ -11,15 +12,8 @@ SectorContent = React.createClass
     SubsectorsActionCreators.create @props.sector
 
   render: ->
-    subsectors = []
-    subsectors_ids = Object.keys(@props.sector.subsectors)
-    subsectors_ids.sort( (a, b) =>
-     @props.sector.subsectors[a].position - @props.sector.subsectors[b].position
-    )
-
-    subsectors_ids.forEach (id) =>
-      subsector = @props.sector.subsectors[id]
-      subsectors.push(<Subsector key={id} subsector={subsector}/>) if not subsector.hidden
+    subsectors = EPutils.map_by_position @props.sector.subsectors, (subsector) ->
+      <Subsector key={subsector.id} subsector={subsector}/> if not subsector.hidden
 
     <div className='sector-content col-lg-4 col-md-6 col-sm-7 col-xs-12'>
       <div>{subsectors}</div>

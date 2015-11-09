@@ -31,4 +31,14 @@ class EPutils
       'arrow-down'
 
 
+  # hash = { id: { position: x } }
+  map_by_position: (hash, callback) ->
+    _.map(
+      Object.keys(hash).sort (a, b) ->
+        hash[a].position - hash[b].position
+      (key) ->
+        callback(hash[key], key)
+    )
+
+
 module.exports = new EPutils();
