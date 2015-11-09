@@ -187,7 +187,8 @@ WeeksStore = Marty.createStore
     @state.current_week
 
   getCurrentSector: ->
-    if @state.current_sector == null && sectors = @getSectors()
+    sectors = @getSectors()
+    if sectors && (!@state.current_sector || !sectors[@state.current_sector])
       @state.current_sector = sectors[Object.keys(sectors)[0]].id
     @state.current_sector
 
