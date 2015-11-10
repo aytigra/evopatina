@@ -1,4 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  after_action :create_default_sectors, only: :create
 # before_filter :configure_sign_up_params, only: [:create]
 # before_filter :configure_account_update_params, only: [:update]
 
@@ -59,5 +60,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
     confirm_path
+  end
+
+  def create_default_sectors
+    if @user.persisted?
+      require "#{Rails.root}/db/seed_helpers.rb"
+      create_default_sectors_for_user(@user)
+    end
   end
 end
