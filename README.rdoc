@@ -4,7 +4,7 @@ Lists of evolutionary activities, with counters and visualisation of weekly prog
 ==== Features
 * responsive layout, kind of.
 * reactive UI with optimistic updates
-* Internationalization support, hehre and there
+* Internationalization support, here and there
 * usage of RESTapi, React Flux architecture and immutable data
 
 
