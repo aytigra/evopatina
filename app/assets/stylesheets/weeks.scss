@@ -65,7 +65,7 @@
         margin-right: 5px;
       }
       .sector-name {
-        padding-left: 40px;
+        padding-left: 30px;
         font-size: 20px;
         font-weight: normal;
       }
@@ -77,19 +77,10 @@
       }
     }
 
-    .progress-bar-wrapper {
-      display: table;
-      position: relative;
-      .progress-bar-elem {
-        display: table-cell;
-        width: 100%;
-        vertical-align: middle;
-      }
+    .lapa-edit-form {
       input {
-        display: table-cell;
         width: 40px;
         height: 20px;
-        margin-top: 5px;
       }
     }
 

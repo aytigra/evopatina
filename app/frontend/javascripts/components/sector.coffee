@@ -1,4 +1,4 @@
-{div, input} = React.DOM
+{div} = React.DOM
 SectorHeader = React.createFactory require ('./sector_header')
 SectorProgressBar = React.createFactory require ('./sector_progress_bar')
 SectorForm = React.createFactory require ('./sector_form')
@@ -21,8 +21,6 @@ Sector = React.createClass
     WeeksActionCreators.update_lapa {"#{@props.sector.id}": e.target.value}
 
   render: ->
-    progress_bar = SectorProgressBar data: @props.sector.weeks[WeeksStore.getCurrentWeek().id]
-
     div
       className: "sector row " + if @props.current then 'bg-success' else ''
       onClick: @_onSectorSelect
@@ -35,15 +33,9 @@ Sector = React.createClass
         div className: "list-description",
           @props.sector.description
 
-      if @props.lapa_editing or @props.sector.editing
-        div className: 'progress-bar-wrapper',
-          div className: 'progress-bar-elem',
-            progress_bar
-          input
-            onChange: @_onLapaChange
-            value: @props.sector.weeks[WeeksStore.getCurrentWeek().id].lapa
-            autoFocus: @props.current && @props.lapa_editing
-      else
-        progress_bar
+      SectorProgressBar
+        data: @props.sector.weeks[WeeksStore.getCurrentWeek().id]
+        show_edit_lapa: @props.lapa_editing or @props.sector.editing
+        edit_lapa_callback: @_onLapaChange
 
 module.exports = Sector;

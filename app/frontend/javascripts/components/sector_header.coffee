@@ -18,7 +18,6 @@ SectorHeader = React.createClass
     div className: "sector-header toolbar",
       div className: "btns-left",
         span className: "glyphicon glyphicon-#{sector.icon}", 'aria-hidden': "true"
-        span className: "glyphicon glyphicon-#{status}", 'aria-hidden': "true"
 
       div className: "sector-name",
         span {}, sector.name
