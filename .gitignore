@@ -25,6 +25,7 @@ coverage
 .DS_Store
 .idea
 .secret
+/db/backups/*
 
 node_modules
 npm-debug.log
