@@ -10,12 +10,19 @@ Lists of evolutionary activities, with counters and visualisation of weekly prog
 
 ==== Status
 
-By now it is on MVP stage, you can see how it works here:
+By now it is on alpha stage, you can see how it works here:
 
 * site http://evopatina.herokuapp.com/
 * test login: test@mail.com
 * test pass: qwerqwer
 
 
-==== Installation
+==== TODO
+ * some cleaning of relations
+ * tests...
+ * I18nalize frontend
+ * timezones
+ * design...
+ * recreation of frontend with Redux, tests and dinamic layout
+
 
