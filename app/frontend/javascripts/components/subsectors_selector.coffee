@@ -31,13 +31,13 @@ SubsectorsSelector = React.createClass
         if sector.id is @props.entry.sector_id
             continue
         classname += ' selector-clickable'
-        onclick = @_choose.bind(@, {sector_id: id})
+        sector_onclick = @_choose.bind(@, {sector_id: id})
 
       children.push(
         div
           className: classname
           key: "sector-#{id}"
-          onClick: onclick
+          onClick: sector_onclick
           sector.name
       )
       if withsubs
@@ -56,19 +56,14 @@ SubsectorsSelector = React.createClass
     destination_type = if withsubs then 'subsector' else 'sector'
 
     React.createElement Modal, null,
-      div
-        className: 'modal-header'
+      div className: 'modal-header',
         h4 className: 'modal-title', "Select new #{destination_type} for '#{@props.entry.name}'"
-        div
-          className: 'modal-body modal-scrollable'
+        div className: 'modal-body modal-scrollable',
           children
-      div
-        className: 'modal-footer'
-        div
-          className: 'text-right'
+      div className: 'modal-footer',
+        div className: 'text-right',
           button
-            role: 'abort'
-            type: 'button'
+            type: 'button', role: 'abort'
             className: 'btn btn-default'
             onClick: @_abort
             'Cancel'
