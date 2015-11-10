@@ -2,9 +2,9 @@
 Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal weekly program.
 
 ==== Features
-* responsive layout.
+* responsive layout, kind of.
 * reactive UI with optimistic updates
-* Internationalization support
+* Internationalization support, hehre and there
 * usage of RESTapi, React Flux architecture and immutable data
 
 
@@ -23,6 +23,6 @@ By now it is on alpha stage, you can see how it works here:
  * I18nalize frontend
  * timezones
  * design...
- * recreation of frontend with Redux, tests and dinamic layout
+ * recreation of frontend with Redux, tests and dynamic layout
 
 
