@@ -17,8 +17,8 @@ class CreateSectors < ActiveRecord::Migration
     create_table :sector_weeks do |t|
       t.belongs_to :sector, index: true, null: false
       t.belongs_to :week, index: true, null: false
-      t.float :lapa
-      t.float :progress
+      t.float :lapa, default: 0.0
+      t.float :progress, default: 0.0
 
       t.timestamps null: false
     end
@@ -28,6 +28,6 @@ class CreateSectors < ActiveRecord::Migration
   end
 
   def down
-    drop_table :sectors
+    ActiveRecord::IrreversibleMigration
   end
 end

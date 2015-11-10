@@ -1,6 +1,9 @@
 class Week < ActiveRecord::Base
   attr_reader :previous_weeks
 
+  store :progress
+  store :lapa
+
   belongs_to :user
   has_many :sector_weeks, dependent: :destroy
   has_many :fragments, dependent: :destroy

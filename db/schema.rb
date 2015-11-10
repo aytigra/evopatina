@@ -39,12 +39,12 @@ ActiveRecord::Schema.define(version: 20151027082815) do
   add_index "fragments", ["week_id"], name: "index_fragments_on_week_id", using: :btree
 
   create_table "sector_weeks", force: :cascade do |t|
-    t.integer  "sector_id",  null: false
-    t.integer  "week_id",    null: false
-    t.float    "lapa"
-    t.float    "progress"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "sector_id",                null: false
+    t.integer  "week_id",                  null: false
+    t.float    "lapa",       default: 0.0
+    t.float    "progress",   default: 0.0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   add_index "sector_weeks", ["sector_id"], name: "index_sector_weeks_on_sector_id", using: :btree
