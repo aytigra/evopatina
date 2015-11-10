@@ -21,6 +21,10 @@ SubsectorsSelector = React.createClass
   _choose: (to) ->
     @promise.resolve(to)
 
+  _onKeyDown: (e) ->
+    if e.keyCode is 27
+      @_abort()
+
   render: ->
     children = []
     withsubs = @props.type is 'activity'
@@ -66,6 +70,8 @@ SubsectorsSelector = React.createClass
             type: 'button', role: 'abort'
             className: 'btn btn-default'
             onClick: @_abort
+            autoFocus: true
+            onKeyDown: @_onKeyDown
             'Cancel'
 
 module.exports = SubsectorsSelector
