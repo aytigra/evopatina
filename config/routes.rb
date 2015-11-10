@@ -5,9 +5,11 @@ Rails.application.routes.draw do
   resources :subsectors
   put 'move_subsector/:id', to: 'subsectors#move', as: 'move_subsector'
 
+  resources :sectors
+  put 'move_sector/:id', to: 'sectors#move', as: 'move_sector'
+
   root 'weeks#show'
-  get 'weeks/index'
-  get 'weeks/:id', to: 'weeks#show', as: 'week'
+  get 'weeks/:date', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
 
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'

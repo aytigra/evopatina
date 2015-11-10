@@ -5,10 +5,12 @@ Immutable = require 'seamless-immutable'
 WeeksStore = Marty.createStore
   id: 'WeeksStore'
   displayName: 'WeeksStore'
+  edit_lapa_timer: null
 
   getInitialState: ->
     weeks: {}
-    current_week: {sectors: {}}
+    current_week: {sectors: {}, lapa_editing: false}
+    current_sector: null
 
   setInitialState: (week, ok) ->
     if ok && not _.isEmpty(week)
@@ -25,11 +27,36 @@ WeeksStore = Marty.createStore
       alert('arrr! boat is sinking')
 
   handlers:
-    updateWeekLapa: WeeksConstants.WEEK_LAPA_UPDATE
+    update_lapa: WeeksConstants.WEEK_LAPA_UPDATE
     setInitialState: WeeksConstants.WEEK_GET_RESPONSE
+    setCurrentSector: WeeksConstants.WEEK_SELECT_SECTOR
+    edit_lapa: WeeksConstants.WEEK_EDIT_LAPA
 
   loadWeek: (id) ->
     WeeksAPI.get_week +id
+
+
+  update_sector: (sector_id, params = {}) ->
+    data =
+      sectors:
+        "#{sector_id}": params
+    @state.current_week = @state.current_week.merge(data, {deep: true})
+    @hasChanged()
+
+  delete_sector: (sector_id) ->
+    current_week = @state.current_week.asMutable({deep: true})
+    current_week.sectors[sector_id] = null
+    delete current_week.sectors[sector_id]
+    @state.current_week = Immutable current_week
+    @state.current_sector = null
+    @hasChanged()
+
+  move_sector: (sector_id, to) ->
+    sectors = @getSectors()
+    params =
+      position: @get_new_position(sectors, sectors[sector_id].position, to)
+    @update_sector(sector_id, params)
+
 
   update_subsector: (sector_id, subsector_id, params = {}) ->
     data =
@@ -47,7 +74,7 @@ WeeksStore = Marty.createStore
       minus_count += activity.count
     current_week.sectors[sector_id].subsectors[subsector_id] = null
     delete current_week.sectors[sector_id].subsectors[subsector_id]
-    current_week.sectors[sector_id].progress -= minus_count
+    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
     @state.current_week = Immutable current_week
     @hasChanged()
 
@@ -69,7 +96,9 @@ WeeksStore = Marty.createStore
       data =
         sectors:
           "#{dest.sector_id}":
-            progress: current_week.sectors[dest.sector_id].progress + plus_count
+            weeks:
+              "#{@state.current_week.id}":
+                progress: current_week.sectors[dest.sector_id].weeks[current_week.id].progress + plus_count
             subsectors:
               "#{subsector_id}": new_subsector
       @state.current_week = @state.current_week.merge(data, {deep: true})
@@ -85,12 +114,14 @@ WeeksStore = Marty.createStore
     count_old = if activity_old then activity_old.count else 0
     if _.has(params, 'count')
       count_change = params.count - count_old
-    progress = @get_sector(sector_id).progress + count_change
+    progress = @get_sector(sector_id).weeks[@state.current_week.id].progress + count_change
 
     data =
       sectors:
         "#{sector_id}":
-          progress: progress
+          weeks:
+            "#{@state.current_week.id}":
+              progress: progress
           subsectors:
             "#{subsector_id}":
               activities:
@@ -105,7 +136,7 @@ WeeksStore = Marty.createStore
     minus_count = current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id].count
     current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id] = null
     delete current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
-    current_week.sectors[sector_id].progress -= minus_count
+    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
     @state.current_week = Immutable current_week
     @hasChanged()
 
@@ -127,16 +158,43 @@ WeeksStore = Marty.createStore
       @update_activity(sector_id, subsector_id, activity_id, params)
 
 
-  updateWeekLapa: (lapa) ->
-    @setState
-      current_week:
-        lapa: lapa
+  edit_lapa: (week)->
+    @state.current_week = @state.current_week.merge(
+      lapa_editing: !@state.current_week.lapa_editing
+    )
+    @hasChanged()
+
+  update_lapa: (lapa) ->
+    week_id = @state.current_week.id
+    sectors = {}
+    for sector_id, value of lapa
+      sectors[sector_id] =
+        weeks:
+          "#{week_id}":
+            lapa: value
+
+    @state.current_week = @state.current_week.merge({sectors: sectors}, {deep: true})
+    @hasChanged()
+
+    clearTimeout @edit_lapa_timer
+    callback = => WeeksAPI.update(week_id, {lapa: lapa})
+    @edit_lapa_timer = setTimeout(callback , 500)
 
   getCurrentLapa: (sector_id) ->
-    @state.current_week.lapa[sector_id]
+    @state.current_week.sectors[sector_id].weeks[@state.current_week.id].lapa
 
   getCurrentWeek: ->
     @state.current_week
+
+  getCurrentSector: ->
+    sectors = @getSectors()
+    if sectors && (!@state.current_sector || !sectors[@state.current_sector])
+      @state.current_sector = sectors[Object.keys(sectors)[0]].id
+    @state.current_sector
+
+  setCurrentSector: (sector)->
+    @state.current_sector = sector.id
+    @hasChanged()
 
   getSectors: ->
     @state.current_week.sectors

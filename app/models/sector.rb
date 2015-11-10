@@ -1,55 +1,57 @@
-class Sector
-  @@all = []
+class Sector < ActiveRecord::Base
+  attr_accessor :weeks
 
-  KEYS = [1,2,3,4,5,6]
+  belongs_to :user
+  has_many :subsectors, dependent: :destroy
+  has_many :sector_weeks, dependent: :destroy
 
-  GLYPHONS = {
-    1 => 'compressed',
-    2 => 'education',
-    3 => 'fire',
-    4 => 'usd',
-    5 => 'comment',
-    6 => 'plane'
-  }
+  include RankedModel
+  ranks :row_order,
+    :column => :position,
+    :with_same => :user_id
 
-  def initialize (id)
-    @id = id
-  end
+  validates :user, :name, presence: true
 
-  def self.keys
-    self::KEYS
-  end
+  def self.sectors_with_weeks(user, weeks)
+    sectors = self.where(user: user)
+    sector_weeks = SectorWeek.sector_weeks_by_sectors(sectors, weeks)
 
-  def self.all
-    return @@all if @@all.size == 6
+    sectors.each do |sector|
+      sector.weeks = Hash.new { |h,k| h[k] = {} }
+      lapa_sum = 0.0
+      progress_sum = 0.0
 
-    self.keys.each do |id|
-      @@all << self.new(id)
+      (0..weeks.length-1).reverse_each do |i| #starting from the last week
+        week_id = weeks[i].id
+        #fill sector.weeks
+        sector.weeks[week_id][:lapa] = sector_weeks[sector.id][week_id][:lapa] || 0.0
+        sector.weeks[week_id][:progress] = sector_weeks[sector.id][week_id][:progress] || 0.0
+        #find sums of lapas and progresses by last 4 weeks for each week
+        lapa_sum += sector.weeks[week_id][:lapa]
+        progress_sum += sector.weeks[week_id][:progress]
+
+        if i+4 < weeks.length #if not out of weeks range
+          week_out_id = weeks[i+4].id
+          lapa_sum -= sector.weeks[week_out_id][:lapa]
+          progress_sum -= sector.weeks[week_out_id][:progress]
+        end
+
+        sector.weeks[week_id][:lapa_sum] = lapa_sum
+        sector.weeks[week_id][:progress_sum] = progress_sum
+        sector.weeks[week_id][:position] = i
+      end
     end
-    @@all
+
+    sectors
   end
+
 
   def self.hash(values = {})
     res = {}
-    self.keys.each do |i|
+    values.each do |i|
       res[i] = values[i] || 0
     end
     res
   end
 
-  def id
-    @id
-  end
-
-  def name
-    I18n.translate("sector.id_#{@id}.name")
-  end
-
-  def description
-    I18n.translate("sector.id_#{@id}.description")
-  end
-
-  def icon
-    "glyphicon glyphicon-#{GLYPHONS[id]}"
-  end
 end

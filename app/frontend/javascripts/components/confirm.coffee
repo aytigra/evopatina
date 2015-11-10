@@ -13,6 +13,10 @@ Confirm = React.createClass
   abort: ->
     @promise.reject()
 
+  _onKeyDown: (e) ->
+    if e.keyCode is 27
+      @abort()
+
   confirm: ->
     @promise.resolve()
 
@@ -46,6 +50,8 @@ Confirm = React.createClass
             className: 'btn btn-primary'
             ref: 'confirm'
             onClick: @confirm
+            autoFocus: true
+            onKeyDown: @_onKeyDown
             @props.confirmLabel
 
 module.exports = Confirm

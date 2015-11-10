@@ -1,20 +1,31 @@
 WeeksStore = require '../stores/weeks_store'
 
+WeekHeader = require './week_header'
 Sector = require './sector'
+SectorContent = require './sector_content'
+SectorStatistics = require './sector_statistics'
+
+EPutils = require '../ep_utils'
 
 WeekContent = React.createClass
   displayName: 'WeekContent'
 
   render: ->
-    sectors = []
-    for id, sector of @props.sectors
-      sectors.push(<Sector key={id} sector={sector}/>)
-      #prevent wrapping
-      if id%3 is 0 or id%2 is 0
-        size = if id%3 is 0 then "md" else "sm"
-        sectors.push(<div key={"clearfix-#{id}"} className="clearfix visible-#{size}-block"></div>)
+    week = WeeksStore.getCurrentWeek()
+    current_sector = WeeksStore.getCurrentSector()
 
-    <div>{sectors}</div>
+    sectors = EPutils.map_by_position @props.sectors, (sector, id) ->
+      <Sector key={id} sector={sector} current={sector.id == current_sector} lapa_editing={week.lapa_editing}/>
+
+    <div id='week-content' className='row'>
+      <WeekHeader week={week} />
+      <div className='sector-list col-lg-4 col-md-3 col-sm-5 col-xs-12'>
+        {sectors}
+      </div>
+      <SectorContent  key='content' sector={@props.sectors[current_sector]} />
+      <SectorStatistics  key='statistics' sector={@props.sectors[current_sector]} />
+    </div>
+
 
 module.exports = Marty.createContainer WeekContent,
   listenTo: [WeeksStore]

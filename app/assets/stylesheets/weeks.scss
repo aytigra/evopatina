@@ -2,27 +2,25 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
-.list-row>div {
-  padding: 0 2px 0 2px;
+.z-index-top {
+  z-index: 1;
 }
 
-.list-head {
-  margin: 0 0 5px;
-  line-height: 1.2;
-}
-
-.list-progress {
-  margin: 0 0 10px;
-  height: 30px;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-#week-action-toggle {
-  ul li a {
-    padding: 2px 5px 2px 5px;
-    text-align: center;
+.toolbar {
+  position: relative;
+  .btn {
+    border: none;
+    background-color: inherit;
+  }
+  .btns-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .btns-right {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 
@@ -32,19 +30,62 @@
   text-align: left;
 }
 
-.lapa_form {
-  .form-group input {
-    width: 50px;
+.navbar-default {
+  margin-bottom: 0;
+}
+
+#week-header{
+  height: 34px;
+
+  .week-navbar {
+    @extend .toolbar;
     display: inline-block;
-    margin-right: 10px;
-  }
-  .lapa-sector-name {
-    margin-left: 5px;
+    .week-info {
+      line-height: 1;
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+
   }
 }
 
+.sector-list {
+
+}
+  .sector {
+    margin-top: 14px;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 5px;
+  }
+    .sector-header {
+      margin-top: 5px;
+      line-height: 18px;
+      .btns-left span {
+        margin-right: 5px;
+      }
+      .sector-name {
+        padding-left: 30px;
+        font-size: 20px;
+        font-weight: normal;
+      }
+    }
+    .sector-progress {
+      margin-top: 5px;
+      .progress {
+        margin-bottom: 0px;
+      }
+    }
+
+    .lapa-edit-form {
+      input {
+        width: 40px;
+        height: 20px;
+      }
+    }
+
+
 .sector-content {
-  padding-top: 20px;
   padding-bottom: 5px;
 
   div.row {
@@ -63,40 +104,10 @@
     }
   }
 
-  .sector-header {
-    margin-bottom: 5px;
-    line-height: 18px;
-    .sector-icon, .sector-status {
-      margin-right: 5px;
-    }
-    .sector-name {
-      font-size: 20px;
-      font-weight: normal;
-    }
-  }
-  .progress {
-    margin-bottom: 0px;
-  }
 }
 
-
-
-.toolbar {
-  position: relative;
-  button {
-    border: none;
-    background-color: inherit;
-  }
-  .btns-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .btns-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+.sector-statistics {
+  margin-top: 14px;
 }
 
 .activity, .subsector {
@@ -110,6 +121,7 @@
       margin-bottom: 0px;
       padding-left: 4px;
       word-break: break-word;
+      width: 100%;
     }
   }
   .list-description {
@@ -147,7 +159,7 @@
   }
 }
 
-  .activity-form, .activity-count-form, .subsector-form {
+  .activity-form, .activity-count-form, .subsector-form, .sector-form {
     .list-form-head {
       @extend .toolbar;
       padding-left: 32px;
@@ -209,6 +221,17 @@
         }
       }
   }
+
+.sector-form {
+  margin-top: 5px;
+  .list-form-head {
+    input {
+      line-height: 18px;
+      font-size: 20px;
+      font-weight: normal;
+    }
+  }
+}
 
 .subsector-add {
   margin-top: 10px;
