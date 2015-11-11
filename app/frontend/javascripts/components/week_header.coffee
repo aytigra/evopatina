@@ -57,6 +57,7 @@ WeekHeader = React.createClass
 
         div
           className: "col-lg-4 col-md-6 col-sm-7 #{week_width}"
+          style: {marginRight: '-10px', paddingLeft: '12px'}
           div className: "week-navbar #{week_nav_class}",
             div className: 'btns-left',
               Button
@@ -71,7 +72,8 @@ WeekHeader = React.createClass
                   span
                     key: day['date']
                     className: "label label-#{day['status']}"
-                    day['name']
+                    span className: 'hidden-xs',
+                      day['name']
 
             div className: 'btns-right',
               if @props.week.next_path
