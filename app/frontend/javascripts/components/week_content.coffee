@@ -30,7 +30,8 @@ WeekContent = React.createClass
 
       SectorContent
         sector: @props.sectors[current_sector]
-        show: !( WeeksStore.get_settings().show_sectors || WeeksStore.get_settings().show_stats )
+        shown_sectors: WeeksStore.get_settings().show_sectors
+        shown_stats: WeeksStore.get_settings().show_stats
 
       SectorStatistics
         sector: @props.sectors[current_sector]

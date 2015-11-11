@@ -12,7 +12,7 @@ SectorStatistics = React.createClass
 
   render: ->
     class_name = "sector-statistics col-lg-4 col-md-3 "
-    class_name += if @props.show then 'col-xs-11' else 'hidden-sm hidden-xs'
+    class_name += if @props.show then 'col-sm-7 col-xs-11' else 'hidden-sm hidden-xs'
     div className: class_name,
       div null,
         'progress history for "' + @props.sector.name + '"'

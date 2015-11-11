@@ -25,7 +25,7 @@ WeekHeader = React.createClass
       sectors_width = ' col-xs-11'
       week_width = ' col-xs-1'
       sector_buttons_class = ''
-      week_nav_class = 'hidden'
+      week_nav_class = 'hidden-xs'
     else
       sectors_width = ' col-xs-1'
       week_width = ' col-xs-11'
