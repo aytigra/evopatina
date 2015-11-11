@@ -18,7 +18,7 @@ SectorContent = React.createClass
   render: ->
     class_name = 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11 '
     if @props.shown_stats
-      class_name += ' hidden-sm'
+      class_name += ' hidden-sm hidden-xs'
     if @props.shown_sectors
       class_name += ' hidden-xs'
 
