@@ -55,9 +55,14 @@
   .sector {
     margin-top: 14px;
     margin-left: -10px;
-    margin-right: -10px;
+    margin-right: -15px;
     margin-bottom: 5px;
+    border: solid white 2px;
+    padding: 2px;
   }
+    .current-sector {
+      border-color: #BDBDBD;
+    }
     .sector-header {
       margin-top: 5px;
       line-height: 18px;

@@ -6,10 +6,14 @@ SectorStatistics = React.createClass
   displayName: 'SectorStatistics'
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.sector isnt @props.sector or newProps.current isnt @props.current
+    newProps.sector isnt @props.sector or
+    newProps.current isnt @props.current or
+    newProps.show isnt @props.show
 
   render: ->
-    div className: "sector-statistics col-lg-4 col-md-3 col-sm-3 col-xs-12",
+    class_name = "sector-statistics col-lg-4 col-md-3 "
+    class_name += if @props.show then 'col-xs-11' else 'hidden-sm hidden-xs'
+    div className: class_name,
       div null,
         'progress history for "' + @props.sector.name + '"'
 

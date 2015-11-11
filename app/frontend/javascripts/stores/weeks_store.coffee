@@ -11,6 +11,8 @@ WeeksStore = Marty.createStore
     weeks: {}
     current_week: {sectors: {}, lapa_editing: false}
     current_sector: null
+    show_sectors: false
+    show_stats: false
 
   setInitialState: (week, ok) ->
     if ok && not _.isEmpty(week)
@@ -31,6 +33,8 @@ WeeksStore = Marty.createStore
     setInitialState: WeeksConstants.WEEK_GET_RESPONSE
     setCurrentSector: WeeksConstants.WEEK_SELECT_SECTOR
     edit_lapa: WeeksConstants.WEEK_EDIT_LAPA
+    show_sectors: WeeksConstants.WEEK_SHOW_SECTORS
+    show_stats: WeeksConstants.WEEK_SHOW_STATS
 
   loadWeek: (id) ->
     WeeksAPI.get_week +id
@@ -195,6 +199,27 @@ WeeksStore = Marty.createStore
   setCurrentSector: (sector)->
     @state.current_sector = sector.id
     @hasChanged()
+
+  show_sectors: ->
+    if @state.show_sectors
+      @state.show_sectors = false
+    else
+      @state.show_sectors = true
+      @state.show_stats = false
+    @hasChanged()
+
+
+  show_stats: ->
+    if @state.show_stats
+      @state.show_stats = false
+    else
+      @state.show_stats = true
+      @state.show_sectors = false
+    @hasChanged()
+
+  get_settings: ->
+    show_sectors: @state.show_sectors
+    show_stats: @state.show_stats
 
   getSectors: ->
     @state.current_week.sectors

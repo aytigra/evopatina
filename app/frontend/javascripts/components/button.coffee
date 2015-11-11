@@ -26,7 +26,8 @@ Button = React.createClass
         span
           className: "glyphicon glyphicon-#{@props.glyphicon}"
           'aria-hidden': "true"
-      else if @props.children
-        @props.children
+      if @props.children
+        span style: {marginLeft: '5px'},
+          @props.children
 
 module.exports = Button
