@@ -14,13 +14,24 @@ WeekContent = React.createClass
   render: ->
     week = WeeksStore.getCurrentWeek()
     current_sector = WeeksStore.getCurrentSector()
-    xs_sectors_width = if WeeksStore.get_settings().show_sectors then 'col-xs-12' else 'col-xs-1'
+
+    sectors_class = ' col-xs-1'
+    sector_content_class = ''
+    stats_class = ' hidden-sm hidden-xs'
+
+    if WeeksStore.get_settings().show_sectors
+      sectors_class = ' col-xs-12'
+      sector_content_class = ' hidden-xs'
+
+    if WeeksStore.get_settings().show_stats
+      sector_content_class = ' hidden-sm hidden-xs'
+      stats_class = ' col-sm-7 col-xs-11'
 
     div id: 'week-content', className: 'row',
       WeekHeader week: week
 
       div
-        className: 'sector-list col-lg-4 col-md-3 col-sm-5 ' + xs_sectors_width
+        className: 'sector-list col-lg-4 col-md-3 col-sm-5' + sectors_class
         EPutils.map_by_position @props.sectors, (sector, id) ->
           Sector
             key: id, sector: sector
@@ -28,14 +39,15 @@ WeekContent = React.createClass
             lapa_editing: week.lapa_editing
             full: WeeksStore.get_settings().show_sectors
 
-      SectorContent
-        sector: @props.sectors[current_sector]
-        shown_sectors: WeeksStore.get_settings().show_sectors
-        shown_stats: WeeksStore.get_settings().show_stats
+      div
+        className: 'col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
+        SectorContent sector: @props.sectors[current_sector]
 
-      SectorStatistics
-        sector: @props.sectors[current_sector]
-        show: WeeksStore.get_settings().show_stats
+      div
+        className: 'col-lg-4 col-md-3' + stats_class
+        SectorStatistics
+          sector: @props.sectors[current_sector]
+          show: WeeksStore.get_settings().show_stats
 
 
 
@@ -44,12 +56,3 @@ module.exports = Marty.createContainer WeekContent,
   fetch:
     sectors: ->
       WeeksStore.getSectors()
-
-  pending: ->
-    <div className="warning">
-      <h4>loading...</h4>
-    </div>
-  failed: (errors)->
-    <div className="warning">
-      <h4>Error</h4>
-    </div>

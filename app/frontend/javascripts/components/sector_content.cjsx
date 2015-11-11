@@ -8,22 +8,14 @@ SectorContent = React.createClass
   displayName: 'SectorContent'
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.sector isnt @props.sector or
-    newProps.shown_sectors isnt @props.shown_sectors or
-    newProps.shown_stats isnt @props.shown_stats
+    newProps.sector isnt @props.sector
 
   _onSubsectorCreate: ->
     SubsectorsActionCreators.create @props.sector
 
   render: ->
-    class_name = 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11 '
-    if @props.shown_stats
-      class_name += ' hidden-sm hidden-xs'
-    if @props.shown_sectors
-      class_name += ' hidden-xs'
-
     div
-      className: class_name
+      className: 'sector-content'
       EPutils.map_by_position @props.sector.subsectors, (subsector) ->
         if not subsector.hidden
           Subsector key: subsector.id, subsector: subsector,
