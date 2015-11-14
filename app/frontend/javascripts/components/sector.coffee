@@ -16,7 +16,7 @@ Sector = React.createClass
     newProps.full isnt @props.full
 
   _onSectorSelect: ->
-    WeeksActionCreators.select_sector @props.sector
+    WeeksActionCreators.select_sector @props.sector if @props.sector.id != WeeksStore.getCurrentSector()
 
   _onLapaChange: (e)->
     WeeksActionCreators.update_lapa {"#{@props.sector.id}": e.target.value}
@@ -24,6 +24,7 @@ Sector = React.createClass
   render: ->
     div
       className: "sector row " + if @props.current then 'current-sector' else ''
+      style: {backgroundColor: @props.sector.color}
       onClick: @_onSectorSelect
 
       div
@@ -40,7 +41,7 @@ Sector = React.createClass
 
       div
         className: if @props.full then 'hidden' else 'visible-xs-block'
-        style: {padding: '3px'},
+        style: {padding: '3px'}
         span className: "glyphicon glyphicon-#{@props.sector.icon}", 'aria-hidden': "true"
 
 

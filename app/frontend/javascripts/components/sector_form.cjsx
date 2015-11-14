@@ -1,5 +1,6 @@
 SectorsActionCreators = require '../actions/sectors_actions'
 ItemErrorsBlock = require './item_errors_block'
+ColorSelector = require './color_selector'
 
 SectorForm = React.createClass
   displayName: 'SectorForm'
@@ -41,6 +42,20 @@ SectorForm = React.createClass
   _onMove: (to) ->
     SectorsActionCreators.move @props.sector, to
 
+  _onColorSelect: ->
+    color_sector_input = React.findDOMNode(this.refs.color_sector_input)
+    if color_sector_input.value != '!'
+      color_sector_input.click()
+    else
+      react_modal ColorSelector, { color: @props.sector.color }
+        .then (color) =>
+          SectorsActionCreators.update @props.sector,
+            color: color
+
+  _onNativeColorSelect: (e) ->
+    SectorsActionCreators.update @props.sector,
+      color: e.target.value
+
   componentDidMount: ->
     #move cursor to the end of the text
     input = React.findDOMNode(this.refs.sector_input)
@@ -78,6 +93,13 @@ SectorForm = React.createClass
       </div>
       <div className='list-form-body'>
         <div className='btns-left'>
+          <button onClick={@_onColorSelect} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+            <input type='color' onChange=@_onNativeColorSelect value='!'
+              style={{opacity: '0', width: '100%'}}
+              ref='color_sector_input'/>
+          </button>
+
           <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
           </button>

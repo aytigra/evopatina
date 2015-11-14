@@ -47,6 +47,7 @@ SectorsStore = Marty.createStore
       name: ''
       description: ''
       icon: ''
+      color: ''
       subsectors: {}
       weeks:
         "#{WeeksStore.getCurrentWeek().id}":
