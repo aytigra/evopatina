@@ -8,7 +8,7 @@ class WeeksController < ApplicationController
   # GET /weeks/01-01-2015
   # GET /weeks/01-01-2015.json
   def show
-    @week = Week.get_week current_user, params_date
+    @week = Week.get_week params_date
     @weeks = [@week] + @week.previous_weeks
     SectorWeek.recount_progress(@week)
     @sectors = Sector.sectors_with_weeks(current_user, @weeks)

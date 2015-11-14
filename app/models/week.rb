@@ -1,12 +1,7 @@
 class Week < ActiveRecord::Base
   attr_reader :previous_weeks
 
-  belongs_to :user
-  has_many :sector_weeks, dependent: :destroy
-  has_many :fragments, dependent: :destroy
-
-  validates :user, presence: true
-  validates :date, uniqueness: {scope: :user_id}
+  validates :date, uniqueness: true
   validate :date_in_past_or_present
 
   after_create :copy_lapa_from_previous_week
@@ -18,8 +13,8 @@ class Week < ActiveRecord::Base
     self[:date] = date.beginning_of_week
   end
 
-  def self.get_week(user, date)
-    self.find_or_create_by(user: user, date: date)
+  def self.get_week(date)
+    self.find_or_create_by(date: date)
   end
 
   def previous_weeks
@@ -27,8 +22,7 @@ class Week < ActiveRecord::Base
       @previous_weeks
     end
 
-    @previous_weeks = self.class.where(user_id: user_id)
-                          .where('date < ? and date >= ?', date, date - 7.week)
+    @previous_weeks = self.class.where('date < ? and date >= ?', date, date - 7.week)
                           .by_date.limit(7).to_a
 
     #should create missing weeks and add them to returned array
@@ -37,7 +31,7 @@ class Week < ActiveRecord::Base
       previous_dates = @previous_weeks.map(&:date)
       (1..7).each do |i|
         if !previous_dates.include?(date - i.week)
-          rebuilt_previous_weeks << self.class.create(user: user, date: date - i.week)
+          rebuilt_previous_weeks << self.class.create(date: date - i.week)
         else
           rebuilt_previous_weeks << @previous_weeks.shift
         end
@@ -88,7 +82,7 @@ class Week < ActiveRecord::Base
   private
 
     def copy_lapa_from_previous_week
-      if previous_week = self.class.where(user: user).where(date: date - 1.week).by_date.limit(1).take
+      if previous_week = self.class.where(date: date - 1.week).by_date.limit(1).take
         sector_weeks = SectorWeek.where(week: previous_week)
         ActiveRecord::Base.transaction do
           sector_weeks.each do |sw|
