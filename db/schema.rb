@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027082815) do
+ActiveRecord::Schema.define(version: 20151114071923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 20151027082815) do
   add_index "sectors", ["user_id"], name: "index_sectors_on_user_id", using: :btree
 
   create_table "subsectors", force: :cascade do |t|
-    t.integer  "user_id",     null: false
     t.integer  "sector_id",   null: false
     t.string   "name"
     t.text     "description"
@@ -73,7 +72,6 @@ ActiveRecord::Schema.define(version: 20151027082815) do
   end
 
   add_index "subsectors", ["sector_id"], name: "index_subsectors_on_sector_id", using: :btree
-  add_index "subsectors", ["user_id"], name: "index_subsectors_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -99,8 +97,6 @@ ActiveRecord::Schema.define(version: 20151027082815) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "weeks", force: :cascade do |t|
-    t.text     "lapa"
-    t.text     "progress"
     t.date     "date"
     t.integer  "user_id",    null: false
     t.datetime "created_at", null: false
@@ -112,5 +108,4 @@ ActiveRecord::Schema.define(version: 20151027082815) do
 
   add_foreign_key "activities", "subsectors"
   add_foreign_key "sectors", "users"
-  add_foreign_key "subsectors", "users"
 end

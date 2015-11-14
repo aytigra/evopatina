@@ -11,11 +11,7 @@ class SubsectorsController < ApplicationController
 
   # POST /subsectors.json
   def create
-    #TODO remove with user_id column
-    data = subsector_params
-    data[:user_id] = current_user.id
-
-    @subsector = Subsector.new data
+    @subsector = Subsector.new subsector_params
     render_response @subsector.save
   end
 
