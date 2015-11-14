@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114071923) do
+ActiveRecord::Schema.define(version: 20151114074920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,5 +107,6 @@ ActiveRecord::Schema.define(version: 20151114071923) do
   add_index "weeks", ["user_id"], name: "index_weeks_on_user_id", using: :btree
 
   add_foreign_key "activities", "subsectors"
+  add_foreign_key "subsectors", "sectors"
   add_foreign_key "sectors", "users"
 end
