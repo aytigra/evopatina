@@ -23,8 +23,26 @@ class CreateSectors < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    users_with_weeks = User.joins(:weeks).group(:id)
-    populate_users_with_default_sectors(users_with_weeks)
+    User.joins(:weeks).group(:id).each do |user|
+      weeks = Week.where(user_id: user.id)
+      create_default_sectors_for_user(user).each do |old_id, sector|
+        #relate subsectors to new sectors
+        Subsector.where(user_id: user.id, sector_id: old_id).update_all(sector_id: sector.id)
+
+        #fill new sector weeks relation with data from week hashes(lapa, progress)
+        ActiveRecord::Base.transaction do
+          weeks.each do |week|
+            SectorWeek.new do |sw|
+              sw.sector    = sector
+              sw.week      = week
+              sw.lapa      = week.lapa[old_id] || 0.0
+              sw.progress  = week.progress[old_id] || 0.0
+              sw.save
+            end
+          end
+        end
+      end
+    end
   end
 
   def down
