@@ -57,6 +57,7 @@ ActivitiesStore = Marty.createStore
       count: 0
       hidden: false
       sector_id: subsector.sector_id
+      position: 9000000
     )
     @hasChanged()
 
