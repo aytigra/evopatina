@@ -1,11 +1,11 @@
 def create_default_sectors_for_user(user)
   default_sectors = {
-    1 => 'compressed',
-    2 => 'education',
-    3 => 'fire',
-    4 => 'usd',
-    5 => 'comment',
-    6 => 'plane'
+    1 => '💪',
+    2 => '🎓',
+    3 => '😊',
+    4 => '💰',
+    5 => '💬',
+    6 => '✈'
   }
 
   I18n.locale = user.locale if user.locale

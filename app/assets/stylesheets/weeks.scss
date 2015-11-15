@@ -54,13 +54,31 @@
   padding-right: 12px;
 }
   .sector {
-    margin-top: 14px;
+    margin-top: 5px;
     margin-left: -10px;
     margin-right: -15px;
-    margin-bottom: 5px;
+    padding-top: 5px;
     border: solid white 2px;
     padding: 2px;
+    position: relative;
+    min-height: 55px;
   }
+    .sector-icon {
+      position: absolute;
+      left: 0;
+      top: 10px;
+      max-width: 55px;
+      padding-left: 2px;
+      div {
+        display: inline-block;
+        font-size: 22px;
+        width: 22px;
+        overflow: hidden;
+      }
+    }
+    .sector-full {
+      padding-left: 30px;
+    }
     .current-sector {
       border-color: #BDBDBD;
     }
@@ -71,7 +89,6 @@
         margin-right: 5px;
       }
       .sector-name {
-        padding-left: 30px;
         font-size: 20px;
         font-weight: normal;
       }

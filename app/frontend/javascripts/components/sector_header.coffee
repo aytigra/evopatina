@@ -20,9 +20,6 @@ SectorHeader = React.createClass
     status = EPutils.sector_status_icon(sector.weeks[WeeksStore.getCurrentWeek().id])
 
     div className: "sector-header toolbar", title: @props.sector.description,
-      div className: "btns-left",
-        span className: "glyphicon glyphicon-#{sector.icon}", 'aria-hidden': "true"
-
       div
         className: "sector-name"
         onClick: @_onHideSectors

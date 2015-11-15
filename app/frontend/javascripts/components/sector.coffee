@@ -27,8 +27,12 @@ Sector = React.createClass
       style: {backgroundColor: @props.sector.color}
       onClick: @_onSectorSelect
 
+      div className: 'sector-icon',
+        div null,
+          @props.sector.icon
+
       div
-        className: if @props.full then '' else 'hidden-xs'
+        className: 'sector-full ' + if @props.full then '' else 'hidden-xs'
         if @props.sector.editing
           SectorForm key: @props.sector.id, sector: @props.sector
         else
@@ -38,11 +42,6 @@ Sector = React.createClass
           data: @props.sector.weeks[WeeksStore.getCurrentWeek().id]
           show_edit_lapa: @props.lapa_editing or @props.sector.editing
           edit_lapa_callback: @_onLapaChange
-
-      div
-        className: if @props.full then 'hidden' else 'visible-xs-block'
-        style: {padding: '3px'}
-        span className: "glyphicon glyphicon-#{@props.sector.icon}", 'aria-hidden': "true"
 
 
 module.exports = Sector;
