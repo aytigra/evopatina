@@ -31,7 +31,7 @@ class SectorWeek < ActiveRecord::Base
     if week.current? && SectorWeek.where(week_id: week.id).count == 0
       ActiveRecord::Base.transaction do
         SectorWeek.where(week_id: week.previous.id).each do |sw|
-          SectorWeek.create(sector_id: sw.sector_id, week: self, lapa: sw.lapa)
+          SectorWeek.create(sector_id: sw.sector_id, week: week, lapa: sw.lapa)
         end
       end
     end

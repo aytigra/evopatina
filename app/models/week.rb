@@ -42,7 +42,7 @@ class Week < ActiveRecord::Base
   end
 
   def previous
-    Week.where(date: week.date - 1.week).take
+    Week.where(date: date - 1.week).take
   end
 
   def current?
