@@ -1,4 +1,4 @@
-json.name 'patina'
+json.name 'PATINA'
 json.children sectors do |sector|
   json.name sector.name
   json.children subsectors[sector.id] do |subsector|

@@ -55,7 +55,7 @@ d3.json("diagram.json", function(error, root) {
       .data(nodes)
     .enter().append("g")
       .attr("class", "node")
-      .attr("transform", function(d) { return "rotate(" + (d.depth > 0 ? d.x - 90 : d.x + 180) + ")translate(" + d.y + ")"; })
+      .attr("transform", function(d) { return "rotate(" + (d.depth > 0 ? d.x - 90 : 0) + ")translate(" + d.y + ")"; })
 
 
 
@@ -65,7 +65,7 @@ d3.json("diagram.json", function(error, root) {
       .attr("transform", function(d) {
         translate = d.depth == 3 ? 20 : 40
         translate = d.x < 180 ? -translate : translate
-        translate = d.depth == 0 ? -18 : translate
+        translate = d.depth == 0 ? d.y - 18 : translate
         return d.x < 180 ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
       })
       .text(function(d) { return d.name; });
