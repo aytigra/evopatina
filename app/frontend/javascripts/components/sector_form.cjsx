@@ -95,7 +95,7 @@ SectorForm = React.createClass
         <div className='btns-left'>
           <button onClick={@_onColorSelect} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
-            <input type='color' onChange=@_onNativeColorSelect value='!'
+            <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
               style={{opacity: '0', width: '100%'}}
               ref='color_sector_input'/>
           </button>

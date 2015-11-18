@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   root 'weeks#show'
   get 'weeks/:date', to: 'weeks#show', as: 'week'
+  get 'diagram', to: 'weeks#diagram'
   patch 'weeks/:id', to: 'weeks#update'
 
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'

@@ -23,6 +23,18 @@ class WeeksController < ApplicationController
     end
   end
 
+  # GET /weeks/01-01-2015
+  # GET /weeks/01-01-2015.json
+  def diagram
+    sectors = Sector.where(user: current_user).load
+    subsectors = Subsector.where(sector_id: sectors.map(&:id)).group_by(&:sector_id)
+    activities = Activity.where(subsector_id: subsectors.values.flatten.map(&:id)).group_by(&:subsector_id)
+
+    json_locals = { sectors: sectors, subsectors: subsectors, activities: activities }
+
+    render partial: 'diagram', locals: json_locals, status: :ok
+  end
+
   # PATCH /weeks/1.json
   def update
     week = Week.find params[:id]
