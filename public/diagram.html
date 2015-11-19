@@ -9,13 +9,13 @@
 }
 
 .node {
-  font: 12px sans-serif;
+  font: 11px sans-serif;
 }
 .node_1 {
   font-size: 16px;
 }
 .node_2 {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .link {
@@ -33,15 +33,14 @@
 var diameter = 1200;
 
 var tree = d3.layout.tree()
-    .size([360, diameter / 2 - 120])
+    .size([360, diameter / 2 - 100])
     .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
 var diagonal = d3.svg.diagonal.radial()
     .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 
 var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
+    .attr("viewBox", "0 0 " + diameter + " " + diameter)
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
