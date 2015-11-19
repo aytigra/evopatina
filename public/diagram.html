@@ -54,7 +54,10 @@ d3.json("diagram.json", function(error, root) {
       .data(links)
     .enter().append("path")
       .attr("class", "link")
-      .attr("d", diagonal);
+      .attr("d", function(d) {
+          if (d.source.depth == 0) d.source.x = d.target.x;
+          return diagonal(d);
+       });
 
   var node = svg.selectAll(".node")
       .data(nodes)
@@ -68,7 +71,7 @@ d3.json("diagram.json", function(error, root) {
       .attr("dy", function(d) { return d.depth == 3 ? -4 : -8 })
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) {
-        translate = d.depth > 0 ? 70 / d.depth : 0
+        translate = d.depth > 0 ? 80 / d.depth : 0
         translate = d.x < 180 ? -translate : translate
         return d.x < 180  ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
       })
