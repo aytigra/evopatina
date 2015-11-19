@@ -9,7 +9,13 @@
 }
 
 .node {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
+}
+.node_1 {
+  font-size: 16px;
+}
+.node_2 {
+  font-size: 14px;
 }
 
 .link {
@@ -54,7 +60,7 @@ d3.json("diagram.json", function(error, root) {
   var node = svg.selectAll(".node")
       .data(nodes)
     .enter().append("g")
-      .attr("class", "node")
+      .attr("class", function(d) { return "node node_" + d.depth} )
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 
 
@@ -63,11 +69,14 @@ d3.json("diagram.json", function(error, root) {
       .attr("dy", function(d) { return d.depth == 3 ? -4 : -8 })
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) {
-        translate = d.depth == 3 ? 20 : 40
+        translate = d.depth > 0 ? 70 / d.depth : 0
         translate = d.x < 180 ? -translate : translate
         return d.x < 180  ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
       })
-      .text(function(d) { return d.name; });
+      .text(function(d) {
+        icon = d.icon ? d.icon : ''
+        return d.x < 180 ? icon + " " + d.name : d.name + " " + icon;
+      });
 });
 
 d3.select(self.frameElement).style("height", diameter + "px");
