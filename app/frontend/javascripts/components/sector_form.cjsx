@@ -31,8 +31,8 @@ SectorForm = React.createClass
       @_onCancel()
 
   _onDelete: ->
-    if not _.isEmpty(@props.sector.activities)
-      react_confirm 'Will delete all nested activities'
+    if not _.isEmpty(@props.sector.subsectors)
+      react_confirm 'Will delete all nested subsectors and activities'
         .then =>
           SectorsActionCreators.destroy @props.sector
 
