@@ -13,10 +13,7 @@ SubsectorsAPI = Marty.createStateSource
     url = Routes.subsectors_path {format: 'json'}
     @post(
       url: url
-      body:
-        id: subsector.id
-        name: subsector.name
-        description: subsector.description
+      body: subsector
     )
     .then(@status)
     .then (res) =>
@@ -28,7 +25,11 @@ SubsectorsAPI = Marty.createStateSource
     url = Routes.subsector_path subsector.id, {format: 'json'}
     @put(
       url: url
-      body: subsector
+      body:
+        id: subsector.id
+        sector_id: subsector.sector_id
+        name: subsector.name
+        description: subsector.description
     )
     .then(@status)
     .then (res) =>
