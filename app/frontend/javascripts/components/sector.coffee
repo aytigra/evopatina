@@ -36,8 +36,10 @@ Sector = React.createClass
       onClick: @_onSectorSelect
 
       if @props.sector.editing
-        div className: 'sector-icon-editing',
-          div onClick: @_onIconSelect,
+        div
+          className: 'sector-icon-editing'
+          onClick: @_onIconSelect
+          div null,
             @props.sector.icon
       else
         div className: 'sector-icon',
