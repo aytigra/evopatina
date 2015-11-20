@@ -25,7 +25,12 @@ SectorsAPI = Marty.createStateSource
     url = Routes.sector_path sector.id, {format: 'json'}
     @put(
       url: url
-      body: sector
+      body:
+        id: sector.id
+        name: sector.name
+        description: sector.description
+        icon: sector.icon
+        color: sector.color
     )
     .then(@status)
     .then (res) =>
@@ -37,7 +42,8 @@ SectorsAPI = Marty.createStateSource
     url = Routes.sector_path sector.id, {format: 'json'}
     @delete(
       url: url
-      body: sector
+      body:
+        id: sector.id
     )
     .then(@status)
     .then (res) ->
@@ -49,7 +55,7 @@ SectorsAPI = Marty.createStateSource
     url = Routes.move_sector_path sector.id, {format: 'json'}
     @put(
       url: url
-      body: {sector_id: sector.sector_id, to: to}
+      body: {to: to}
     )
     .then(@status)
     .then (res) ->
