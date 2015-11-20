@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   put 'move_sector/:id', to: 'sectors#move', as: 'move_sector'
 
   root 'weeks#show'
-  get 'patina', to: 'weeks#patina'
+  get 'patina', to: 'weeks#patina', as: 'patina'
 
   get 'weeks/:date', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
