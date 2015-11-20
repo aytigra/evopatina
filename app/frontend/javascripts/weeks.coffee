@@ -24,6 +24,10 @@ Marty.HttpStateSource.addHook(
 )
 
 
+color_input = document.createElement('input').setAttribute("type", "color")
+color_input.setAttribute("type", "color");
+window.support_color_input = document.createElement('input').setAttribute("type", "color").type != 'text'
+
 window.react_modal = (Component, props) ->
   wrapper = document.body.appendChild(document.createElement('div'))
   component = React.render(React.createElement(Component, props), wrapper)

@@ -43,9 +43,8 @@ SectorForm = React.createClass
     SectorsActionCreators.move @props.sector, to
 
   _onColorSelect: ->
-    color_sector_input = React.findDOMNode(this.refs.color_sector_input)
-    if color_sector_input.value != '!'
-      color_sector_input.click()
+    if window.support_color_input
+      React.findDOMNode(this.refs.color_input).click()
     else
       react_modal ColorSelector, { color: @props.sector.color }
         .then (color) =>
@@ -97,7 +96,7 @@ SectorForm = React.createClass
             <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
             <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
               style={{opacity: '0', width: '100%'}}
-              ref='color_sector_input'/>
+              ref='color_input'/>
           </button>
 
           <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
