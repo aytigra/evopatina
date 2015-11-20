@@ -21,8 +21,15 @@
 .link {
   fill: none;
   stroke: #ccc;
-  stroke-width: 1.5px;
+  stroke-width: 1px;
 }
+.link_1 {
+  stroke-width: 2px;
+}
+.link_0 {
+  stroke-width: 3px;
+}
+
 
 </style>
 <body>
@@ -44,7 +51,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-d3.json("diagram.json", function(error, root) {
+d3.json("patina.json", function(error, root) {
   if (error) throw error;
 
   var nodes = tree.nodes(root),
@@ -53,7 +60,7 @@ d3.json("diagram.json", function(error, root) {
   var link = svg.selectAll(".link")
       .data(links)
     .enter().append("path")
-      .attr("class", "link")
+      .attr("class", function(d) { return "link link_" + d.source.depth} )
       .attr("d", function(d) {
           if (d.source.depth == 0) d.source.x = d.target.x;
           return diagonal(d);
@@ -71,7 +78,16 @@ d3.json("diagram.json", function(error, root) {
       .attr("dy", function(d) { return d.depth == 3 ? -4 : -8 })
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) {
-        translate = d.depth > 0 ? 80 / d.depth : 0
+        switch (d.depth) {
+          case 1:
+            translate = 100;
+            break;
+          case 2:
+            translate = 50;
+            break;
+          default:
+            translate = 20;
+        }
         translate = d.x < 180 ? -translate : translate
         return d.x < 180  ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
       })

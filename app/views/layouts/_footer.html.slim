@@ -2,8 +2,8 @@
   .container
     .bottom-nav
       = link_to t("menu.main-page"), root_path
-      '
-      = link_to t("links.diagram"), '/diagram.html'
+      = ' | '
+      = link_to t("menu.patina"), '/patina.html'
     .sign = t("footer.sign")
 
 = render '/layouts/google_analytics'
