@@ -2,6 +2,8 @@
 SectorHeader = React.createFactory require ('./sector_header')
 SectorProgressBar = React.createFactory require ('./sector_progress_bar')
 SectorForm = React.createFactory require ('./sector_form')
+EmojiSelector = require './emoji_selector'
+SectorsActionCreators = require '../actions/sectors_actions'
 
 WeeksActionCreators = require '../actions/weeks_actions'
 WeeksStore = require '../stores/weeks_store'
@@ -21,16 +23,26 @@ Sector = React.createClass
   _onLapaChange: (e)->
     WeeksActionCreators.update_lapa {"#{@props.sector.id}": e.target.value}
 
+  _onIconSelect: (e)->
+    react_modal EmojiSelector, { emoji: @props.sector.icon }
+      .then (emoji) =>
+        SectorsActionCreators.update @props.sector,
+          icon: emoji
+
   render: ->
     div
       className: "sector row " + if @props.current then 'current-sector' else ''
       style: {backgroundColor: @props.sector.color}
       onClick: @_onSectorSelect
 
-      div className: 'sector-icon',
-        div null,
-          @props.sector.icon
-
+      if @props.sector.editing
+        div className: 'sector-icon-editing',
+          div onClick: @_onIconSelect,
+            @props.sector.icon
+      else
+        div className: 'sector-icon',
+          div {},
+            @props.sector.icon
       div
         className: 'sector-full ' + if @props.full then '' else 'hidden-xs'
         if @props.sector.editing

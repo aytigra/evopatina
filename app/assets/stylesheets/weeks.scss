@@ -76,6 +76,10 @@
         overflow: hidden;
       }
     }
+    .sector-icon-editing {
+      @extend .sector-icon;
+      border: 1px dashed black ;
+    }
     .sector-full {
       padding-left: 30px;
     }
@@ -105,6 +109,11 @@
         width: 40px;
         height: 20px;
       }
+    }
+    .selector-emoji {
+      font-size: 22px;
+      padding-right: 5px;
+      cursor: pointer;
     }
 
 
