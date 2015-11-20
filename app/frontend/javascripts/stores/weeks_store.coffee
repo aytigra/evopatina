@@ -193,7 +193,11 @@ WeeksStore = Marty.createStore
   getCurrentSector: ->
     sectors = @getSectors()
     if sectors && (!@state.current_sector || !sectors[@state.current_sector])
-      @state.current_sector = sectors[Object.keys(sectors)[0]].id
+      position = 8388607
+      for id, sector of sectors
+        if sector.position < position
+          position = sector.position
+          @state.current_sector = sector.id
     @state.current_sector
 
   setCurrentSector: (sector)->
