@@ -34,7 +34,7 @@ WeekHeader = React.createClass
 
     Sticky
       className: 'sticky-nav'
-      topOffset: '-84'
+      topOffset: '-82'
       div className: 'navbar-default clearfix', id: "week-header",
         div
           className: "col-lg-4 col-md-3 col-sm-5 #{sectors_width}"
