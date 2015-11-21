@@ -1,6 +1,6 @@
 {div, span} = React.DOM
 Button = React.createFactory require('./button')
-Sticky = React.createFactory require('react-sticky')
+Sticky = React.createFactory require('./sticky')
 WeeksActionCreators = require '../actions/weeks_actions'
 SectorsActionCreators = require '../actions/sectors_actions'
 WeeksStore = require '../stores/weeks_store'
@@ -33,9 +33,9 @@ WeekHeader = React.createClass
       week_nav_class = ''
 
     Sticky
-      className: 'sticky-nav clearfix'
+      className: 'sticky-nav'
       topOffset: '-84'
-      div className: 'navbar-default', id: "week-header",
+      div className: 'navbar-default clearfix', id: "week-header",
         div
           className: "col-lg-4 col-md-3 col-sm-5 #{sectors_width}"
           style: {paddingLeft: '5px'},
