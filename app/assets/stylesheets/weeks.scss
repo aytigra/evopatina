@@ -2,10 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.z-index-top {
-  z-index: 1;
-}
-
 .toolbar {
   position: relative;
   .btn {
@@ -32,6 +28,19 @@
 
 .navbar-default {
   margin-bottom: 0;
+}
+
+#week-content {
+  padding-top: 34px;
+}
+
+.sticky-nav {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  height: 34px;
+  width: 100%;
 }
 
 #week-header{

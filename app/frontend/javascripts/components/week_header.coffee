@@ -32,7 +32,9 @@ WeekHeader = React.createClass
       sector_buttons_class = ' hidden-xs'
       week_nav_class = ''
 
-    Sticky className: 'z-index-top clearfix',
+    Sticky
+      className: 'sticky-nav clearfix'
+      topOffset: '-84'
       div className: 'navbar-default', id: "week-header",
         div
           className: "col-lg-4 col-md-3 col-sm-5 #{sectors_width}"
