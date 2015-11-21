@@ -39,15 +39,14 @@ WeekContent = React.createClass
             lapa_editing: week.lapa_editing
             full: WeeksStore.get_settings().show_sectors
 
-      div
-        className: 'col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
-        SectorContent sector: @props.sectors[current_sector]
+      SectorContent
+        className: 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
+        sector: @props.sectors[current_sector]
 
-      div
-        className: 'col-lg-4 col-md-3' + stats_class
-        SectorStatistics
-          sector: @props.sectors[current_sector]
-          show: WeeksStore.get_settings().show_stats
+      SectorStatistics
+        className: 'sector-statistics col-lg-4 col-md-3' + stats_class
+        sector: @props.sectors[current_sector]
+        show: WeeksStore.get_settings().show_stats
 
 
 

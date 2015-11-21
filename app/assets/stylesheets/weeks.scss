@@ -127,10 +127,11 @@
 
 
 .sector-content {
+  margin-top: -7px;
   padding-bottom: 5px;
 
   div.row {
-    margin-left: -10px;
+    margin-left: -5px;
     margin-right: -10px;
   }
 
@@ -148,7 +149,9 @@
 }
 
 .sector-statistics {
-  margin-top: 14px;
+  margin-top: 7px;
+  padding-left: 10px;
+  padding-right: 5px;
 }
 
 .activity, .subsector {

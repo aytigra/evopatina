@@ -6,11 +6,12 @@ SectorStatistics = React.createClass
   displayName: 'SectorStatistics'
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.sector isnt @props.sector
+    newProps.sector isnt @props.sector or
+    newProps.className isnt @props.className
 
   render: ->
-    div className: 'sector-statistics',
-      div null,
+    div className: @props.className,
+      div style: { paddingLeft: '20px' },
         'progress history for "' + @props.sector.name + '"'
 
       EPutils.map_by_position @props.sector.weeks, (week, id) ->
