@@ -48,7 +48,7 @@ EmojiSelector = React.createClass
       div className: 'modal-header',
         h4 className: 'modal-title', "Select emoji"
         div
-          className: 'modal-body modal-scrollable text-center'
+          className: 'modal-body modal-scrollable'
           ul
             className: "nav nav-tabs", role: "tablist"
             @props.tabs.map (tab) =>
@@ -63,6 +63,7 @@ EmojiSelector = React.createClass
                     tab_emoji
           div
             className: "tab-content"
+            style: {}
             @props.tabs.map (tab) =>
               emojis = tab.split(' ')
               tab_emoji = emojis[0]
