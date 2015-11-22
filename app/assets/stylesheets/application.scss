@@ -11,15 +11,16 @@
  * file per style scope.
  *
 */
- 
+
 @import "bootstrap-sprockets";
 $screen-lg: 1600px;
 @import "bootstrap";
-@import 'bootstrap-datetimepicker';
 @import 'nprogress';
 @import 'nprogress-bootstrap';
-@import "*";
-
+@import 'colorpicker';
+@import 'layout';
+@import 'user';
+@import 'weeks';
 
 /* shuld use import now
  *= require_tree .
