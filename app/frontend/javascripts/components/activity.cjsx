@@ -32,6 +32,13 @@ Activity = React.createClass
     @setState
       show_desc: !@state.show_desc
 
+  _onMouseEnter: ->
+    @setState
+      show_desc: true
+
+  _onMouseLeave: ->
+    @setState
+      show_desc: false
 
   render: ->
     increment_button_disabled = ''
@@ -65,7 +72,7 @@ Activity = React.createClass
     if @state.show_desc and not @props.activity.editing
       desc_elem = <div className="list-description">{@props.activity.description}</div>
 
-    <div className='row activity'>
+    <div className='row activity' onMouseEnter={@_onMouseEnter} onMouseLeave={@_onMouseLeave}>
       {activity_elem}
       {desc_elem}
     </div>

@@ -19,3 +19,4 @@
 //= require js-routes
 //= require jquery_ujs
 //= require turbolinks
+//= require bundle-weeks

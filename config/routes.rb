@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   put 'move_sector/:id', to: 'sectors#move', as: 'move_sector'
 
   root 'weeks#show'
-  get 'patina', to: 'weeks#patina', as: 'patina'
 
   get 'weeks/:date', to: 'weeks#show', as: 'week'
   patch 'weeks/:id', to: 'weeks#update'
@@ -24,11 +23,14 @@ Rails.application.routes.draw do
       sessions: "users/sessions"
     }
   as :user do
-    get '/confirm', to: 'users/registrations#confirm'
-    get '/hello' => 'users/sessions#new', :as => :new_user_session
-    post '/signin' => 'users/sessions#create', :as => :user_session
-    delete '/signout' => 'users/sessions#destroy', :as => :destroy_user_session
+    get 'confirm', to: 'users/registrations#confirm'
+    get 'hello' => 'users/sessions#new', :as => :new_user_session
+    post 'signin' => 'users/sessions#create', :as => :user_session
+    delete 'signout' => 'users/sessions#destroy', :as => :destroy_user_session
   end
+
+  get 'patina', to: 'pages#patina', as: 'patina'
+  get 'about', to: 'pages#about', as: 'about'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
