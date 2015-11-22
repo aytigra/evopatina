@@ -3,7 +3,11 @@
     .bottom-nav
       = link_to t("menu.main-page"), root_path
       = ' | '
-      = link_to t("menu.patina"), '/patina.html'
+      = link_to 'javascript:window.print();' do
+        span class='glyphicon glyphicon-print'
+        '
+        = t("menu.print")
+
     .sign = t("footer.sign")
 
 = render '/layouts/google_analytics'
