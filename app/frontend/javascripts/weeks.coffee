@@ -51,10 +51,10 @@ window.select_sector = (subsector, sectors) ->
   react_modal SubsectorsSelector, props
 
 $(document).on "ready, page:change", ->
-  #WeeksStore.loadWeek(window.location.pathname.split('/').pop())
-  WeeksStore.setInitialState(window.INIT_JSON.current_week, true)
+  if week_container = document.getElementById('week-container')
+    WeeksStore.setInitialState(window.INIT_JSON.current_week, true)
 
-  # root react component
-  React.render React.createElement(WeekContent, null), document.getElementById('main-container')
+    # root react component
+    React.render React.createElement(WeekContent, null), week_container
 
-  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
+    $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
