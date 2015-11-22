@@ -77,9 +77,9 @@ class Week < ActiveRecord::Base
       when ddate == Date.current
         'primary'
       when ddate < Date.current
-        'info'
-      else
         'success'
+      else
+        'info'
       end
       result << {date: ddate.day, name: I18n.l(ddate, format: '%a'), status: status}
     end
