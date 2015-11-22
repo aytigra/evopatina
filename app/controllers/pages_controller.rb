@@ -10,11 +10,11 @@ class PagesController < ApplicationController
     subsectors = Subsector.where(sector_id: sectors.map(&:id)).group_by(&:sector_id)
     activities = Activity.where(subsector_id: subsectors.values.flatten.map(&:id)).group_by(&:subsector_id)
 
-    json_locals = { sectors: sectors, subsectors: subsectors, activities: activities }
+    @json_locals = { sectors: sectors, subsectors: subsectors, activities: activities }
 
     respond_to do |format|
       format.html { render 'patina' }
-      format.json { render partial: 'patina', locals: json_locals, status: :ok }
+      format.json { render partial: 'patina', locals: @json_locals, status: :ok }
     end
   end
 

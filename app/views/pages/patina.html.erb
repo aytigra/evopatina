@@ -1,6 +1,11 @@
 
+<div id='patina-container'>
+</div>
+
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
+
+var PATINA_JSON = <%= raw(render('/pages/patina.json', @json_locals)) %> ;
 
 var diameter = 1200;
 
@@ -11,59 +16,59 @@ var tree = d3.layout.tree()
 var diagonal = d3.svg.diagonal.radial()
     .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#patina-container").append("svg")
     .attr("viewBox", "0 0 " + diameter + " " + diameter)
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-d3.json("patina.json", function(error, root) {
-  if (error) throw error;
 
-  var nodes = tree.nodes(root),
-      links = tree.links(nodes);
+var nodes = tree.nodes(PATINA_JSON),
+    links = tree.links(nodes);
 
-  var link = svg.selectAll(".link")
-      .data(links)
-    .enter().append("path")
-      .attr("class", function(d) { return "link link_" + d.source.depth} )
-      .attr("d", function(d) {
-          if (d.source.depth == 0) d.source.x = d.target.x;
-          return diagonal(d);
-       })
-      .style("stroke", function(d) { return !d.target.color || d.target.color == '#ffffff' ? '#ccc' : d.target.color; });
+var link = svg.selectAll(".link")
+    .data(links)
+  .enter().append("path")
+    .attr("class", function(d) { return "link link_" + d.source.depth} )
+    .attr("d", function(d) {
+        if (d.source.depth == 0) d.source.x = d.target.x;
+        return diagonal(d);
+     })
+    .style("stroke", function(d) { return !d.target.color || d.target.color == '#ffffff' ? '#ccc' : d.target.color; });
 
-  var node = svg.selectAll(".node")
-      .data(nodes)
-    .enter().append("g")
-      .attr("class", function(d) { return "node node_" + d.depth} )
-      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+var node = svg.selectAll(".node")
+    .data(nodes)
+  .enter().append("g")
+    .attr("class", function(d) { return "node node_" + d.depth} )
+    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 
 
 
-  node.append("text")
-      .attr("dy", function(d) { return d.depth == 3 ? -4 : -8 })
-      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-      .attr("transform", function(d) {
-        switch (d.depth) {
-          case 1:
-            translate = 100;
-            break;
-          case 2:
-            translate = 50;
-            break;
-          default:
-            translate = 20;
-        }
-        translate = d.x < 180 ? -translate : translate
-        return d.x < 180  ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
-      })
-      .text(function(d) {
-        icon = d.icon ? d.icon : ''
-        return d.x < 180 ? icon + " " + d.name : d.name + " " + icon;
-      });
-});
+node.append("text")
+    .attr("dy", function(d) { return d.depth == 3 ? -4 : -8 })
+    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+    .attr("transform", function(d) {
+      switch (d.depth) {
+        case 1:
+          translate = 100;
+          break;
+        case 2:
+          translate = 50;
+          break;
+        default:
+          translate = 20;
+      }
+      translate = d.x < 180 ? -translate : translate
+      return d.x < 180  ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
+    })
+    .text(function(d) {
+      icon = d.icon ? d.icon : ''
+      return d.x < 180 ? icon + " " + d.name : d.name + " " + icon;
+    });
+
 
 d3.select(self.frameElement).style("height", diameter + "px");
+
+NProgress.done();
 
 </script>
 
