@@ -219,7 +219,7 @@
     }
     .list-form-body {
       @extend .toolbar;
-      padding-left: 32px;
+      padding-right: 32px;
       textarea {
         width: 100%;
         min-height: 84px;
@@ -233,7 +233,7 @@
         font-weight: normal;
         line-height: 20px;
       }
-      .btns-left {
+      .btns-right {
         width: 32px;
       }
     }
@@ -264,12 +264,20 @@
 .sector-form {
   margin-top: 5px;
   .list-form-head {
+    padding-left: 2px;
     input {
       line-height: 18px;
       font-size: 20px;
       font-weight: normal;
     }
   }
+    .list-form-body {
+      .btns-left {
+        top: 64px;
+        left: -37px;
+        width: 32px;
+      }
+    }
 }
 
 .subsector-add {

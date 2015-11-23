@@ -77,7 +77,13 @@ SubsectorForm = React.createClass
         </div>
       </div>
       <div className='list-form-body'>
-        <div className='btns-left'>
+        <textarea
+          rows="3"
+          placeholder="Description..."
+          onChange={@_onDescChange}
+          value={@props.subsector.description}
+        />
+        <div className='btns-right'>
           <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
           </button>
@@ -88,12 +94,6 @@ SubsectorForm = React.createClass
             <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           </button>
         </div>
-        <textarea
-          rows="3"
-          placeholder="Description..."
-          onChange={@_onDescChange}
-          value={@props.subsector.description}
-        />
       </div>
       {errors_elem}
     </div>

@@ -67,11 +67,6 @@ SectorForm = React.createClass
 
     <div className='sector-form'>
       <div className='list-form-head'>
-        <div className='btns-left'>
-          <button onClick={@_onDelete} className="btn btn-default btn-sm">
-            <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
-          </button>
-        </div>
         <input
           id={'sector_' + @props.sector.id}
           ref='sector_input'
@@ -92,6 +87,17 @@ SectorForm = React.createClass
       </div>
       <div className='list-form-body'>
         <div className='btns-left'>
+          <button onClick={@_onDelete} className="btn btn-default btn-sm">
+            <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </button>
+        </div>
+        <textarea
+          rows="3"
+          placeholder="Description..."
+          onChange={@_onDescChange}
+          value={@props.sector.description}
+        />
+        <div className='btns-right'>
           <button onClick={@_onColorSelect} className="btn btn-default btn-sm">
             <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
             <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
@@ -106,12 +112,6 @@ SectorForm = React.createClass
             <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           </button>
         </div>
-        <textarea
-          rows="3"
-          placeholder="Description..."
-          onChange={@_onDescChange}
-          value={@props.sector.description}
-        />
       </div>
       {errors_elem}
     </div>
