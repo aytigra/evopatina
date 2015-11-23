@@ -37,12 +37,16 @@ en:
     add_short: add
     edit_short: edit
     delete: delete
+    save: save
+    cancel: cancel
     move_up: move up
     move_down: move down
     move_to: move to
     select: select
+    show: show
     color: color
     emoji: emoji
+    description: description
 
     prev:
       f: previous
@@ -59,11 +63,21 @@ en:
 
     sector: main direction
     sector_abbr: MD
+    sector_notempty: will delete all nested TD, EA and their progress
 
     subsector: tactical direction
     subsector_abbr: TD
+    subsector_notempty: will delete all nested EA and their progress
 
     activity: evolutionary activity
+    activity_whom: evolutionary activity
     activity_abbr: EA
 
-    progress_history: Progress history for %{sector}
+    fragments:
+      add: +1 fragment
+      edit: edit number of fragments
+      current: current number of fragments
+      addition: addition fragments
+
+    stats_whom: statistics
+    progress_history: Progress history for '%{sector}'

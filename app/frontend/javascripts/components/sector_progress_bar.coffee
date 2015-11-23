@@ -28,6 +28,7 @@ SectorProgressBar = React.createClass
             onChange: @props.edit_lapa_callback
             value: data.lapa
             autoFocus: @props.current && @props.lapa_editing
+            title: I18n.lapa
 
 module.exports = SectorProgressBar;
 

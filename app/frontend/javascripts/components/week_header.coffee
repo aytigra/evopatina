@@ -38,33 +38,33 @@ WeekHeader = React.createClass
       div className: 'navbar-default clearfix', id: "week-header",
         div
           className: "col-lg-4 col-md-3 col-sm-5 #{sectors_width}"
-          style: {paddingLeft: '5px'},
+          style: {paddingLeft: '2px'},
           Button
             tag: 'button', on_click: @_onShowSectors
             add_class: 'visible-xs-inline-block'
             active: WeeksStore.get_settings().show_sectors
-            glyphicon: 'chevron-right', title: 'show sectors'
+            glyphicon: 'chevron-right', title: I18n.show + ' ' + I18n.sector_abbr
 
           Button
             tag: 'button', on_click: @_onSectorCreate
             add_class: sector_buttons_class
-            glyphicon: 'plus', title: 'add sector'
-            span null, 'add sector'
+            glyphicon: 'plus', title: I18n.add + ' ' + I18n.sector
+            span null, I18n.add_short + ' ' + I18n.sector_abbr
           Button
             tag: 'button', on_click: @_onEditLapa,
             active: @props.week.lapa_editing
             add_class: sector_buttons_class
-            glyphicon: 'cog', title: 'edit lapa'
-            span null, 'edit lapa'
+            glyphicon: 'cog', title: I18n.edit + ' ' + I18n.lapa_whom
+            span null, I18n.edit_short + ' ' + I18n.lapa_whom
 
         div
           className: "col-lg-4 col-md-6 col-sm-7 #{week_width}"
-          style: {marginRight: '-10px', paddingLeft: '12px'}
+          style: {marginRight: '-13px', paddingLeft: '12px'}
           div className: "week-navbar #{week_nav_class}",
             div className: 'btns-left',
               Button
                 tag: 'a', href: @props.week.prev_path, id: "prev-week-link"
-                glyphicon: 'arrow-left', title: 'go to previous week'
+                glyphicon: 'arrow-left', title: I18n.prev.f + ' ' + I18n.week
 
             div className: 'week-info',
               div className: 'week-dates',
@@ -81,13 +81,13 @@ WeekHeader = React.createClass
               if @props.week.next_path
                 Button
                   tag: 'a', href: @props.week.next_path, id: "next-week-link"
-                  glyphicon: 'arrow-right', title: 'go to next week'
+                  glyphicon: 'arrow-right', title: I18n.next.f + ' ' + I18n.week
 
           div className: 'stats-navbar pull-right hidden-lg hidden-md', style: {marginRight: '-10px'},
             Button
               tag: 'button', on_click: @_onShowStats
               active: WeeksStore.get_settings().show_stats
-              glyphicon: 'stats', title: 'show stats'
+              glyphicon: 'stats', title: I18n.show + ' ' + I18n.stats_whom
 
 
 module.exports = WeekHeader;

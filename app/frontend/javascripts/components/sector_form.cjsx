@@ -32,7 +32,7 @@ SectorForm = React.createClass
 
   _onDelete: ->
     if not _.isEmpty(@props.sector.subsectors)
-      react_confirm 'Will delete all nested subsectors and activities'
+      react_confirm I18n.sector_notempty
         .then =>
           SectorsActionCreators.destroy @props.sector
 
@@ -77,38 +77,38 @@ SectorForm = React.createClass
           autoFocus={true}
         />
         <div className='btns-right'>
-          <button onClick={@_onSave} className="btn btn-default btn-sm">
+          <button onClick={@_onSave} className="btn btn-default btn-sm" title={I18n.save}>
             <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onCancel} className="btn btn-default btn-sm">
+          <button onClick={@_onCancel} className="btn btn-default btn-sm" title={I18n.cancel}>
             <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </button>
         </div>
       </div>
       <div className='list-form-body'>
         <div className='btns-left'>
-          <button onClick={@_onDelete} className="btn btn-default btn-sm">
+          <button onClick={@_onDelete} className="btn btn-default btn-sm" title={I18n.delete}>
             <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
           </button>
         </div>
         <textarea
           rows="3"
-          placeholder="Description..."
+          placeholder={I18n.add + ' ' +I18n.description}
           onChange={@_onDescChange}
           value={@props.sector.description}
         />
         <div className='btns-right'>
-          <button onClick={@_onColorSelect} className="btn btn-default btn-sm">
+          <button onClick={@_onColorSelect} className="btn btn-default btn-sm" title={I18n.select + ' ' + I18n.color}>
             <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
             <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
               style={{opacity: '0', width: '100%'}}
               ref='color_input'/>
           </button>
 
-          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
+          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm">
+          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>
             <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           </button>
         </div>

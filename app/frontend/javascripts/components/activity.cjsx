@@ -46,16 +46,16 @@ Activity = React.createClass
       activity_elem = (
         <div className='list-name'>
           <div className='btns-left'>
-            <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm" disabled={increment_button_disabled}>
+            <button onClick={@_onEditCount} className="btn btn-default btn-count btn-sm" disabled={increment_button_disabled} title={I18n.fragments.edit}>
               {@props.activity.count || 0}
             </button>
-            <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm" disabled={increment_button_disabled}>
+            <button onClick={@_onIncrementCount} className="btn btn-default btn-add-count btn-sm" disabled={increment_button_disabled} title={I18n.fragments.add}>
               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </button>
           </div>
           <label onClick={@_showDescription}>{@props.activity.name}</label>
           <div className='btns-right'>
-            <button onClick={@_onEdit} className="btn btn-default btn-sm">
+            <button onClick={@_onEdit} className="btn btn-default btn-sm" title={I18n.edit + ' ' + I18n.activity_whom}>
               <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </button>
           </div>

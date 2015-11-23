@@ -219,6 +219,7 @@
     }
     .list-form-body {
       @extend .toolbar;
+      padding-left: 5px;
       padding-right: 32px;
       textarea {
         width: 100%;

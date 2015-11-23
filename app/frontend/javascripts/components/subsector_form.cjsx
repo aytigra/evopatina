@@ -31,7 +31,7 @@ SubsectorForm = React.createClass
 
   _onDelete: ->
     if not _.isEmpty(@props.subsector.activities)
-      react_confirm 'Will delete all nested activities'
+      react_confirm I18n.subsector_notempty
         .then =>
           SubsectorsActionCreators.destroy @props.subsector
 
@@ -54,7 +54,7 @@ SubsectorForm = React.createClass
     <div className='subsector-form'>
       <div className='list-form-head'>
         <div className='btns-left'>
-          <button onClick={@_onDelete} className="btn btn-default btn-sm">
+          <button onClick={@_onDelete} className="btn btn-default btn-sm" title={I18n.delete}>
             <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
           </button>
         </div>
@@ -68,10 +68,10 @@ SubsectorForm = React.createClass
           autoFocus={true}
         />
         <div className='btns-right'>
-          <button onClick={@_onSave} className="btn btn-default btn-sm">
+          <button onClick={@_onSave} className="btn btn-default btn-sm" title={I18n.save}>
             <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onCancel} className="btn btn-default btn-sm">
+          <button onClick={@_onCancel} className="btn btn-default btn-sm" title={I18n.cancel}>
             <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </button>
         </div>
@@ -79,18 +79,18 @@ SubsectorForm = React.createClass
       <div className='list-form-body'>
         <textarea
           rows="3"
-          placeholder="Description..."
+          placeholder={I18n.add + ' ' +I18n.description}
           onChange={@_onDescChange}
           value={@props.subsector.description}
         />
         <div className='btns-right'>
-          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm">
+          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onMove.bind(@, 'sector')} className="btn btn-default btn-sm">
-            <span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <button onClick={@_onMove.bind(@, 'sector')} className="btn btn-default btn-sm" title={I18n.move_to + ' ' + I18n.sector}>
+            <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm">
+          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>
             <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           </button>
         </div>

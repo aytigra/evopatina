@@ -34,15 +34,19 @@ ru:
   frontend:
     add: добавить
     edit: редактировать
-    add_short: доб-ть
-    edit_short: ред-ть
+    add_short: доб.
+    edit_short: ред.
     delete: удалить
+    save: сохранить
+    cancel: отменить
     move_up: вверх
     move_down: вниз
     move_to: переместить в
     select: выбрать
+    show: показать
     color: цвет
     emoji: emoji
+    description: описание
 
     prev:
       f: предыдущая
@@ -59,11 +63,21 @@ ru:
 
     sector: магистральное направление
     sector_abbr: МН
+    sector_notempty: удалит все вложенные ТН, ЭД и их прогрес
 
     subsector: тактическое направление
     subsector_abbr: ТН
+    subsector_notempty: удалит все вложенные ЭД и их прогрес
 
     activity: эволюционная деятельность
+    activity_whom: эволюционную деятельность
     activity_abbr: ЭД
 
-    progress_history: История прогресса по МН %{sector}
+    fragments:
+      add: +1 фрагмент
+      edit: редактировать количество фрагментов
+      current: текущее количество фрагментов
+      addition: прибавить фрагментов
+
+    stats_whom: статистику
+    progress_history: История прогресса по МН '%{sector}'

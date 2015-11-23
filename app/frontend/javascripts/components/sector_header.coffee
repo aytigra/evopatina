@@ -29,7 +29,7 @@ SectorHeader = React.createClass
         Button
           on_click: @_onEdit
           color: 'default', size: 'sm'
-          glyphicon: 'pencil', title: 'edit sector'
+          glyphicon: 'pencil', title: I18n.edit + ' ' + I18n.sector
 
 
 module.exports = SectorHeader;

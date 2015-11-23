@@ -12,7 +12,7 @@ SectorStatistics = React.createClass
   render: ->
     div className: @props.className,
       div style: { paddingLeft: '20px' },
-        'progress history for "' + @props.sector.name + '"'
+        I18n.progress_history.replace '%{sector}', @props.sector.name
 
       EPutils.map_by_position @props.sector.weeks, (week, id) ->
         SectorProgressBar key: id, data: week

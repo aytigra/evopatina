@@ -1,16 +1,17 @@
 == This is an app for self improvement.
 Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal weekly program.
+Get it? %)
 
-==== Features
+==== Cool stuff
 * responsive layout.
 * reactive UI with optimistic updates
-* Internationalization support, here and there
+* Internationalization support
 * usage of RESTapi, React Flux architecture and immutable data
 
 
 ==== Status
 
-By now it is on alpha stage, you can see how it works here:
+It pretty much works, demonstration user:
 
 * site http://evopatina.herokuapp.com/
 * test login: test@mail.com
@@ -18,10 +19,8 @@ By now it is on alpha stage, you can see how it works here:
 
 
 ==== TODO
- * tests...
- * I18nalize frontend
  * timezones
- * design...
- * recreation of frontend with Redux, tests and dynamic layout
+ * maybe tests?...
+ * move to Redux, frontend tests and woohoo
 
 

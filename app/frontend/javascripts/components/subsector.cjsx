@@ -39,13 +39,13 @@ Subsector = React.createClass
       subsector_elem = <SubsectorForm key={@props.subsector.id} subsector={@props.subsector}/>
     else
       subsector_elem = (
-        <div className='list-name'>
+        <div className='list-name' title={@props.subsector.description}>
           <label onClick={@_showDescription}>{@props.subsector.name}</label>
           <div className='btns-right'>
-            <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm">
+            <button onClick={@_onActivityCreate}  className="btn btn-default btn-sm" title={I18n.add + ' ' + I18n.activity_whom}>
               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </button>
-            <button onClick={@_onEdit}  className="btn btn-default btn-sm">
+            <button onClick={@_onEdit}  className="btn btn-default btn-sm" title={I18n.edit + ' ' + I18n.subsector}>
               <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </button>
           </div>
