@@ -52,7 +52,7 @@ window.select_sector = (subsector, sectors) ->
 
 $(document).on "ready, page:change", ->
   if week_container = document.getElementById('week-container')
-    WeeksStore.setInitialState(window.INIT_JSON.current_week, true)
+    WeeksStore.setInitialState(WEEK_JSON, true)
 
     # root react component
     React.render React.createElement(WeekContent, null), week_container
