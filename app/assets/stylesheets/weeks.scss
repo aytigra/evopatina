@@ -107,9 +107,13 @@
       }
     }
     .sector-progress {
-      margin-top: 5px;
+      margin-top: 10px;
       .progress {
         margin-bottom: 0px;
+        margin-right: 20px;
+      }
+      .btns-right {
+        padding-right: 2px;
       }
     }
 
@@ -124,6 +128,7 @@
 .sector-content {
   margin-top: -7px;
   padding-bottom: 5px;
+  padding-right: 10px;
 
   div.row {
     margin-left: -5px;
@@ -273,8 +278,9 @@
     }
   }
     .list-form-body {
+      padding-right: 40px;
       .btns-left {
-        top: 64px;
+        top: 50px;
         left: -37px;
         width: 32px;
       }

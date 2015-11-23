@@ -12,23 +12,23 @@ SectorProgressBar = React.createClass
     ratio = if progress > 0 && lapa > 0 then (progress/lapa) * 100 else 0
     status = EPutils.sector_status_icon(data)
 
-    div className: "toolbar",
-      div className: "btns-left",
-        span className: "glyphicon glyphicon-#{status}",
-
-      div className: 'sector-progress', style: {paddingLeft: '20px'},
-        div className: 'progress',
-          div className: 'progress-bar progress-bar-success', role: 'progressbar', style: {width: ratio + "%"},
-            div className: 'text-left text-muted',
-              EPutils.round(progress, 2) + '/' + lapa
-
+    div className: "toolbar sector-progress",
       if @props.show_edit_lapa
-        div className: "btns-right lapa-edit-form",
+        div className: "btns-left lapa-edit-form",
           input
             onChange: @props.edit_lapa_callback
             value: data.lapa
             autoFocus: @props.current && @props.lapa_editing
             title: I18n.lapa
+
+      div className: 'progress',
+        div className: 'progress-bar progress-bar-success', role: 'progressbar', style: {width: ratio + "%"},
+          div className: 'text-left text-muted',
+            EPutils.round(progress, 2) + '/' + lapa
+
+      div className: "btns-right",
+        span className: "glyphicon glyphicon-#{status}",
+
 
 module.exports = SectorProgressBar;
 
