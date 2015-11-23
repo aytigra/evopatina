@@ -56,5 +56,3 @@ $(document).on "ready, page:change", ->
 
     # root react component
     React.render React.createElement(WeekContent, null), week_container
-
-    $('[data-toggle="tooltip"]').tooltip({delay: { "show": 200, "hide": 100 }})
