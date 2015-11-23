@@ -11,12 +11,12 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
-//= require moment
-//= require bootstrap-datetimepicker
+//= require bootstrap/dropdown
+//= require bootstrap/tab
+//= require bootstrap/collapse
+//= require bootstrap/alert
 //= require nprogress
 //= require nprogress-turbolinks
 //= require js-routes
-//= require jquery_ujs
 //= require turbolinks
 //= require bundle-weeks
