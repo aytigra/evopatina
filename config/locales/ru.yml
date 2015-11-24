@@ -1,13 +1,4 @@
 ru:
-  menu:
-    languages:
-      lang: Язык
-      ru: Русский
-      en: Английский
-    main-page: Заглавная
-    patina: Патина
-    print: Печатать
-
   sector:
     id_1:
       name: тело
@@ -28,8 +19,23 @@ ru:
       name: впечатления
       description: Впечатления, удовольствия – секс, путешествия, кино, книги, музыка, общение и т.д.
 
-  footer:
-    sign: Запущен 9 Мая 2015 © aytigra
+  links:
+    home: Заглавная
+    patina: Патина
+    print: Печатать
+
+  layouts:
+    navbar:
+      edit_profile: Профиль
+      logout: Выйти
+      login: Войти
+      languages:
+        lang: Язык
+        ru: Русский
+        en: Английский
+
+    footer:
+      sign: Запущен 9 Мая 2015 © aytigra
 
   frontend:
     add: добавить

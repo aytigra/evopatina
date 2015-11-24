@@ -9,4 +9,8 @@ module ApplicationHelper
       link_to text, path
     end
   end
+
+  def gliph(gliph)
+      content_tag(:span, '', {class: 'glyphicon glyphicon-' + gliph, 'aria-hidden' => "true"}) + ' '
+  end
 end

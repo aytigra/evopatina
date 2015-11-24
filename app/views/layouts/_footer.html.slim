@@ -1,13 +1,13 @@
 #footer
   .container
     .bottom-nav
-      = link_to t("menu.main-page"), root_path
+      = link_to t("links.home"), root_path
       = ' | '
       = link_to 'javascript:window.print();' do
         span class='glyphicon glyphicon-print'
         '
-        = t("menu.print")
+        = t("links.print")
 
-    .sign = t("footer.sign")
+    .sign = t(".sign")
 
 = render '/layouts/google_analytics'

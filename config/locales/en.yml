@@ -1,13 +1,4 @@
 en:
-  menu:
-    languages:
-      lang: "Language"
-      ru: "Russian"
-      en: "English"
-    main-page: "Home"
-    patina: "Patina"
-    print: "Print"
-
   sector:
     id_1:
       name: "body"
@@ -28,8 +19,23 @@ en:
       name: "entertainment"
       description: "Impressions, pleasure - sex, traveling, movies, books, music, chat, etc."
 
-  footer:
-    sign: "Launched at 9 May 2015 by aytigra ©"
+  links:
+    home: "Home"
+    patina: "Patina"
+    print: "Print"
+
+  layouts:
+    navbar:
+      edit_profile: Edit profile
+      logout: Logout
+      login: Login
+      languages:
+        lang: "Language"
+        ru: "Russian"
+        en: "English"
+    footer:
+      sign: "Launched at 9 May 2015 by aytigra ©"
+
 
   frontend:
     add: add
