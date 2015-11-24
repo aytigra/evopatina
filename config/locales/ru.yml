@@ -47,7 +47,7 @@ ru:
         signup: Рагистрация
         forgot_pass: Восстановление пароля
         forgot_pass_send: Отправить инструкцию по сбросу пароля
-        miss_confirm_letter: Повторно отправить письмо подтверждения почты
+        miss_confirm_letter: Повторно отправить письмо подтверждения эл. почты
         miss_unlock_letter: Повторно отправить инструкцию для разблокирования
         signin_omniauth: Войти через %{provider}
     sessions:
@@ -70,6 +70,10 @@ ru:
         new_pass: Новый пароль
         confirm_pass: Повтор пароля
         change: Изменить
+    confirmations:
+      new:
+        title: Повторно отправить письмо подтверждения эл. почты
+        send: Отправить
 
   frontend:
     add: добавить

@@ -4,15 +4,15 @@ h2 = t('.title')
   = devise_error_messages!
   = f.hidden_field :reset_password_token
 
-  div class="field"
+  .field
     = f.label :password, t('.new_pass')
     = f.password_field :password, autofocus: true, autocomplete: "off"
 
-  div class="field"
+  .field
     = f.label :password_confirmation, t('.confirm_pass')
     = f.password_field :password_confirmation, autocomplete: "off"
 
-  div class="actions"
+  .actions
     = f.submit t('.change')
 
 = render "devise/shared/links"

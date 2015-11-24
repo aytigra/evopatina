@@ -70,7 +70,10 @@ en:
         new_pass: New password
         confirm_pass: Confirm new password
         change: Change my password
-
+    confirmations:
+      new:
+        title: Resend confirmation instructions
+        send: Send
 
   frontend:
     add: add
