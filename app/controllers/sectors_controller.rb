@@ -44,7 +44,7 @@ class SectorsController < ApplicationController
     end
 
     def response_json
-      { id: @sector.id, errors: @sector.errors,
+      { id: @sector.id, errors: @sector.errors.full_messages,
         old_id: params[:id].to_s.gsub(/\W/, ''), position: @sector.position }
     end
 

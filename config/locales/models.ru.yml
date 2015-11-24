@@ -1,0 +1,20 @@
+ru:
+  activerecord:
+    models:
+      user: Пользователь
+      activity: Эволюционная деятельность
+      subsector: Тактическое направление
+      sector: Магистральное направление
+    attributes:
+      user:
+        login: Логин
+        password: Пароль
+        password_confirmation: Повтор пароля
+        current_password: Текущий пароль
+        email: Эл. почта
+      activity:
+        name: Название
+      subsector:
+        name: Название
+      sector:
+        name: Название

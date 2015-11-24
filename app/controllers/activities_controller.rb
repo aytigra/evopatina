@@ -52,7 +52,7 @@ class ActivitiesController < ApplicationController
     end
 
     def response_json
-      { id: @activity.id, errors: @activity.errors, subsector_id: @activity.subsector_id,
+      { id: @activity.id, errors: @activity.errors.full_messages, subsector_id: @activity.subsector_id,
         sector_id: params[:sector_id].to_i, old_id: params[:id].to_s.gsub(/\W/, '') }
     end
 

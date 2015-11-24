@@ -51,7 +51,7 @@ class SubsectorsController < ApplicationController
     end
 
     def response_json
-      { id: @subsector.id, sector_id: @subsector.sector_id, errors: @subsector.errors,
+      { id: @subsector.id, sector_id: @subsector.sector_id, errors: @subsector.errors.full_messages,
         old_id: params[:id].to_s.gsub(/\W/, ''), position: @subsector.position }
     end
 
