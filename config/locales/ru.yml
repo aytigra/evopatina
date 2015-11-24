@@ -33,9 +33,43 @@ ru:
         lang: Язык
         ru: Русский
         en: Английский
-
     footer:
       sign: Запущен 9 Мая 2015 © aytigra
+
+  users:
+    email: Эл. почта
+    password: Пароль
+    password2: Повтор пароля
+    pass_length: (%{length} знаков минимум)
+    shared:
+      links:
+        login: Войти
+        signup: Рагистрация
+        forgot_pass: Восстановление пароля
+        forgot_pass_send: Отправить инструкцию по сбросу пароля
+        miss_confirm_letter: Повторно отправить письмо подтверждения почты
+        miss_unlock_letter: Повторно отправить инструкцию для разблокирования
+        signin_omniauth: Войти через %{provider}
+    sessions:
+      form:
+        remember: запомнить меня
+    registrations:
+      edit:
+        title: Редактировать профиль
+        pending_confirmation: "Ожидается подтверждение эл. почты: %{email}"
+        leave_blank: "|(Оставь поле пустым если не хочешь поменять пароль)"
+        need_pass: "|(Нужен текущий пароль чтобы подтвердить изменения)"
+        update: Изменить
+        back: Назад
+        delete: Удалить профиль
+        delete_desc: Будет удален профиль и вся связанная с ним информация
+        delete_confirm: DANGER, будет удалена вся информация
+    passwords:
+      edit:
+        title: Изменение пароля
+        new_pass: Новый пароль
+        confirm_pass: Повтор пароля
+        change: Изменить
 
   frontend:
     add: добавить

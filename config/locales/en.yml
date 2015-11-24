@@ -27,14 +27,49 @@ en:
   layouts:
     navbar:
       edit_profile: Edit profile
-      logout: Logout
-      login: Login
+      logout: Log out
+      login: Log in
       languages:
         lang: "Language"
         ru: "Russian"
         en: "English"
     footer:
       sign: "Launched at 9 May 2015 by aytigra ©"
+
+  users:
+    email: E-mail
+    password: Password
+    password2: Repeat password
+    pass_length: (%{length} characters minimum)
+    shared:
+      links:
+        login: Sign in
+        signup: Sign up
+        forgot_pass: Forgot your password?
+        forgot_pass_send: Send me reset password instructions
+        miss_confirm_letter: Didn't receive confirmation instructions?
+        miss_unlock_letter: Didn't receive unlock instructions?
+        signin_omniauth: Sign in with %{provider}
+    sessions:
+      form:
+        remember: remember me
+    registrations:
+      edit:
+        title: Edit profile
+        pending_confirmation: "Currently waiting confirmation for: %{email}"
+        leave_blank: "|(leave blank if you don't want to change it)"
+        need_pass: "|(we need your current password to confirm your changes)"
+        update: Update
+        back: Back
+        delete: Delete account
+        delete_desc: This will delete account and all related data
+        delete_confirm: DANGER, will deete all your data
+    passwords:
+      edit:
+        title: Change your password
+        new_pass: New password
+        confirm_pass: Confirm new password
+        change: Change my password
 
 
   frontend:
