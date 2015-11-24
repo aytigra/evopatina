@@ -55,7 +55,7 @@ ActivityForm = React.createClass
         <input
           id={'activity_' + @props.activity.id}
           ref='activity_input'
-          placeholder='new activity'
+          placeholder={I18n.activity}
           onChange={@_onNameChange}
           onKeyDown={@_onKeyDown}
           value={@props.activity.name}

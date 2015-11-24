@@ -61,7 +61,7 @@ SubsectorForm = React.createClass
         <input
           id={'subsector_' + @props.subsector.id}
           ref='subsector_input'
-          placeholder='new subsector'
+          placeholder={I18n.subsector}
           onChange={@_onNameChange}
           onKeyDown={@_onKeyDown}
           value={@props.subsector.name}

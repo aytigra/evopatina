@@ -70,7 +70,7 @@ SectorForm = React.createClass
         <input
           id={'sector_' + @props.sector.id}
           ref='sector_input'
-          placeholder='new sector'
+          placeholder={I18n.sector}
           onChange={@_onNameChange}
           onKeyDown={@_onKeyDown}
           value={@props.sector.name}
