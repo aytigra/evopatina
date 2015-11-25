@@ -16,11 +16,3 @@ It pretty much works, demonstration user:
 * site http://evopatina.herokuapp.com/
 * test login: test@mail.com
 * test pass: qwerqwer
-
-
-==== TODO
- * timezones
- * maybe tests?...
- * move to Redux, frontend tests and woohoo
-
-

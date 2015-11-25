@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   resources :activities
   put 'move_activity/:id', to: 'activities#move', as: 'move_activity'
 
