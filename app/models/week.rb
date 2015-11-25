@@ -14,7 +14,9 @@ class Week < ActiveRecord::Base
   end
 
   def self.get_week(date)
-    find_or_create_by(date: date)
+    week = find_or_create_by(date: date)
+    SectorWeek.copy_lapa_from_previous_week(week)
+    week
   end
 
   def previous_weeks

@@ -22,7 +22,9 @@ class SubsectorsController < ApplicationController
 
   # DELETE /subsectors/1.json
   def destroy
-    render_response @subsector.destroy
+    @subsector.destroy
+    SectorWeek.recount_sector(Sector.find_by_id @subsector.sector_id)
+    render_response true
   end
 
   # PUT /move_subsectors/1.json

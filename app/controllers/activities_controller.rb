@@ -21,7 +21,9 @@ class ActivitiesController < ApplicationController
 
   # DELETE /activities/1.json
   def destroy
-    render_response @activity.destroy
+    @activity.destroy
+    SectorWeek.recount_sector(Sector.joins(:subsectors).where(subsectors: { id: @activity.subsector_id }).take)
+    render_response true
   end
 
   # PUT /move_activity/1.json

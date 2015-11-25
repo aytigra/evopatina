@@ -2,6 +2,8 @@ class Fragment < ActiveRecord::Base
   belongs_to :activity
   belongs_to :week
 
+  scope :sector, ->(id) { joins(activity: :subsector).where(subsectors: { sector_id: id }) }
+
   validates :activity, :week, presence: true
   validates :activity, uniqueness: { scope: :week_id }
 

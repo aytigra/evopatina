@@ -6,7 +6,6 @@ class WeeksController < ApplicationController
   def show
     @week = Week.get_week params_date
     @weeks = [@week] + @week.previous_weeks
-    SectorWeek.recount_progress(@week)
     @sectors = Sector.sectors_with_weeks(current_user, @weeks)
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @week)
