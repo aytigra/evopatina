@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'
 
-  devise_for :users, :skip => [:sessions],
+  devise_for :users, skip: [:sessions],
     controllers: {
       registrations: "users/registrations",
       passwords: "users/passwords",

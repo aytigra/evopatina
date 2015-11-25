@@ -26,7 +26,6 @@ json.set! :sectors do
                 end
               end
             end
-
           end
         end
       end

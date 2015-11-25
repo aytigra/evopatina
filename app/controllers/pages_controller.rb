@@ -17,5 +17,4 @@ class PagesController < ApplicationController
       format.json { render partial: 'patina', locals: @json_locals, status: :ok }
     end
   end
-
 end

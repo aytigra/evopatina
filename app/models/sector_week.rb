@@ -30,11 +30,10 @@ class SectorWeek < ActiveRecord::Base
   def self.copy_lapa_from_previous_week(week)
     if week.current? && SectorWeek.where(week_id: week.id).count == 0
       ActiveRecord::Base.transaction do
-        SectorWeek.where(week_id: week.previous.id).each do |sw|
+        SectorWeek.where(week_id: week.previous.id).find_each do |sw|
           SectorWeek.create(sector_id: sw.sector_id, week: week, lapa: sw.lapa)
         end
       end
     end
   end
-
 end

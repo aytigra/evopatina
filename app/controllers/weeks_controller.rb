@@ -1,10 +1,6 @@
 class WeeksController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-
-  end
-
   # GET /weeks/01-01-2015
   # GET /weeks/01-01-2015.json
   def show
@@ -37,7 +33,7 @@ class WeeksController < ApplicationController
 
   def lapa_params
     lapa_params = {}
-    params[:lapa].each { |k,v| lapa_params[k.to_i] = v.to_f}
+    params[:lapa].each { |k, v| lapa_params[k.to_i] = v.to_f }
     lapa_params
   end
 
@@ -54,7 +50,6 @@ class WeeksController < ApplicationController
       flash.notice = 'Invalid date parameter, showing current week'
       date = nil
     end
-    date ||= Date.current.beginning_of_week
+    date || Date.current.beginning_of_week
   end
-
 end

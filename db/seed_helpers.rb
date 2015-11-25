@@ -1,4 +1,4 @@
-def  default_sectors
+def default_sectors
   {
     1 => '💪',
     2 => '🎓',

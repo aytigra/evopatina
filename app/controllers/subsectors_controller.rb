@@ -40,27 +40,28 @@ class SubsectorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subsector
-      @subsector = Subsector.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def subsector_params
-      params.require(:subsector).permit(:sector_id, :name, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subsector
+    @subsector = Subsector.find(params[:id])
+  end
 
-    def response_json
-      { id: @subsector.id, sector_id: @subsector.sector_id, errors: @subsector.errors.full_messages,
-        old_id: params[:id].to_s.gsub(/\W/, ''), position: @subsector.position }
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def subsector_params
+    params.require(:subsector).permit(:sector_id, :name, :description)
+  end
 
-    def render_response(status_ok)
-      status = status_ok ? :ok : :unprocessable_entity
-      render json: response_json, status: status
-    end
+  def response_json
+    { id: @subsector.id, sector_id: @subsector.sector_id, errors: @subsector.errors.full_messages,
+      old_id: params[:id].to_s.gsub(/\W/, ''), position: @subsector.position }
+  end
 
-    def set_default_response_format
-      request.format = :json
-    end
+  def render_response(status_ok)
+    status = status_ok ? :ok : :unprocessable_entity
+    render json: response_json, status: status
+  end
+
+  def set_default_response_format
+    request.format = :json
+  end
 end

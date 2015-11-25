@@ -23,18 +23,20 @@ class Sector < ActiveRecord::Base
 
   def fill_weeks(weeks_ids, weeks_data)
     self.weeks = {}
-    lapa_sum, progress_sum = 0.0, 0.0
+    lapa_sum = progress_sum = 0.0
     # find sums of lapas and progresses by last 4 weeks for each week
     (0..weeks_ids.length - 1).reverse_each do |pos| # starting from the last week
       week_id = weeks_ids[pos]
-      lapa, progress  = weeks_data[week_id][:lapa] || 0.0, weeks_data[week_id][:progress] || 0.0
+      lapa = weeks_data[week_id][:lapa] || 0.0
+      progress = weeks_data[week_id][:progress] || 0.0
       lapa_sum += lapa
       progress_sum += progress
       if pos + 4 < weeks_ids.length # if not out of weeks range
         lapa_sum -= weeks[weeks_ids[pos + 4]][:lapa]
         progress_sum -= weeks[weeks_ids[pos + 4]][:progress]
       end
-      self.weeks[week_id] = {lapa: lapa, progress: progress, lapa_sum: lapa_sum, progress_sum: progress_sum, position: pos}
+      self.weeks[week_id] = { lapa: lapa, progress: progress, lapa_sum: lapa_sum,
+        progress_sum: progress_sum, position: pos }
     end
   end
 end

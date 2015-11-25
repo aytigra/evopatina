@@ -9,7 +9,7 @@ class RemoveUserFromWeeks < ActiveRecord::Migration
 
     weeks_to_delete = []
     dates.each do |_date, weeks|
-      if weeks.count <= 1 next
+      next if weeks.count <= 1
       # set relations to only one week
       first_week_id = weeks.pop
       weeks.each do |week_id|
