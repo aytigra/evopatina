@@ -14,7 +14,7 @@ class Week < ActiveRecord::Base
   end
 
   def self.get_week(date)
-    self.find_or_create_by(date: date)
+    find_or_create_by(date: date)
   end
 
   def previous_weeks
@@ -23,9 +23,9 @@ class Week < ActiveRecord::Base
     end
 
     @previous_weeks = self.class.where('date < ? and date >= ?', date, date - PREV_WEEKS_NUM.week)
-                          .by_date.limit(PREV_WEEKS_NUM).to_a
+                                .by_date.limit(PREV_WEEKS_NUM).to_a
 
-    #should create missing weeks and add them to returned array
+    # should create missing weeks and add them to returned array
     if @previous_weeks.count < PREV_WEEKS_NUM
       rebuilt_previous_weeks = []
       previous_dates = @previous_weeks.map(&:date)
@@ -42,7 +42,7 @@ class Week < ActiveRecord::Base
   end
 
   def previous
-    Week.where(date: date - 1.week).take
+    Week.find_by date: date - 1.week
   end
 
   def current?
@@ -54,7 +54,7 @@ class Week < ActiveRecord::Base
   end
 
   def route_path
-    "/#{self.model_name.route_key}/#{to_param}"
+    "/#{model_name.route_key}/#{to_param}"
   end
 
   def prev_path
@@ -81,15 +81,14 @@ class Week < ActiveRecord::Base
       else
         'info'
       end
-      result << {date: ddate.day, name: I18n.l(ddate, format: '%a'), status: status}
+      result << { date: ddate.day, name: I18n.l(ddate, format: '%a'), status: status }
     end
     result
   end
 
   private
-    def date_in_past_or_present
-      if date > Date.current.beginning_of_week
-        errors.add(:date, "can't be in the future week")
-      end
-    end
+
+  def date_in_past_or_present
+    errors.add(:date, " can't be in the future week") if date > Date.current.beginning_of_week
+  end
 end

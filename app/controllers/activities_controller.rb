@@ -26,7 +26,6 @@ class ActivitiesController < ApplicationController
 
   # PUT /move_activity/1.json
   def move
-    status_ok = true
     case params[:to]
     when 'up'
       @activity.row_order_position = :up
@@ -36,8 +35,7 @@ class ActivitiesController < ApplicationController
       @activity.subsector_id = params[:subsector_id].to_i
       @activity.row_order_position = :last
     end
-    status_ok = @activity.save
-    render_response status_ok
+    render_response @activity.save
   end
 
   private
@@ -48,7 +46,7 @@ class ActivitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
-      par = params.require(:activity).permit(:subsector_id, :name, :description)
+      params.require(:activity).permit(:subsector_id, :name, :description)
     end
 
     def response_json

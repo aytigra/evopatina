@@ -22,7 +22,6 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 #gem 'therubyracer', platforms: :ruby
 
-
 gem 'bootstrap-sass', '~> 3.3.3'
 #gem 'momentjs-rails', '>= 2.8.1'
 #gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
@@ -63,7 +62,7 @@ end
 group :test do
   gem 'capybara'
   gem 'poltergeist'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'phantomjs', require: 'phantomjs/poltergeist'
   gem 'site_prism'
   gem 'database_cleaner'
   gem 'faker'

@@ -8,14 +8,14 @@ class RemoveUserFromWeeks < ActiveRecord::Migration
     end
 
     weeks_to_delete = []
-    dates.each do |date, weeks|
-      if weeks.count > 1
-        first_week_id = weeks.pop
-        weeks.each do |week_id|
-          SectorWeek.where(week_id: week_id).update_all(week_id: first_week_id)
-          Fragment.where(week_id: week_id).update_all(week_id: first_week_id)
-          weeks_to_delete << week_id
-        end
+    dates.each do |_date, weeks|
+      if weeks.count <= 1 next
+      # set relations to only one week
+      first_week_id = weeks.pop
+      weeks.each do |week_id|
+        SectorWeek.where(week_id: week_id).update_all(week_id: first_week_id)
+        Fragment.where(week_id: week_id).update_all(week_id: first_week_id)
+        weeks_to_delete << week_id
       end
     end
 
