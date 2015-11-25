@@ -3,21 +3,11 @@ class Subsector < ActiveRecord::Base
   has_many :activities, dependent: :destroy
 
   include RankedModel
-  ranks :row_order,
-    :column => :position,
-    :with_same => :sector_id
+  ranks :row_order, column: :position, with_same: :sector_id
 
   validates :sector, :name, presence: true
 
   def self.subsectors_by_sectors(user)
-    raw = self.joins(:sector).where(sectors: {user_id: user.id})
-
-    result = Hash.new { |h,k| h[k] = {} }
-
-    raw.each do |subsector|
-      result[subsector.sector_id][subsector.id] = subsector
-    end
-
-    result
+    joins(:sector).where(sectors: { user_id: user.id }).group_by(&:sector_id)
   end
 end

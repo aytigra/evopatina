@@ -14,14 +14,14 @@ json.set! :sectors do
 
       json.set! :subsectors do
         subsectors[sector.id] ||= {}
-        subsectors[sector.id].each do |id, subsector|
-          json.set! id do
+        subsectors[sector.id].each do |subsector|
+          json.set! subsector.id do
             json.extract! subsector, :id, :sector_id, :name, :description, :position
 
             json.set! :activities do
               activities[subsector.id] ||= {}
-              activities[subsector.id].each do |id, activity|
-                json.set! id do
+              activities[subsector.id].each do |activity|
+                json.set! activity.id do
                   json.extract! activity, :id, :subsector_id, :sector_id, :name, :description, :count, :position
                 end
               end

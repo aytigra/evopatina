@@ -3,9 +3,7 @@ class Activity < ActiveRecord::Base
   has_many :fragments, dependent: :destroy
 
   include RankedModel
-  ranks :row_order,
-    :column => :position,
-    :with_same => :subsector_id
+  ranks :row_order, column: :position, with_same: :subsector_id
 
   validates :subsector, :name, presence: true
 
@@ -14,16 +12,9 @@ class Activity < ActiveRecord::Base
     fragments_join = 'LEFT JOIN fragments
                       ON fragments.activity_id = activities.id
                       AND fragments.week_id = ' + week_id
-    raw = self.joins(fragments_join, subsector: :sector)
-              .where(sectors: {user_id: user.id})
-              .select('activities.*, subsectors.sector_id as sector_id, fragments.count as count')
-
-    result = Hash.new { |h,k| h[k] = {} }
-
-    raw.each do |activity|
-      result[activity.subsector_id][activity.id] = activity
-    end
-
-    result
+    joins(fragments_join, subsector: :sector)
+      .where(sectors: { user_id: user.id })
+      .select('activities.*, subsectors.sector_id as sector_id, fragments.count as count')
+      .group_by(&:subsector_id)
   end
 end
