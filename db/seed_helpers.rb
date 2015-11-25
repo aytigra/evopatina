@@ -1,16 +1,17 @@
-def create_default_sectors_for_user(user)
-  default_sectors = {
+def  default_sectors
+  {
     1 => '💪',
     2 => '🎓',
     3 => '😊',
     4 => '💰',
     5 => '💬',
-    6 => '✈'
+    6 => '🎡'
   }
+end
 
+def create_default_sectors_for_user(user)
   I18n.locale = user.locale if user.locale
   result = {}
-
   ActiveRecord::Base.transaction do
     default_sectors.each do |def_id, icon|
       result[def_id] = Sector.create(
