@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
       I18n.locale = params_locale
       save_locale_to_user
       save_locale_to_cookie
-    elsif user_locale = user_locale
-      I18n.locale = user_locale
+    elsif user_signed_in? && current_user.locale
+      I18n.locale = current_user.locale
       save_locale_to_cookie
     elsif cookie_locale = sanitize_locale(cookies['locale'])
       I18n.locale = cookie_locale
@@ -36,10 +36,6 @@ class ApplicationController < ActionController::Base
 
   def save_locale_to_cookie
     cookies['locale'] = I18n.locale.to_s
-  end
-
-  def user_locale
-    current_user.locale if user_signed_in?
   end
 
   def sanitize_locale(locale)
