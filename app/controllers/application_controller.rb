@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
       require 'http_accept_language_parser.rb'
       parser = HttpAcceptLanguage::Parser.new(env["HTTP_ACCEPT_LANGUAGE"])
       I18n.locale = parser.compatible_language_from(I18n.available_locales)
+      save_locale_to_cookie
+      save_locale_to_user
     end
   end
 
