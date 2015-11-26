@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require js.cookie
 //= require jquery_ujs
 //= require bootstrap/dropdown
 //= require bootstrap/tab

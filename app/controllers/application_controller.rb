@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, if: proc { |c| c.request.format.json? }
 
+  around_filter :with_timezone
   before_action :set_locale
 
   protected
@@ -40,5 +41,10 @@ class ApplicationController < ActionController::Base
 
   def sanitize_locale(locale)
     locale.to_s if I18n.available_locales.map(&:to_s).include? locale.to_s
+  end
+
+  def with_timezone
+    timezone = Time.find_zone(cookies[:timezone])
+    Time.use_zone(timezone) { yield }
   end
 end

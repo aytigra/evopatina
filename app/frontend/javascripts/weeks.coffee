@@ -7,6 +7,8 @@ WeekContent = require './components/week_content'
 Confirm = require './components/confirm'
 SubsectorsSelector = require './components/subsectors_selector'
 
+jstz = require 'jstimezonedetect'
+
 Marty.HttpStateSource.addHook(
   priority: 1
   before: (req) ->
@@ -51,6 +53,8 @@ window.select_sector = (subsector, sectors) ->
   react_modal SubsectorsSelector, props
 
 $(document).on "ready, page:change", ->
+  window.Cookies.set "timezone", jstz.determine().name(), { expires: 365, path: '/' }
+
   if week_container = document.getElementById('week-container')
     WeeksStore.setInitialState(WEEK_JSON, true)
 
