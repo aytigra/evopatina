@@ -40,15 +40,15 @@ class WeeksController < ApplicationController
     if !params[:date] || params[:date] == '0'
       date = nil
     elsif /(\d{2}-\d{2}-\d{4})/.match(params[:date])
-      date = Date.strptime(params[:date], '%d-%m-%Y').beginning_of_week
+      date = Date.strptime(params[:date], '%d-%m-%Y')
       if date > Date.current.end_of_week
-        flash.notice = 'I can not control future, showing current week'
+        flash.notice = 'You can not control future, will show current week'
         date = nil
       end
     else
-      flash.notice = 'Invalid date parameter, showing current week'
+      flash.notice = 'Invalid date parameter, will show current week'
       date = nil
     end
-    date || Date.current.beginning_of_week
+    date || Date.current
   end
 end

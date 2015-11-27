@@ -27,7 +27,6 @@ SubsectorsAPI = Marty.createStateSource
       url: url
       body:
         id: subsector.id
-        sector_id: subsector.sector_id
         name: subsector.name
         description: subsector.description
     )

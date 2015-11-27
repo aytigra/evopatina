@@ -1,50 +1,31 @@
-class Week < ActiveRecord::Base
-  attr_reader :previous_weeks
-
-  validates :date, uniqueness: true
-  validate :date_in_past_or_present
-
-  scope :by_date, -> { order(date: :desc) }
-  scope :by_rev_date, -> { order(date: :asc) }
+class Week
+  attr_reader :id, :date
 
   PREV_WEEKS_NUM = 9
+  ROUTE_KEY = 'weeks'
 
-  def date=(date)
-    self[:date] = date.beginning_of_week
+  def initialize(date)
+    @date = date.beginning_of_week
+    @id = @date.strftime('%Y%m%d').to_i
   end
 
   def self.get_week(date)
-    week = find_or_create_by(date: date)
+    week = new(date)
     SectorWeek.copy_lapa_from_previous_week(week)
     week
   end
 
   def previous_weeks
-    def self.previous_weeks
-      @previous_weeks
-    end
+    return @previous_weeks if @previous_weeks
 
-    @previous_weeks = self.class.where('date < ? and date >= ?', date, date - PREV_WEEKS_NUM.week)
-                                .by_date.limit(PREV_WEEKS_NUM).to_a
-
-    # should create missing weeks and add them to returned array
-    if @previous_weeks.count < PREV_WEEKS_NUM
-      rebuilt_previous_weeks = []
-      previous_dates = @previous_weeks.map(&:date)
-      (1..PREV_WEEKS_NUM).each do |i|
-        if !previous_dates.include?(date - i.week)
-          rebuilt_previous_weeks << self.class.create(date: date - i.week)
-        else
-          rebuilt_previous_weeks << @previous_weeks.shift
-        end
-      end
-      @previous_weeks = rebuilt_previous_weeks
+    @previous_weeks = (1..PREV_WEEKS_NUM).map do |i|
+      self.class.new(date - i.week)
     end
     @previous_weeks
   end
 
   def previous
-    Week.find_by date: date - 1.week
+    self.class.new(date - 1.week)
   end
 
   def current?
@@ -56,15 +37,15 @@ class Week < ActiveRecord::Base
   end
 
   def route_path
-    "/#{model_name.route_key}/#{to_param}"
+    "/#{ROUTE_KEY}/#{to_param}"
   end
 
   def prev_path
-    Week.new(date: date - 1.week).route_path
+    Week.new(date - 1.week).route_path
   end
 
   def next_path
-    Week.new(date: date + 1.week).route_path if date < Date.current.beginning_of_week
+    Week.new(date + 1.week).route_path if date < Date.current.beginning_of_week
   end
 
   def begin_end_text
@@ -72,8 +53,7 @@ class Week < ActiveRecord::Base
   end
 
   def days
-    result = []
-    (0..6).each do |i|
+    (0..6).map do |i|
       ddate = date + i.days
       status = case
       when ddate == Date.current
@@ -83,14 +63,7 @@ class Week < ActiveRecord::Base
       else
         'info'
       end
-      result << { date: ddate.day, name: I18n.l(ddate, format: '%a'), status: status }
+      { date: ddate.day, name: I18n.l(ddate, format: '%a'), status: status }
     end
-    result
-  end
-
-  private
-
-  def date_in_past_or_present
-    errors.add(:date, " can't be in the future week") if date > Date.current.beginning_of_week
   end
 end
