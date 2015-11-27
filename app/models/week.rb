@@ -9,6 +9,10 @@ class Week
     @id = @date.strftime('%Y%m%d').to_i
   end
 
+  def self.find(id)
+    new(Date.strptime(id.to_s, '%Y%m%d'))
+  end
+
   def self.get_week(date)
     week = new(date)
     SectorWeek.copy_lapa_from_previous_week(week)

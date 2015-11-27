@@ -1,8 +1,7 @@
 class SectorWeek < ActiveRecord::Base
   belongs_to :sector
-  belongs_to :week
 
-  validates :sector, :week, presence: true
+  validates :sector, :week_id, presence: true
 
   def self.sector_weeks_by_sectors(sectors, weeks)
     raw = where(sector_id: sectors, week_id: weeks.map(&:id))
@@ -34,7 +33,7 @@ class SectorWeek < ActiveRecord::Base
     return unless week.current? && where(week_id: week.id).count == 0
     ActiveRecord::Base.transaction do
       where(week_id: week.previous.id).find_each do |sw|
-        create(sector_id: sw.sector_id, week: week, lapa: sw.lapa)
+        create(sector_id: sw.sector_id, week_id: week.id, lapa: sw.lapa)
       end
     end
   end

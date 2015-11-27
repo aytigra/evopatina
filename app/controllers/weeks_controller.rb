@@ -22,7 +22,7 @@ class WeeksController < ApplicationController
   def update
     week = Week.find params[:id]
     lapa_params.each do |sector_id, lapa|
-      SectorWeek.find_or_initialize_by(sector_id: sector_id, week: week).update(lapa: lapa)
+      SectorWeek.find_or_initialize_by(sector_id: sector_id, week_id: week.id).update(lapa: lapa)
     end
 
     render json: {}, status: :ok
