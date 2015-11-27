@@ -12,6 +12,9 @@ ActiveAdmin.register User do
   index do
     id_column
     column :email
+    column "Activities" do |user|
+      Activity.joins(subsector: :sector).where(sectors: { user_id: user.id }).count
+    end
     column "Progress" do |user|
       SectorWeek.joins(:sector).where(sectors: { user_id: user.id }).sum(:progress)
     end

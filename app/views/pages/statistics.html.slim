@@ -1,0 +1,28 @@
+.container
+  .row
+    h4.text-center = t('.fragments_by_sectors')
+    table.table.table-hover
+      tr
+        th = t('.sectors')
+        th = t('.by_month')
+        th = t('.by_epoch')
+        th = t('.by_all')
+      - @sectors.each do |sector|
+        tr
+          th = sector.name
+          td = @fragments_month[sector.id]
+          td = @fragments_epoch[sector.id]
+          td = @fragments_total[sector.id]
+
+  .row
+    h4.text-center = t('.popular_sectors') + '(' + t("languages.#{I18n.locale}") + ')'
+    table.table.table-hover
+      tr
+        th = t('.sectors')
+        th = t('.users_count')
+      - @popular_sectors.each do |name, count|
+        tr
+          th = name
+          td = count
+
+  layouts.navbar.languages.ru

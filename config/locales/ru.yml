@@ -19,22 +19,35 @@ ru:
       name: впечатления
       description: Впечатления, удовольствия – секс, путешествия, кино, книги, музыка, общение и т.д.
 
+  languages:
+    lang: Язык
+    ru: Русский
+    en: Английский
+
   links:
     home: Заглавная
     patina: Патина
     print: Печатать
+    statistics: Статистика
 
   layouts:
     navbar:
       edit_profile: Профиль
       logout: Выйти
       login: Войти
-      languages:
-        lang: Язык
-        ru: Русский
-        en: Английский
     footer:
       sign: Запущен 9 Мая 2015 © aytigra
+
+  pages:
+    statistics:
+      fragments_by_sectors: Количество твоих фрагментов по МН
+      sectors: МН
+      fragments: Фрагов
+      by_month: За месяц
+      by_epoch: За 100 дней(14 нед.)
+      by_all: За все время
+      popular_sectors: Популярные МН
+      users_count: Пользователей
 
   users:
     email: Эл. почта

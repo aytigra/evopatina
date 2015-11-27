@@ -19,22 +19,35 @@ en:
       name: "entertainment"
       description: "Impressions, pleasure - sex, traveling, movies, books, music, chat, etc."
 
+  languages:
+    lang: "Language"
+    ru: "Russian"
+    en: "English"
+
   links:
     home: "Home"
     patina: "Patina"
     print: "Print"
+    statistics: Statistics
 
   layouts:
     navbar:
       edit_profile: Edit profile
       logout: Log out
       login: Log in
-      languages:
-        lang: "Language"
-        ru: "Russian"
-        en: "English"
     footer:
       sign: "Launched at 9 May 2015 by aytigra ©"
+
+  pages:
+    statistics:
+      fragments_by_sectors: Your number of fragments
+      sectors: MD
+      fragments: Fragmets
+      by_month: By month
+      by_epoch: By 100 days(14 weeks)
+      by_all: From beginning
+      popular_sectors: Popular MDs
+      users_count: Users
 
   users:
     email: E-mail

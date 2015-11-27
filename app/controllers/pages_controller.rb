@@ -17,4 +17,24 @@ class PagesController < ApplicationController
       format.json { render partial: 'patina', locals: @json_locals, status: :ok }
     end
   end
+
+  def statistics
+    @sectors = Sector.where(user: current_user).order(:position).load
+    @fragments_month = fragments_from(Week.new(Date.current - 4.weeks).id)
+    @fragments_epoch = fragments_from(Week.new(Date.current - 14.weeks).id)
+    @fragments_total = fragments_from()
+
+    @popular_sectors = Sector.joins(:user)
+      .where(users: { locale: I18n.locale })
+      .where('(SELECT SUM("sector_weeks"."progress") FROM "sector_weeks" WHERE "sector_weeks"."sector_id" = "sectors"."id") > 0')
+      .group(:name).order('count_id desc').limit(30).count('id')
+  end
+
+  private
+
+  def fragments_from(date_id = 0)
+    SectorWeek.where(sector_id: @sectors.map(&:id))
+              .where('week_id > ?', date_id)
+              .group(:sector_id).sum(:progress)
+  end
 end

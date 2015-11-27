@@ -18,6 +18,10 @@ nav class="navbar navbar-default"
         ul class="nav navbar-nav"
           = nav_link t("links.patina"), patina_path
 
+      - if user_signed_in?
+        ul class="nav navbar-nav"
+          = nav_link t("links.statistics"), statistics_path
+
       ul class="nav navbar-nav navbar-right"
         - if user_signed_in?
           li class="dropdown"
@@ -30,15 +34,15 @@ nav class="navbar navbar-default"
               li role="separator" class="divider"
               li = link_to gliph('log-out') + t('.logout'), destroy_user_session_path, method: :delete, :class => 'navbar-link'
         - else
-          li = link_to gliph('log-in') + t('.log_in'), new_user_session_path, :class => 'navbar-link'
+          li = link_to gliph('log-in') + t('.login'), new_user_session_path, :class => 'navbar-link'
 
       ul class="nav navbar-nav navbar-right"
         li class="dropdown"
           a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-            = t(".languages.#{I18n.locale}")
+            = t("languages.#{I18n.locale}")
             span class="caret"
 
           ul class="dropdown-menu" role="menu"
             - menu_langs.each do |lang|
               li
-                = link_to t(".languages.#{lang}"), "?locale=#{lang}"
+                = link_to t("languages.#{lang}"), "?locale=#{lang}"
