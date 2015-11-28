@@ -43,8 +43,8 @@ en:
       fragments_by_sectors: Your number of fragments
       sectors: MD
       fragments: Fragmets
-      by_month: By month
-      by_epoch: By 100 days(14 weeks)
+      by_month: Past month
+      by_epoch: Past 100 days(14 weeks)
       by_all: From beginning
       popular_sectors: Popular MDs
       users_count: Users
