@@ -1,4 +1,5 @@
 class FragmentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_activity, :set_week, only: [:update]
 
   # PATCH/PUT /fragments/1.json

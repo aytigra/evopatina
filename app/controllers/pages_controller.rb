@@ -1,5 +1,4 @@
 class PagesController < ApplicationController
-
   def about
   end
 
@@ -28,6 +27,10 @@ class PagesController < ApplicationController
       .where(users: { locale: I18n.locale })
       .where('(SELECT SUM("sector_weeks"."progress") FROM "sector_weeks" WHERE "sector_weeks"."sector_id" = "sectors"."id") > 0')
       .group(:name).order('count_id desc').limit(30).count('id')
+  end
+
+  def hello
+    redirect_to root_path if user_signed_in?
   end
 
   private

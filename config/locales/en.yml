@@ -31,6 +31,7 @@ en:
     statistics: Statistics
     about: What is this?
     feedback: Feedback
+    hello: Hello
 
   layouts:
     navbar:

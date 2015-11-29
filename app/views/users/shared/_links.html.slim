@@ -3,7 +3,7 @@ ul class="nav nav-pills"
     li role="presentation"
       = link_to t('.login'), new_session_path(resource_name)
 
-  - if devise_mapping.registerable? && controller_name != 'registrations'
+  - if devise_mapping.registerable? && controller_name != 'registrations' && !current_page?(hello_path)
     li role="presentation"
       = link_to t('.signup'), new_registration_path(resource_name)
 

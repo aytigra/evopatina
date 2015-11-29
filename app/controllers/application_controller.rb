@@ -47,4 +47,14 @@ class ApplicationController < ActionController::Base
     timezone = Time.find_zone(cookies[:timezone])
     Time.use_zone(timezone) { yield }
   end
+
+  def authenticate_user!
+    if user_signed_in?
+      super
+    else
+      redirect_to hello_path
+      ## if you want render 404 page
+      ## render :file => File.join(Rails.root, 'public/404'), :formats => [:html], :status => 404, :layout => false
+    end
+  end
 end

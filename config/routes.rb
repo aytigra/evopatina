@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     }
   as :user do
     get 'confirm', to: 'users/registrations#confirm'
-    get 'hello' => 'users/sessions#new', :as => :new_user_session
+    get 'signin' => 'users/sessions#new', :as => :new_user_session
     post 'signin' => 'users/sessions#create', :as => :user_session
     delete 'signout' => 'users/sessions#destroy', :as => :destroy_user_session
   end
@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'patina', to: 'pages#patina', as: 'patina'
   get 'about', to: 'pages#about', as: 'about'
   get 'statistics', to: 'pages#statistics', as: 'statistics'
+  get 'hello' => 'pages#hello', :as => :hello
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
