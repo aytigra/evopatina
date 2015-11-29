@@ -22,6 +22,9 @@ nav class="navbar navbar-default"
         ul class="nav navbar-nav"
           = nav_link t("links.statistics"), statistics_path
 
+      ul class="nav navbar-nav"
+        = nav_link t("links.about"), about_path
+
       ul class="nav navbar-nav navbar-right"
         - if user_signed_in?
           li class="dropdown"

@@ -29,6 +29,8 @@ en:
     patina: "Patina"
     print: "Print"
     statistics: Statistics
+    about: What is this?
+    feedback: Feedback
 
   layouts:
     navbar:
@@ -115,8 +117,8 @@ en:
       o: next
 
     week: week
-    lapa: lapa
-    lapa_whom: lapa
+    lapa: paw
+    lapa_whom: paw
 
     sector: main direction
     sector_abbr: MD

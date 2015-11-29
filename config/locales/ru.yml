@@ -29,6 +29,8 @@ ru:
     patina: Патина
     print: Печатать
     statistics: Статистика
+    about: Что это?
+    feedback: Обратная связь
 
   layouts:
     navbar:

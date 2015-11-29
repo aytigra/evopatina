@@ -3,10 +3,9 @@
     .bottom-nav
       = link_to t("links.home"), root_path
       = ' | '
-      = link_to 'javascript:window.print();' do
-        span class='glyphicon glyphicon-print'
-        '
-        = t("links.print")
+      = link_to t("links.about"), about_path
+      = ' | '
+      = link_to t("links.feedback"), 'mailto:evopatina@gmail.com'
 
     .sign = t(".sign")
 
