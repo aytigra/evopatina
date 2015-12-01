@@ -32,7 +32,7 @@ class Sector < ActiveRecord::Base
       lapa = weeks_data[week_id][:lapa] || 0.0
       progress = weeks_data[week_id][:progress] || 0.0
       # drop emty tail
-      if lapa == 0.0 && progress == 0.0 && is_tail && length > 1
+      if is_tail && length > 1 && lapa == 0.0 && progress == 0.0
         length -= 1
         next
       else

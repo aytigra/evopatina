@@ -19,10 +19,11 @@ class PagesController < ApplicationController
 
   def statistics
     @sectors = Sector.where(user: current_user).order(:position).load
-    @fragments_month = fragments_from(Week.new(Date.current - 4.weeks).id)
-    @fragments_epoch = fragments_from(Week.new(Date.current - 14.weeks).id)
-    @fragments_total = fragments_from()
+    @fragments_month = fragments_from Week.new(Date.current - 4.weeks).id
+    @fragments_epoch = fragments_from Week.new(Date.current - 14.weeks).id
+    @fragments_total = fragments_from
 
+    # get sector names with number of users, only for current locale and with some progress
     @popular_sectors = Sector.joins(:user)
       .where(users: { locale: I18n.locale })
       .where('(SELECT SUM("sector_weeks"."progress") FROM "sector_weeks" WHERE "sector_weeks"."sector_id" = "sectors"."id") > 0')
