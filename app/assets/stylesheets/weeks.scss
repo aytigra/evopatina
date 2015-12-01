@@ -7,6 +7,9 @@
   .btn {
     border: none;
     background-color: inherit;
+    &:hover {
+      background-color: #DDDDDD;;
+    }
   }
   .btns-left {
     position: absolute;
