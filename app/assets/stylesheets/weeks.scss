@@ -267,25 +267,25 @@
       }
   }
 
-.sector-form {
-  margin-top: 5px;
-  .list-form-head {
-    padding-left: 2px;
-    input {
-      line-height: 18px;
-      font-size: 20px;
-      font-weight: normal;
-    }
-  }
-    .list-form-body {
-      padding-right: 40px;
-      .btns-left {
-        top: 50px;
-        left: -37px;
-        width: 32px;
+  .sector-form {
+    margin-top: 5px;
+    .list-form-head {
+      padding-left: 2px;
+      input {
+        line-height: 18px;
+        font-size: 20px;
+        font-weight: normal;
       }
     }
-}
+      .list-form-body {
+        padding-right: 40px;
+        .btns-left {
+          top: 50px;
+          left: -37px;
+          width: 32px;
+        }
+      }
+  }
 
 .subsector-add {
   margin-top: 10px;
@@ -323,4 +323,75 @@
   margin-right: 5px;
   cursor: pointer;
   display: inline-block;
+}
+
+// enlarge buttons on touch screens
+@media (max-width: $screen-sm-max) {
+  .btn-sm {
+    @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+  }
+  .activity, .subsector {
+    .list-name label {
+        line-height: 32px;
+    }
+  }
+  .activity .list-name {
+    padding-left: 76px;
+    padding-right: 38px;
+    .btn-count {
+      padding: 6px;
+      min-width: 34px;
+    }
+  }
+  .subsector  .list-name {
+    padding-right: 76px;
+  }
+
+  .sector-header {
+    line-height: 22px;
+  }
+
+  .activity-form, .activity-count-form, .subsector-form, .sector-form {
+    .list-form-head {
+      padding-left: 38px;
+      padding-right: 76px;
+      input {
+        line-height: 33px;
+      }
+
+    }
+    .list-form-body {
+      padding-right: 38px;
+      textarea {
+        min-height: 96px;
+        line-height: 20px;
+      }
+      .btns-right {
+        width: 38px;
+      }
+    }
+  }
+
+  .activity-count-form {
+    .list-form-head {
+      padding-left: 2px;
+    }
+    .count-inputs {
+      input, label {
+        width: 38px;
+        line-height: 32px;
+      }
+      .count-name {
+        padding-left: 15px;
+      }
+    }
+  }
+
+  .sector-form .list-form-body {
+    .btns-left {
+      top: 50px;
+      left: -38px;
+      width: 38px;
+    }
+  }
 }
