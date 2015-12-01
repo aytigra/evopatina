@@ -10,7 +10,7 @@ class WeeksController < ApplicationController
     @subsectors = Subsector.subsectors_by_sectors(current_user)
     @activities = Activity.activities_by_subsectors(current_user, @week)
 
-    @json_locals = { week: @week, sectors: @sectors, subsectors: @subsectors, activities: @activities }
+    @json_locals = { week: @week, weeks: @weeks, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
     respond_to do |format|
       format.html { render 'show' }
