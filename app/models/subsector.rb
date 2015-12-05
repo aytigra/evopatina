@@ -7,7 +7,7 @@ class Subsector < ActiveRecord::Base
 
   validates :sector, :name, presence: true
 
-  def self.subsectors_by_sectors(user)
-    joins(:sector).where(sectors: { user_id: user.id }).group_by(&:sector_id)
+  def self.by_sectors(subsectors)
+    subsectors.each_with_object(Hash.new { |h, k| h[k] = [] }) { |s, h| h[s.sector_id] << s.id }
   end
 end

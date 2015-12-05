@@ -11,7 +11,7 @@ class Sector < ActiveRecord::Base
   validates :user, :name, presence: true
 
   def self.sectors_with_weeks(user, weeks)
-    sectors = where(user: user)
+    sectors = where(user: user).order(:position).load
     sector_weeks = SectorWeek.sector_weeks_by_sectors(sectors, weeks)
 
     sectors.each do |sector|

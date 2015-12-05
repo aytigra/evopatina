@@ -4,7 +4,7 @@ class SectorWeek < ActiveRecord::Base
   validates :sector, :week_id, presence: true
 
   def self.sector_weeks_by_sectors(sectors, weeks)
-    raw = where(sector_id: sectors, week_id: weeks.map(&:id))
+    raw = where(sector_id: sectors.map(&:id), week_id: weeks.map(&:id))
 
     result = Hash.new { |h, k| h[k] = Hash.new { |hh, kk| hh[kk] = {} } }
     raw.each do |sw|

@@ -7,10 +7,18 @@ class WeeksController < ApplicationController
     @week = Week.get_week params_date
     @weeks = [@week] + @week.previous_weeks
     @sectors = Sector.sectors_with_weeks(current_user, @weeks)
-    @subsectors = Subsector.subsectors_by_sectors(current_user)
-    @activities = Activity.activities_by_subsectors(current_user, @week)
+    @subsectors = Subsector.where(sector_id: @sectors.map(&:id)).order(:sector_id, :position)
+    @activities = Activity.with_fragments_count(@subsectors, @week)
 
-    @json_locals = { week: @week, weeks: @weeks, sectors: @sectors, subsectors: @subsectors, activities: @activities }
+    @json_locals = {
+      week: @week,
+      weeks: @weeks,
+      sectors: @sectors,
+      subsectors: @subsectors,
+      activities: @activities,
+      subsectors_ids: Subsector.by_sectors(@subsectors),
+      activities_ids: Activity.by_subsectors(@activities)
+    }
 
     respond_to do |format|
       format.html { render 'show' }

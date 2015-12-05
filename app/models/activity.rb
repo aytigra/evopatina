@@ -7,14 +7,18 @@ class Activity < ActiveRecord::Base
 
   validates :subsector, :name, presence: true
 
-  def self.activities_by_subsectors(user, week)
+  def self.with_fragments_count(subsectors, week)
     week_id = week.id.to_i.to_s
     fragments_join = 'LEFT JOIN fragments
                       ON fragments.activity_id = activities.id
                       AND fragments.week_id = ' + week_id
-    joins(fragments_join, subsector: :sector)
-      .where(sectors: { user_id: user.id })
-      .select('activities.*, subsectors.sector_id as sector_id, fragments.count as count')
-      .group_by(&:subsector_id)
+    joins(fragments_join)
+      .where(subsector_id: subsectors.map(&:id))
+      .select('activities.*, fragments.count as count')
+      .order(:subsector_id, :position)
+  end
+
+  def self.by_subsectors(activities)
+    activities.each_with_object(Hash.new { |h, k| h[k] = [] }) { |a, h| h[a.subsector_id] << a.id }
   end
 end
