@@ -7,13 +7,6 @@ SectorsStore = Marty.createStore
   displayName: 'SectorsStore'
   typingTimer: null
 
-  getInitialState: ->
-    sectors: {}
-
-  setInitialState: (data) ->
-    @setState
-      sectors: data
-
   get: (id) ->
     WeeksStore.get_sector id
 

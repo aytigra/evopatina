@@ -44,17 +44,16 @@ WeeksStore = Marty.createStore
 
   update_sector: (sector_id, params = {}) ->
     data =
-      sectors:
-        "#{sector_id}": params
-    @state.current_week = @state.current_week.merge(data, {deep: true})
+      "#{sector_id}": params
+    @state.sectors = @state.sectors.merge(data, {deep: true})
     @hasChanged()
 
   delete_sector: (sector_id) ->
-    current_week = @state.current_week.asMutable({deep: true})
-    current_week.sectors[sector_id] = null
-    delete current_week.sectors[sector_id]
-    @state.current_week = Immutable current_week
-    @state.current_sector = null
+    sectors = @state.sectors.asMutable({deep: true})
+    sectors[sector_id] = null
+    delete sectors[sector_id]
+    @state.sectors = Immutable sectors
+    @state.UI.current_sector = null
     @hasChanged()
 
   move_sector: (sector_id, to) ->
