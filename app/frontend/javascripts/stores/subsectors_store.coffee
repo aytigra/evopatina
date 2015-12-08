@@ -7,21 +7,14 @@ SubsectorsStore = Marty.createStore
   displayName: 'SubsectorsStore'
   typingTimer: null
 
-  getInitialState: ->
-    subsectors: {}
+  get: (id) ->
+    WeeksStore.get_subsector id
 
-  setInitialState: (data) ->
-    @setState
-      subsectors: data
+  set: (id, params = {}) ->
+    WeeksStore.update_subsector id, params
 
-  get: (sector_id, id) ->
-    WeeksStore.get_subsector sector_id, id
-
-  set: (sector_id, id, params = {}) ->
-    WeeksStore.update_subsector sector_id, id, params
-
-  unset: (sector_id, id) ->
-    WeeksStore.delete_subsector sector_id, id
+  unset: (id) ->
+    WeeksStore.delete_subsector id
 
   handlers:
     create: SubsectorsConstants.SUBSECTOR_CREATE
@@ -40,9 +33,9 @@ SubsectorsStore = Marty.createStore
   #create empty subsector in sector with placeholder ID
   create: (sector) ->
     i = 1
-    while @get(sector.id, "new_#{i}")?
+    while @get("new_#{i}")?
       i++
-    @set(sector.id, "new_#{i}",
+    @set("new_#{i}",
       id: 'new_' + i
       sector_id: sector.id
       name: ''
@@ -54,7 +47,7 @@ SubsectorsStore = Marty.createStore
     )
 
   edit: (subsector) ->
-    @set(subsector.sector_id, subsector.id,
+    @set(subsector.id,
       editing: true
       name_old: subsector.name
       description_old: subsector.description
@@ -63,35 +56,35 @@ SubsectorsStore = Marty.createStore
   cancel: (subsector) ->
     if typeof subsector.id is "string" && !subsector.name_old
       #unset canceled and not saved yet new subsector
-      @unset subsector.sector_id, subsector.id
+      @unset subsector.id
     else
-      prpams =
+      params =
         editing: false
         name: subsector.name_old
         description: subsector.description_old
-      @update(subsector, prpams)
+      @update(params)
 
   update_text: (subsector, params) ->
-    @set subsector.sector_id, subsector.id, params
+    @set subsector.id, params
     clearTimeout @typingTimer
     callback = => @update(subsector, params)
     @typingTimer = setTimeout(callback , 500)
 
   update: (subsector, params) ->
-    @set subsector.sector_id, subsector.id, params
+    @set subsector.id, params
     #put to server
     if typeof subsector.id isnt "string"
-      SubsectorsAPI.update @get(subsector.sector_id, subsector.id)
+      SubsectorsAPI.update @get(subsector.id)
 
   update_response: (subsector, ok) ->
     if !ok
-      @set(subsector.sector_id, subsector.id,
+      @set(subsector.id,
         editing: true
         have_errors: true
         errors: subsector.errors
       )
     else
-      @set(subsector.sector_id, subsector.id,
+      @set(subsector.id,
         have_errors: false
         errors: {}
       )
@@ -108,21 +101,21 @@ SubsectorsStore = Marty.createStore
 
   create_response: (subsector, ok) ->
     if !ok
-      @set(subsector.sector_id, subsector.old_id,
+      @set(subsector.old_id,
         editing: true
         have_errors: true
         errors: subsector.errors
       )
     else
-      new_subsector = @get(subsector.sector_id, subsector.old_id).asMutable()
+      new_subsector = @get(subsector.old_id).asMutable()
       new_subsector.id = subsector.id
       new_subsector.have_errors = false
       new_subsector.errors = {}
-      @set subsector.sector_id, subsector.id, new_subsector
-      @unset subsector.sector_id, subsector.old_id
+      @set subsector.id, new_subsector
+      @unset subsector.old_id
 
   destroy: (subsector) ->
-    @set(subsector.sector_id, subsector.id,
+    @set(subsector.id,
       hidden: true
     )
     #delete to server
@@ -131,22 +124,22 @@ SubsectorsStore = Marty.createStore
 
   destroy_response: (subsector, ok) ->
     if !ok
-      @set(subsector.sector_id, subsector.id,
+      @set(subsector.id,
         hidden: false
         have_errors: true
         errors: subsector.errors
       )
     else
-      @unset subsector.sector_id, subsector.id
+      @unset subsector.id
 
   move: (subsector, to) ->
     if to in ['up', 'down']
-      WeeksStore.move_subsector subsector.sector_id, subsector.id, to
+      WeeksStore.move_subsector subsector.id, to
       SubsectorsAPI.move(subsector, to)
     if to is 'sector'
       select_sector(subsector, WeeksStore.getSectors())
         .then (dest) =>
-          WeeksStore.move_subsector subsector.sector_id, subsector.id, to, dest
+          WeeksStore.move_subsector subsector.id, to, dest
           SubsectorsAPI.move({id: subsector.id, sector_id: dest.sector_id}, 'sector')
 
 

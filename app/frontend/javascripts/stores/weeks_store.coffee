@@ -42,48 +42,53 @@ WeeksStore = Marty.createStore
     WeeksAPI.get_week +id
 
 
-  update_sector: (sector_id, params = {}) ->
+  update_sector: (id, params = {}) ->
     data =
-      "#{sector_id}": params
+      "#{id}": params
     @state.sectors = @state.sectors.merge(data, {deep: true})
     @hasChanged()
 
-  delete_sector: (sector_id) ->
-    sectors = @state.sectors.asMutable({deep: true})
-    sectors[sector_id] = null
-    delete sectors[sector_id]
-    @state.sectors = Immutable sectors
+  delete_sector: (id) ->
+    @state.sectors = @state.sectors.without("#{id}")
     @state.UI.current_sector = null
     @hasChanged()
 
-  move_sector: (sector_id, to) ->
+  move_sector: (id, to) ->
     sectors = @getSectors()
     params =
-      position: @get_new_position(sectors, sectors[sector_id].position, to)
-    @update_sector(sector_id, params)
+      position: @get_new_position(sectors, sectors[id].position, to)
+    @update_sector(id, params)
+
+  touch_sector: (id) ->
+    sectors = @state.sectors.asMutable()
+    sectors[id] = sectors[id].asMutable()
+    @state.sectors = Immutable sectors
 
 
-  update_subsector: (sector_id, subsector_id, params = {}) ->
+  update_subsector: (id, params = {}) ->
     data =
-      sectors:
-        "#{sector_id}":
-          subsectors:
-            "#{subsector_id}": params
-    @state.current_week = @state.current_week.merge(data, {deep: true})
+      "#{id}": params
+    @state.subsectors = @state.subsectors.merge(data, {deep: true})
+    @update_sector @get_subsector(id).sector_id, {}
+    @touch_sector(id)
     @hasChanged()
 
-  delete_subsector: (sector_id, subsector_id) ->
-    current_week = @state.current_week.asMutable({deep: true})
+  delete_subsector: (id) ->
+    subsector = @get_subsector(id)
     minus_count = 0
-    for k, activity of current_week.sectors[sector_id].subsectors[subsector_id].activities
-      minus_count += activity.count
-    current_week.sectors[sector_id].subsectors[subsector_id] = null
-    delete current_week.sectors[sector_id].subsectors[subsector_id]
-    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
-    @state.current_week = Immutable current_week
+    for aid in subsector.activities
+      minus_count += @get_activity(aid).count
+
+    week_id = @state.current_week.id
+    @update_sector subsector.sector_id,
+      weeks:
+        "#{@state.current_week.id}":
+          progress:  sectors[subsector.sector_id].weeks[week_id].progress - minus_count
+
+    @state.subsectors = subsectors.without("#{id}")
     @hasChanged()
 
-  move_subsector: (sector_id, subsector_id, to, dest = null) ->
+  move_subsector: (subsector_id, to, dest = null) ->
     subsectors = @get_sector(sector_id).subsectors
     if dest isnt null
       subsector = subsectors[subsector_id]
