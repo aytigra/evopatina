@@ -3,7 +3,6 @@ Button = React.createFactory require('./button')
 Sticky = React.createFactory require('./sticky')
 WeeksActionCreators = require '../actions/weeks_actions'
 SectorsActionCreators = require '../actions/sectors_actions'
-WeeksStore = require '../stores/weeks_store'
 
 WeekHeader = React.createClass
   displayName: 'WeekHeader'
@@ -21,7 +20,7 @@ WeekHeader = React.createClass
     WeeksActionCreators.show_stats()
 
   render: ->
-    if WeeksStore.get_settings().show_sectors
+    if @props.UI.show_sectors
       sectors_width = ' col-xs-11'
       week_width = ' col-xs-1'
       sector_buttons_class = ''
@@ -42,7 +41,7 @@ WeekHeader = React.createClass
           Button
             tag: 'button', on_click: @_onShowSectors
             add_class: 'visible-xs-inline-block'
-            active: WeeksStore.get_settings().show_sectors
+            active: @props.UI.show_sectors
             glyphicon: 'chevron-right', title: I18n.show + ' ' + I18n.sector_abbr
 
           Button
@@ -52,7 +51,7 @@ WeekHeader = React.createClass
             span null, I18n.add_short + ' ' + I18n.sector_abbr
           Button
             tag: 'button', on_click: @_onEditLapa,
-            active: @props.week.lapa_editing
+            active: @props.UI.lapa_editing
             add_class: sector_buttons_class
             glyphicon: 'cog', title: I18n.edit + ' ' + I18n.lapa_whom
             span null, I18n.edit_short + ' ' + I18n.lapa_whom
@@ -86,7 +85,7 @@ WeekHeader = React.createClass
           div className: 'stats-navbar pull-right hidden-lg hidden-md', style: {marginRight: '-10px'},
             Button
               tag: 'button', on_click: @_onShowStats
-              active: WeeksStore.get_settings().show_stats
+              active: @props.UI.show_stats
               glyphicon: 'stats', title: I18n.show + ' ' + I18n.stats_whom
 
 

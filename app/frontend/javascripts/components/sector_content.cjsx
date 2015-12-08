@@ -2,7 +2,7 @@
 Subsector = React.createFactory require('./subsector')
 Button = React.createFactory require('./button')
 SubsectorsActionCreators = require '../actions/subsectors_actions'
-EPutils = require '../ep_utils'
+WeeksStore = require '../stores/weeks_store'
 
 SectorContent = React.createClass
   displayName: 'SectorContent'
@@ -17,7 +17,8 @@ SectorContent = React.createClass
   render: ->
     div
       className: @props.className
-      EPutils.map_by_position @props.sector.subsectors, (subsector) ->
+      _.map @props.sector.subsectors, (id) ->
+        subsector = WeeksStore.get_subsector(id)
         if not subsector.hidden
           Subsector key: subsector.id, subsector: subsector,
       div className: 'row subsector-add',

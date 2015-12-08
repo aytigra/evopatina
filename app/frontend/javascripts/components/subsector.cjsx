@@ -2,7 +2,7 @@ Activity = require './activity'
 ActivitiesActionCreators = require '../actions/activities_actions'
 SubsectorForm = require './subsector_form'
 SubsectorsActionCreators = require '../actions/subsectors_actions'
-EPutils = require '../ep_utils'
+WeeksStore = require '../stores/weeks_store'
 
 Subsector = React.createClass
   displayName: 'Subsector'
@@ -32,7 +32,8 @@ Subsector = React.createClass
   render: ->
     have_hidden = false
 
-    activities = EPutils.map_by_position @props.subsector.activities, (activity)=>
+    activities = _.map @props.subsector.activities, (id) ->
+      activity = WeeksStore.get_activity(id)
       <Activity key={activity.id} activity={activity}/> if not activity.hidden
 
     if @props.subsector.editing

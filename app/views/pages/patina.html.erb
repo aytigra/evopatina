@@ -34,7 +34,7 @@
     var diameter = 1200;
 
     var tree = d3.layout.tree()
-        .size([360, diameter / 2 - 100])
+        .size([360, diameter / 2 - 150])
         .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
     var diagonal = d3.svg.diagonal.radial()
@@ -55,6 +55,8 @@
         .attr("class", function(d) { return "link link_" + d.source.depth} )
         .attr("d", function(d) {
             if (d.source.depth == 0) d.source.x = d.target.x;
+            d.target.y = round_to_ellipse(d.target);
+            //d.target.x = spread_to_width(d.target);
             return diagonal(d);
          })
         .style("stroke", function(d) { return !d.target.color || d.target.color == '#ffffff' ? '#ccc' : d.target.color; });
@@ -73,13 +75,13 @@
         .attr("transform", function(d) {
           switch (d.depth) {
             case 1:
-              translate = 100;
+              translate = 80;
               break;
             case 2:
-              translate = 50;
+              translate = 30;
               break;
             default:
-              translate = 20;
+              translate = 10;
           }
           translate = d.x < 180 ? -translate : translate
           return d.x < 180  ? "translate(" + translate + ")" : "rotate(180)translate(" + translate + ")";
@@ -95,6 +97,16 @@
     NProgress.done();
   };
 
+  function round_to_ellipse(d) {
+    //return d.y - 15 * Math.pow(d.depth, 2) * Math.abs(1/Math.cos(((d.x+45)%90-45)/180*Math.PI));
+    return d.y - 20 * Math.pow(d.depth, 2) * Math.abs(Math.cos((d.x/180)*Math.PI))
+  }
+
+  function spread_to_width(d) {
+    var offset = 15 * Math.abs(Math.cos((d.x/180)*Math.PI))
+    offset = (d.x <= 90 || d.x > 180 && d.x <= 270) ? + offset : - offset;
+    return d.x + offset;
+  }
 
   var js = document.createElement("script");
   js.type = "text/javascript";

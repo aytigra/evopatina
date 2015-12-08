@@ -9,21 +9,23 @@ WeeksStore = Marty.createStore
 
   getInitialState: ->
     weeks: {}
-    current_week: {sectors: {}, lapa_editing: false}
-    current_sector: null
-    show_sectors: false
-    show_stats: false
+    current_week: {}
+    sectors: {}
+    subsectors: {}
+    activities: {}
+    UI:
+      lapa_editing: false
+      current_sector: null
+      show_sectors: false
+      show_stats: false
 
-  setInitialState: (week, ok) ->
-    if ok && not _.isEmpty(week)
-
-      #prevent nill errors with emty lists
-      for key, val of week.sectors
-        week.sectors[key].subsectors ||= {}
-        for skey, sval of week.sectors[key].subsectors
-          week.sectors[key].subsectors[skey].activities ||= {}
-
-      @state.current_week = Immutable(week)
+  setInitialState: (JSON, ok) ->
+    if ok && not _.isEmpty(JSON)
+      @state.current_week = Immutable(JSON.current_week)
+      @state.sectors = Immutable(JSON.sectors)
+      @state.subsectors = Immutable(JSON.subsectors)
+      @state.activities = Immutable(JSON.activities)
+      @state.weeks = Immutable(JSON.weeks)
       @hasChanged()
     else
       alert('arrr! boat is sinking')
@@ -163,9 +165,7 @@ WeeksStore = Marty.createStore
 
 
   edit_lapa: (week)->
-    @state.current_week = @state.current_week.merge(
-      lapa_editing: !@state.current_week.lapa_editing
-    )
+    @state.UI.lapa_editing = !@state.UI.lapa_editing
     @hasChanged()
 
   update_lapa: (lapa) ->
@@ -185,57 +185,56 @@ WeeksStore = Marty.createStore
     @edit_lapa_timer = setTimeout(callback , 500)
 
   getCurrentLapa: (sector_id) ->
-    @state.current_week.sectors[sector_id].weeks[@state.current_week.id].lapa
+    @state.sectors[sector_id].weeks[@state.current_week.id].lapa
 
   getCurrentWeek: ->
     @state.current_week
 
   getCurrentSector: ->
     sectors = @getSectors()
-    if sectors && (!@state.current_sector || !sectors[@state.current_sector])
+    if sectors && (!@state.UI.current_sector || !sectors[@state.UI.current_sector])
       position = 8388607
       for id, sector of sectors
         if sector.position < position
           position = sector.position
-          @state.current_sector = sector.id
-    @state.current_sector
+          @state.UI.current_sector = sector.id
+    @state.UI.current_sector
 
   setCurrentSector: (sector)->
-    @state.current_sector = sector.id
+    @state.UI.current_sector = sector.id
     @hasChanged()
 
   show_sectors: ->
-    if @state.show_sectors
-      @state.show_sectors = false
+    if @state.UI.show_sectors
+      @state.UI.show_sectors = false
     else
-      @state.show_sectors = true
-      @state.show_stats = false
+      @state.UI.show_sectors = true
+      @state.UI.show_stats = false
     @hasChanged()
 
 
   show_stats: ->
-    if @state.show_stats
-      @state.show_stats = false
+    if @state.UI.show_stats
+      @state.UI.show_stats = false
     else
-      @state.show_stats = true
-      @state.show_sectors = false
+      @state.UI.show_stats = true
+      @state.UI.show_sectors = false
     @hasChanged()
 
-  get_settings: ->
-    show_sectors: @state.show_sectors
-    show_stats: @state.show_stats
+  UI: ->
+    @state.UI
 
   getSectors: ->
-    @state.current_week.sectors
+    @state.sectors
 
   get_sector: (sector_id) ->
-    @state.current_week.sectors[sector_id]
+    @state.sectors[sector_id]
 
-  get_subsector: (sector_id, subsector_id) ->
-    @state.current_week.sectors[sector_id].subsectors[subsector_id]
+  get_subsector: (subsector_id) ->
+    @state.subsectors[subsector_id]
 
-  get_activity: (sector_id, subsector_id, activity_id) ->
-    @state.current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
+  get_activity: (activity_id) ->
+    @state.activities[activity_id]
 
   get_new_position: (entries, position, to) ->
     # ranked-model gem range
