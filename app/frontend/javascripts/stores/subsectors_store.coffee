@@ -32,19 +32,7 @@ SubsectorsStore = Marty.createStore
 
   #create empty subsector in sector with placeholder ID
   create: (sector) ->
-    i = 1
-    while @get("new_#{i}")?
-      i++
-    @set("new_#{i}",
-      id: 'new_' + i
-      sector_id: sector.id
-      name: ''
-      description: ''
-      activities: {}
-      editing: true
-      show_hidden: false
-      position: 9000000
-    )
+    WeeksStore.new_subsector(sector.id)
 
   edit: (subsector) ->
     @set(subsector.id,
@@ -62,7 +50,7 @@ SubsectorsStore = Marty.createStore
         editing: false
         name: subsector.name_old
         description: subsector.description_old
-      @update(params)
+      @update(subsector, params)
 
   update_text: (subsector, params) ->
     @set subsector.id, params
@@ -107,12 +95,7 @@ SubsectorsStore = Marty.createStore
         errors: subsector.errors
       )
     else
-      new_subsector = @get(subsector.old_id).asMutable()
-      new_subsector.id = subsector.id
-      new_subsector.have_errors = false
-      new_subsector.errors = {}
-      @set subsector.id, new_subsector
-      @unset subsector.old_id
+      WeeksStore.update_subsector_id(subsector.old_id, subsector.id)
 
   destroy: (subsector) ->
     @set(subsector.id,
