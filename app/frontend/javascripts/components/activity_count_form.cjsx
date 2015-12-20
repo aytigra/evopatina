@@ -63,7 +63,6 @@ ActivityCountForm = React.createClass
             onChange={@_onCountChange}
             onKeyDown={@_onKeyDown}
             value={@state.count}
-            title={I18n.fragments.current}
           />
           <label> + </label>
           <input
@@ -72,7 +71,6 @@ ActivityCountForm = React.createClass
             onKeyDown={@_onKeyDown}
             value={@state.count_add}
             autoFocus={true}
-            title={I18n.fragments.addition}
           />
           <label className='count-name'>fragment</label>
         </div>
