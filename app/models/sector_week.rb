@@ -20,6 +20,7 @@ class SectorWeek < ActiveRecord::Base
       weeks.each do |week_id, progress|
         find_or_initialize_by(sector_id: sector, week_id: week_id).update(progress: progress)
       end
+      where(sector_id: sector.id).where.not(week_id: weeks.keys).update_all(progress: 0.0)
     end
   end
 
