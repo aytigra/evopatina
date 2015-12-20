@@ -17,8 +17,4 @@ class Activity < ActiveRecord::Base
       .select('activities.*, fragments.count as count')
       .order(:subsector_id, :position)
   end
-
-  def self.by_subsectors(activities)
-    activities.each_with_object(Hash.new { |h, k| h[k] = [] }) { |a, h| h[a.subsector_id] << a.id }
-  end
 end

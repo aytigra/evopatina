@@ -7,7 +7,5 @@ class Subsector < ActiveRecord::Base
 
   validates :sector, :name, presence: true
 
-  def self.by_sectors(subsectors)
-    subsectors.each_with_object(Hash.new { |h, k| h[k] = [] }) { |s, h| h[s.sector_id] << s.id }
-  end
+  scope :where_sectors, -> (sectors) { where(sector: sectors.map(&:id)).order(:sector_id, :position) }
 end

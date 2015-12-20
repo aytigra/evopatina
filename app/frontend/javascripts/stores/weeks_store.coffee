@@ -205,6 +205,8 @@ WeeksStore = Marty.createStore
     @state.UI.lapa_editing = !@state.UI.lapa_editing
     @hasChanged()
 
+
+  ## WANTFIX
   update_lapa: (lapa) ->
     week_id = @state.current_week.id
     sectors = {}
