@@ -54,9 +54,10 @@ SubsectorsStore = Marty.createStore
 
   update_text: (subsector, params) ->
     @set subsector.id, params
-    clearTimeout @typingTimer
-    callback = => @update(subsector, params)
-    @typingTimer = setTimeout(callback , 500)
+    if typeof sector.id isnt "string"
+      clearTimeout @typingTimer
+      callback = => @update(subsector, params)
+      @typingTimer = setTimeout(callback , 500)
 
   update: (subsector, params) ->
     @set subsector.id, params
@@ -78,6 +79,7 @@ SubsectorsStore = Marty.createStore
       )
 
   save: (subsector) ->
+    @typingTimer = null
     prpams =
       editing: false
       name_old: subsector.name

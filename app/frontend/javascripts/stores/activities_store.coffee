@@ -91,9 +91,10 @@ ActivitiesStore = Marty.createStore
 
   update_text: (activity, params) ->
     @set activity.sector_id, activity.subsector_id, activity.id, params
-    clearTimeout @typingTimer
-    callback = => @update(activity, params)
-    @typingTimer = setTimeout(callback , 500)
+    if typeof activity.id isnt "string"
+      clearTimeout @typingTimer
+      callback = => @update(activity, params)
+      @typingTimer = setTimeout(callback , 500)
 
   update: (activity, params) ->
     @set activity.sector_id, activity.subsector_id, activity.id, params
@@ -135,6 +136,7 @@ ActivitiesStore = Marty.createStore
       )
 
   save: (activity) ->
+    @typingTimer = null
     params =
       editing: false
       name_old: activity.name
