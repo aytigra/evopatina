@@ -105,42 +105,51 @@ WeeksStore = Marty.createStore
 
     week_id = @state.current_week.id
     sector = @state.sectors[subsector.sector_id]
-    @update_sector sector.id, {
+    @update_sector sector.id
       subsectors: _.without(sector.subsectors, id)
       weeks:
         "#{week_id}":
           progress:  sector.weeks[week_id].progress - minus_count
-    }, false
 
   move_subsector: (subsector_id, to, dest = null) ->
-    subsectors = @get_sector(sector_id).subsectors
-    if dest isnt null
-      subsector = subsectors[subsector_id]
-      new_subsector = subsector.merge(
-        sector_id: dest.sector_id
-        editing: false
-        position: @get_new_position(subsectors, subsector.position, 'last')
-      )
-
-      current_week = @getCurrentWeek()
-      plus_count = 0
-      for k, activity of new_subsector.activities
-        plus_count += activity.count
+    if dest and dest.sector_id
+      subsector = @get_subsector(subsector_id)
+      from_sector = @state.sectors[subsector.sector_id]
+      to_sector = @state.sectors[dest.sector_id]
+      week_id = @state.current_week.id
 
       data =
-        sectors:
-          "#{dest.sector_id}":
-            weeks:
-              "#{@state.current_week.id}":
-                progress: current_week.sectors[dest.sector_id].weeks[current_week.id].progress + plus_count
-            subsectors:
-              "#{subsector_id}": new_subsector
-      @state.current_week = @state.current_week.merge(data, {deep: true})
-      @delete_subsector(subsector.sector_id, subsector.id)
+        "#{subsector_id}":
+          sector_id: dest.sector_id
+          editing: false
+      @state.subsectors = @state.subsectors.merge(data, {deep: true})
+
+      count = 0
+      for aid in subsector.activities
+        count += @get_activity(aid).count
+
+      to_subsectors = to_sector.subsectors.asMutable()
+      to_subsectors.push(subsector_id)
+
+      data =
+        "#{from_sector.id}":
+          subsectors: _.without(from_sector.subsectors, subsector_id)
+          weeks:
+            "#{week_id}":
+              progress: from_sector.weeks[week_id].progress - count
+        "#{to_sector.id}":
+          subsectors: to_subsectors
+          weeks:
+            "#{week_id}":
+              progress: to_sector.weeks[week_id].progress + count
+      @state.sectors = @state.sectors.merge(data, {deep: true})
+
+      @hasChanged()
     else
-      params =
-        position: @get_new_position(subsectors, subsectors[subsector_id].position, to)
-      @update_subsector(sector_id, subsector_id, params)
+      sector = @state.sectors[@get_subsector(subsector_id).sector_id]
+      @update_sector sector.id,
+        subsectors: @array_move_element(sector.subsectors.asMutable(), subsector_id, to)
+
 
   update_activity: (sector_id, subsector_id, activity_id, params = {}) ->
     count_change = 0
@@ -286,5 +295,21 @@ WeeksStore = Marty.createStore
     if to == 'last' && position_max isnt -8388607
       position = position_max + 0.001
     position
+
+  array_move_element: (array, element, to) ->
+    pos = array.indexOf(element)
+    if to == 'up' && pos > 0
+      array[pos] = array[pos - 1]
+      array[pos - 1] = element
+    if to == 'down' && pos < array.length - 1
+      array[pos] = array[pos + 1]
+      array[pos + 1] = element
+    if to == 'first'
+      array.splice(pos, 1)
+      array.unshift(element)
+    if to == 'last'
+      array.splice(pos, 1)
+      array.push(element)
+    array
 
 module.exports = WeeksStore
