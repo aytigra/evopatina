@@ -29,6 +29,7 @@ class SubsectorsController < ApplicationController
 
   # PUT /move_subsectors/1.json
   def move
+    from_sector_id = @subsector.sector_id
     case params[:to]
     when 'up'
       @subsector.row_order_position = :up
@@ -38,7 +39,12 @@ class SubsectorsController < ApplicationController
       @subsector.sector_id = params[:sector_id].to_i
       @subsector.row_order_position = :last
     end
-    render_response @subsector.save
+    status_ok = @subsector.save
+    if status_ok && params[:to] == 'sector'
+      SectorWeek.recount_sector(Sector.find_by_id @subsector.sector_id)
+      SectorWeek.recount_sector(Sector.find_by_id from_sector_id)
+    end
+    render_response status_ok
   end
 
   private
