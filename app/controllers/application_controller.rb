@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
     Time.use_zone(timezone) { yield }
   end
 
-  def authenticate_user!
+  def authenticate_user!(options={})
     if user_signed_in?
       super
     else
