@@ -55,7 +55,7 @@
         .attr("class", function(d) { return "link link_" + d.source.depth} )
         .attr("d", function(d) {
             if (d.source.depth == 0) d.source.x = d.target.x;
-            d.target.y = round_to_ellipse(d.target);
+            //d.target.y = round_to_ellipse(d.target);
             //d.target.x = spread_to_width(d.target);
             return diagonal(d);
          })

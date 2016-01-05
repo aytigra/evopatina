@@ -336,6 +336,9 @@ WeeksStore = Marty.createStore
   get_activity: (activity_id) ->
     @state.activities[activity_id]
 
+  get_week: (week_id) ->
+    @state.weeks[week_id]
+
   array_move_element: (array, element, to) ->
     pos = array.indexOf(element)
     if to == 'up' && pos > 0

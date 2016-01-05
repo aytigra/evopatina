@@ -6,8 +6,6 @@ Sector = React.createFactory require('./sector')
 SectorContent = React.createFactory require('./sector_content')
 SectorStatistics = React.createFactory require('./sector_statistics')
 
-EPutils = require '../ep_utils'
-
 WeekContent = React.createClass
   displayName: 'WeekContent'
 

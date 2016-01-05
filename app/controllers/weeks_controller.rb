@@ -7,7 +7,7 @@ class WeeksController < ApplicationController
     @week = Week.get_week params_date
     @weeks = [@week] + @week.previous_weeks
     @sectors = Sector.sectors_with_weeks(current_user, @weeks)
-    @subsectors = Subsector.where_sectors @sectors
+    @subsectors = Subsector.where_sectors(@sectors)
     @activities = Activity.with_fragments_count(@subsectors, @week)
 
     @json_locals = {
