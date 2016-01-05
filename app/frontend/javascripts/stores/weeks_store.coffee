@@ -54,10 +54,10 @@ WeeksStore = Marty.createStore
     @hasChanged()
 
   move_sector: (id, to) ->
-    sectors = @getSectors()
-    params =
-      position: @get_new_position(sectors, sectors[id].position, to)
-    @update_sector(id, params)
+    data =
+      sectors: @array_move_element(@state.current_week.sectors.asMutable(), id, to)
+    @state.current_week = @state.current_week.merge(data, {deep: true})
+    @hasChanged()
 
   update_subsector: (id, params = {}) ->
     data =
@@ -335,29 +335,6 @@ WeeksStore = Marty.createStore
 
   get_activity: (activity_id) ->
     @state.activities[activity_id]
-
-  get_new_position: (entries, position, to) ->
-    # ranked-model gem range
-    position_before = position_max = -8388607
-    position_after = position_min = 8388607
-    for id, entry of entries
-      if entry.position > position and entry.position < position_after
-        position_after = entry.position
-      if entry.position < position and entry.position > position_before
-        position_before = entry.position
-      if entry.position < position_min
-        position_min = entry.position
-      if entry.position > position_max
-        position_max = entry.position
-    if to == 'up' && position_before isnt -8388607
-      position = position_before - 0.001
-    if to == 'down' && position_after isnt 8388607
-      position = position_after + 0.001
-    if to == 'first' && position_min isnt 8388607
-      position = position_min - 0.001
-    if to == 'last' && position_max isnt -8388607
-      position = position_max + 0.001
-    position
 
   array_move_element: (array, element, to) ->
     pos = array.indexOf(element)

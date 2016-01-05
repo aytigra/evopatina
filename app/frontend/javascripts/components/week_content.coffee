@@ -34,9 +34,10 @@ WeekContent = React.createClass
 
       div
         className: 'sector-list col-lg-4 col-md-3 col-sm-5' + sectors_class
-        EPutils.map_by_position @props.sectors, (sector, id) ->
+        _.map WeeksStore.getCurrentWeek().sectors, (sector_id) ->
+          sector = WeeksStore.get_sector(sector_id)
           Sector
-            key: id, sector: sector
+            key: sector.id, sector: sector
             current: sector.id == current_sector
             lapa_editing: UI.lapa_editing
             full: UI.show_sectors
