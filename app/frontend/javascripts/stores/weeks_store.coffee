@@ -9,21 +9,23 @@ WeeksStore = Marty.createStore
 
   getInitialState: ->
     weeks: {}
-    current_week: {sectors: {}, lapa_editing: false}
-    current_sector: null
-    show_sectors: false
-    show_stats: false
+    current_week: {}
+    sectors: {}
+    subsectors: {}
+    activities: {}
+    UI:
+      lapa_editing: false
+      current_sector: null
+      show_sectors: false
+      show_stats: false
 
-  setInitialState: (week, ok) ->
-    if ok && not _.isEmpty(week)
-
-      #prevent nill errors with emty lists
-      for key, val of week.sectors
-        week.sectors[key].subsectors ||= {}
-        for skey, sval of week.sectors[key].subsectors
-          week.sectors[key].subsectors[skey].activities ||= {}
-
-      @state.current_week = Immutable(week)
+  setInitialState: (JSON, ok) ->
+    if ok && not _.isEmpty(JSON)
+      @state.current_week = Immutable(JSON.current_week)
+      @state.sectors = Immutable(JSON.sectors)
+      @state.subsectors = Immutable(JSON.subsectors)
+      @state.activities = Immutable(JSON.activities)
+      @state.weeks = Immutable(JSON.weeks)
       @hasChanged()
     else
       alert('arrr! boat is sinking')
@@ -40,144 +42,242 @@ WeeksStore = Marty.createStore
     WeeksAPI.get_week +id
 
 
-  update_sector: (sector_id, params = {}) ->
+  update_sector: (id, params = {}) ->
     data =
-      sectors:
-        "#{sector_id}": params
+      "#{id}": params
+    @state.sectors = @state.sectors.merge(data, {deep: true})
+    @hasChanged()
+
+  delete_sector: (id) ->
+    @state.sectors = @state.sectors.without("#{id}")
+    @state.UI.current_sector = null
+    @hasChanged()
+
+  move_sector: (id, to) ->
+    data =
+      sectors: @array_move_element(@state.current_week.sectors.asMutable(), id, to)
     @state.current_week = @state.current_week.merge(data, {deep: true})
     @hasChanged()
 
-  delete_sector: (sector_id) ->
-    current_week = @state.current_week.asMutable({deep: true})
-    current_week.sectors[sector_id] = null
-    delete current_week.sectors[sector_id]
-    @state.current_week = Immutable current_week
-    @state.current_sector = null
-    @hasChanged()
-
-  move_sector: (sector_id, to) ->
-    sectors = @getSectors()
-    params =
-      position: @get_new_position(sectors, sectors[sector_id].position, to)
-    @update_sector(sector_id, params)
-
-
-  update_subsector: (sector_id, subsector_id, params = {}) ->
+  update_subsector: (id, params = {}) ->
     data =
-      sectors:
-        "#{sector_id}":
-          subsectors:
-            "#{subsector_id}": params
-    @state.current_week = @state.current_week.merge(data, {deep: true})
-    @hasChanged()
+      "#{id}": params
+    @state.subsectors = @state.subsectors.merge(data, {deep: true})
+    # bubble changes up tree
+    @update_sector @get_subsector(id).sector_id, {uniq_ver: _.uniqueId('sector')}
 
-  delete_subsector: (sector_id, subsector_id) ->
-    current_week = @state.current_week.asMutable({deep: true})
+  new_subsector: (sector_id) ->
+    subsector_id = _.uniqueId('new_subsector')
+    data =
+      "#{subsector_id}":
+        id: subsector_id
+        sector_id: sector_id
+        name: ''
+        description: ''
+        activities: []
+        editing: true
+        show_hidden: false
+
+    @state.subsectors = @state.subsectors.merge data, {deep: true}
+
+    subsectors = @get_sector(sector_id).subsectors.asMutable()
+    subsectors.push(subsector_id)
+    @update_sector sector_id,
+      subsectors: subsectors
+
+  update_subsector_id: (old_id, id) ->
+    subsector = @get_subsector(old_id).asMutable()
+    subsector.id = id
+    data =
+      "#{id}": subsector
+    @state.subsectors = @state.subsectors.merge(data, {deep: true})
+
+    subsectors = @get_sector(subsector.sector_id).subsectors.asMutable()
+    subsectors[subsectors.indexOf(old_id)] = id
+    @update_sector subsector.sector_id,
+      subsectors: subsectors
+
+  delete_subsector: (id) ->
+    subsector = @get_subsector(id)
     minus_count = 0
-    for k, activity of current_week.sectors[sector_id].subsectors[subsector_id].activities
-      minus_count += activity.count
-    current_week.sectors[sector_id].subsectors[subsector_id] = null
-    delete current_week.sectors[sector_id].subsectors[subsector_id]
-    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
-    @state.current_week = Immutable current_week
-    @hasChanged()
+    for aid in subsector.activities
+      minus_count += @get_activity(aid).count
 
-  move_subsector: (sector_id, subsector_id, to, dest = null) ->
-    subsectors = @get_sector(sector_id).subsectors
-    if dest isnt null
-      subsector = subsectors[subsector_id]
-      new_subsector = subsector.merge(
-        sector_id: dest.sector_id
-        editing: false
-        position: @get_new_position(subsectors, subsector.position, 'last')
-      )
+    week_id = @state.current_week.id
+    sector = @state.sectors[subsector.sector_id]
+    @update_sector sector.id
+      subsectors: _.without(sector.subsectors, id)
+      weeks:
+        "#{week_id}":
+          progress:  sector.weeks[week_id].progress - minus_count
 
-      current_week = @getCurrentWeek()
-      plus_count = 0
-      for k, activity of new_subsector.activities
-        plus_count += activity.count
+  move_subsector: (subsector_id, to, dest = null) ->
+    if dest and dest.sector_id
+      subsector = @get_subsector(subsector_id)
+      from_sector = @state.sectors[subsector.sector_id]
+      to_sector = @state.sectors[dest.sector_id]
+      week_id = @state.current_week.id
 
       data =
-        sectors:
-          "#{dest.sector_id}":
-            weeks:
-              "#{@state.current_week.id}":
-                progress: current_week.sectors[dest.sector_id].weeks[current_week.id].progress + plus_count
-            subsectors:
-              "#{subsector_id}": new_subsector
-      @state.current_week = @state.current_week.merge(data, {deep: true})
-      @delete_subsector(subsector.sector_id, subsector.id)
-    else
-      params =
-        position: @get_new_position(subsectors, subsectors[subsector_id].position, to)
-      @update_subsector(sector_id, subsector_id, params)
+        "#{subsector_id}":
+          sector_id: dest.sector_id
+          editing: false
+      @state.subsectors = @state.subsectors.merge(data, {deep: true})
 
-  update_activity: (sector_id, subsector_id, activity_id, params = {}) ->
-    count_change = 0
-    activity_old = @get_activity sector_id, subsector_id, activity_id
-    count_old = if activity_old then activity_old.count else 0
-    if _.has(params, 'count')
-      count_change = params.count - count_old
-    progress = @get_sector(sector_id).weeks[@state.current_week.id].progress + count_change
+      count = 0
+      for aid in subsector.activities
+        count += @get_activity(aid).count
+
+      to_subsectors = to_sector.subsectors.asMutable()
+      to_subsectors.push(subsector_id)
+
+      data =
+        "#{from_sector.id}":
+          subsectors: _.without(from_sector.subsectors, subsector_id)
+          weeks:
+            "#{week_id}":
+              progress: from_sector.weeks[week_id].progress - count
+        "#{to_sector.id}":
+          subsectors: to_subsectors
+          weeks:
+            "#{week_id}":
+              progress: to_sector.weeks[week_id].progress + count
+      @state.sectors = @state.sectors.merge(data, {deep: true})
+
+      @hasChanged()
+    else
+      sector = @state.sectors[@get_subsector(subsector_id).sector_id]
+      @update_sector sector.id,
+        subsectors: @array_move_element(sector.subsectors.asMutable(), subsector_id, to)
+
+
+  new_activity: (subsector_id) ->
+    activity_id = _.uniqueId('new_activity')
+    data =
+      "#{activity_id}":
+        id: activity_id
+        subsector_id: subsector_id
+        name: ''
+        description: ''
+        editing: true
+        show_hidden: false
+        count: 0
+
+    @state.activities = @state.activities.merge data, {deep: true}
+
+    activities = @get_subsector(subsector_id).activities.asMutable()
+    activities.push(activity_id)
+    @update_subsector subsector_id,
+      activities: activities
+
+  update_activity: (id, params = {}) ->
+    activity = @get_activity id
+    sector_id = @get_subsector(activity.subsector_id).sector_id
+    week_id = @state.current_week.id
+    count_change = if _.has(params, 'count') then params.count - activity.count else 0
+    progress = @get_sector(sector_id).weeks[week_id].progress + count_change
 
     data =
-      sectors:
-        "#{sector_id}":
-          weeks:
-            "#{@state.current_week.id}":
-              progress: progress
-          subsectors:
-            "#{subsector_id}":
-              activities:
-                "#{activity_id}": params
+      "#{id}": params
+    @state.activities = @state.activities.merge(data, {deep: true})
 
-    @state.current_week = @state.current_week.merge(data, {deep: true})
+    data =
+      "#{sector_id}":
+        weeks:
+          "#{week_id}":
+            progress: progress
+    @state.sectors = @state.sectors.merge(data, {deep: true})
 
-    @hasChanged()
+    # bubble changes up tree
+    @update_subsector activity.subsector_id, {uniq_ver: _.uniqueId('subsector')}
 
-  delete_activity: (sector_id, subsector_id, activity_id) ->
-    current_week = @state.current_week.asMutable({deep: true})
-    minus_count = current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id].count
-    current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id] = null
-    delete current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
-    current_week.sectors[sector_id].weeks[current_week.id].progress -= minus_count
-    @state.current_week = Immutable current_week
-    @hasChanged()
+  update_activity_id: (old_id, id) ->
+    activity = @get_activity(old_id).asMutable()
+    activity.id = id
+    data =
+      "#{id}": activity
+    @state.activities = @state.activities.merge(data, {deep: true})
 
-  move_activity: (sector_id, subsector_id, activity_id, to, dest = null) ->
-    activities = @get_subsector(sector_id, subsector_id).activities
-    if dest isnt null
-      activity = activities[activity_id]
-      new_activity = activity.merge(
-        sector_id: dest.sector_id
-        subsector_id: dest.subsector_id
-        editing: false
-        position: @get_new_position(activities, activity.position, 'last')
-      )
-      @update_activity(dest.sector_id, dest.subsector_id, activity.id, new_activity)
-      @delete_activity(activity.sector_id, activity.subsector_id, activity.id)
+    activities = @get_subsector(activity.subsector_id).activities.asMutable()
+    activities[activities.indexOf(old_id)] = id
+    @update_subsector activity.subsector_id,
+      activities: activities
+
+  delete_activity: (id) ->
+    activity = @get_activity(id)
+    subsector = @get_subsector(activity.subsector_id)
+    sector = @state.sectors[subsector.sector_id]
+    week_id = @state.current_week.id
+
+
+    data =
+      "#{subsector.id}":
+        activities: _.without(subsector.activities, id)
+    @state.subsectors = @state.subsectors.merge(data, {deep: true})
+
+    @update_sector subsector.sector_id,
+      weeks:
+        "#{week_id}":
+          progress:  @get_sector(subsector.sector_id).weeks[week_id].progress - activity.count
+
+  move_activity: (id, to, dest = null) ->
+    if dest and dest.subsector_id
+      activity = @get_activity(id)
+      from_subsector = @state.subsectors[activity.subsector_id]
+      to_subsector = @state.subsectors[dest.subsector_id]
+      week_id = @state.current_week.id
+
+      data =
+        "#{id}":
+          subsector_id: dest.subsector_id
+          editing: false
+      @state.activities = @state.activities.merge(data, {deep: true})
+
+      to_activities = to_subsector.activities.asMutable()
+      to_activities.push(id)
+
+      data =
+        "#{from_subsector.id}":
+          activities: _.without(from_subsector.activities, id)
+        "#{to_subsector.id}":
+          activities: to_activities
+      @state.subsectors = @state.subsectors.merge(data, {deep: true})
+
+      if from_subsector.sector_id isnt to_subsector.sector_id
+        from_sector = @state.sectors[from_subsector.sector_id]
+        to_sector = @state.sectors[to_subsector.sector_id]
+        data =
+          "#{from_sector.id}":
+            weeks:
+              "#{week_id}":
+                progress: from_sector.weeks[week_id].progress - activity.count
+          "#{to_sector.id}":
+            weeks:
+              "#{week_id}":
+                progress: to_sector.weeks[week_id].progress + activity.count
+        @state.sectors = @state.sectors.merge(data, {deep: true})
+
+      @hasChanged()
     else
-      params =
-        position: @get_new_position(activities, activities[activity_id].position, to)
-      @update_activity(sector_id, subsector_id, activity_id, params)
+      subsector = @state.subsectors[@get_activity(id).subsector_id]
+      @update_subsector subsector.id,
+        activities: @array_move_element(subsector.activities.asMutable(), id, to)
 
 
   edit_lapa: (week)->
-    @state.current_week = @state.current_week.merge(
-      lapa_editing: !@state.current_week.lapa_editing
-    )
+    @state.UI.lapa_editing = !@state.UI.lapa_editing
     @hasChanged()
 
   update_lapa: (lapa) ->
     week_id = @state.current_week.id
-    sectors = {}
     for sector_id, value of lapa
-      sectors[sector_id] =
-        weeks:
-          "#{week_id}":
-            lapa: value
+      data =
+        "#{sector_id}":
+          weeks:
+            "#{week_id}":
+              lapa: value
 
-    @state.current_week = @state.current_week.merge({sectors: sectors}, {deep: true})
+    @state.sectors = @state.sectors.merge(data, {deep: true})
     @hasChanged()
 
     clearTimeout @edit_lapa_timer
@@ -185,79 +285,74 @@ WeeksStore = Marty.createStore
     @edit_lapa_timer = setTimeout(callback , 500)
 
   getCurrentLapa: (sector_id) ->
-    @state.current_week.sectors[sector_id].weeks[@state.current_week.id].lapa
+    @state.sectors[sector_id].weeks[@state.current_week.id].lapa
 
   getCurrentWeek: ->
     @state.current_week
 
   getCurrentSector: ->
     sectors = @getSectors()
-    if sectors && (!@state.current_sector || !sectors[@state.current_sector])
+    if sectors && (!@state.UI.current_sector || !sectors[@state.UI.current_sector])
       position = 8388607
       for id, sector of sectors
         if sector.position < position
           position = sector.position
-          @state.current_sector = sector.id
-    @state.current_sector
+          @state.UI.current_sector = sector.id
+    @state.UI.current_sector
 
   setCurrentSector: (sector)->
-    @state.current_sector = sector.id
+    @state.UI.current_sector = sector.id
     @hasChanged()
 
   show_sectors: ->
-    if @state.show_sectors
-      @state.show_sectors = false
+    if @state.UI.show_sectors
+      @state.UI.show_sectors = false
     else
-      @state.show_sectors = true
-      @state.show_stats = false
+      @state.UI.show_sectors = true
+      @state.UI.show_stats = false
     @hasChanged()
 
 
   show_stats: ->
-    if @state.show_stats
-      @state.show_stats = false
+    if @state.UI.show_stats
+      @state.UI.show_stats = false
     else
-      @state.show_stats = true
-      @state.show_sectors = false
+      @state.UI.show_stats = true
+      @state.UI.show_sectors = false
     @hasChanged()
 
-  get_settings: ->
-    show_sectors: @state.show_sectors
-    show_stats: @state.show_stats
+  UI: ->
+    @state.UI
 
   getSectors: ->
-    @state.current_week.sectors
+    @state.sectors
 
   get_sector: (sector_id) ->
-    @state.current_week.sectors[sector_id]
+    @state.sectors[sector_id]
 
-  get_subsector: (sector_id, subsector_id) ->
-    @state.current_week.sectors[sector_id].subsectors[subsector_id]
+  get_subsector: (subsector_id) ->
+    @state.subsectors[subsector_id]
 
-  get_activity: (sector_id, subsector_id, activity_id) ->
-    @state.current_week.sectors[sector_id].subsectors[subsector_id].activities[activity_id]
+  get_activity: (activity_id) ->
+    @state.activities[activity_id]
 
-  get_new_position: (entries, position, to) ->
-    # ranked-model gem range
-    position_before = position_max = -8388607
-    position_after = position_min = 8388607
-    for id, entry of entries
-      if entry.position > position and entry.position < position_after
-        position_after = entry.position
-      if entry.position < position and entry.position > position_before
-        position_before = entry.position
-      if entry.position < position_min
-        position_min = entry.position
-      if entry.position > position_max
-        position_max = entry.position
-    if to == 'up' && position_before isnt -8388607
-      position = position_before - 0.001
-    if to == 'down' && position_after isnt 8388607
-      position = position_after + 0.001
-    if to == 'first' && position_min isnt 8388607
-      position = position_min - 0.001
-    if to == 'last' && position_max isnt -8388607
-      position = position_max + 0.001
-    position
+  get_week: (week_id) ->
+    @state.weeks[week_id]
+
+  array_move_element: (array, element, to) ->
+    pos = array.indexOf(element)
+    if to == 'up' && pos > 0
+      array[pos] = array[pos - 1]
+      array[pos - 1] = element
+    if to == 'down' && pos < array.length - 1
+      array[pos] = array[pos + 1]
+      array[pos + 1] = element
+    if to == 'first'
+      array.splice(pos, 1)
+      array.unshift(element)
+    if to == 'last'
+      array.splice(pos, 1)
+      array.push(element)
+    array
 
 module.exports = WeeksStore

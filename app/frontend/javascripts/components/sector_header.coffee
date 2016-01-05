@@ -13,7 +13,7 @@ SectorHeader = React.createClass
     SectorsActionCreators.edit @props.sector
 
   _onHideSectors: ->
-    WeeksActionCreators.show_sectors() if not WeeksStore.get_settings().show_stats
+    WeeksActionCreators.show_sectors()
 
   render: ->
     sector = @props.sector

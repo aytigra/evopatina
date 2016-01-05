@@ -1,6 +1,9 @@
-json.extract! week, :id, :date, :route_path, :prev_path, :next_path, :begin_end_text, :days
+json.current_week do
+  json.extract! week, :id, :date, :route_path, :prev_path, :next_path, :begin_end_text, :days
+  json.sectors sectors.map(&:id)
+end
 
-json.set! :weeks do
+json.weeks do
   weeks.each do |w|
     json.set! w.id do
       json.extract! w, :id, :route_path
@@ -8,35 +11,35 @@ json.set! :weeks do
   end
 end
 
-json.set! :sectors do
+json.sectors do
   sectors.each do |sector|
     json.set! sector.id do
       json.extract! sector, :id, :name, :description, :icon, :color, :position
-      json.set! :weeks do
+      json.subsectors subsectors_ids[sector.id]
+      json.weeks do
         sector.weeks.each do |id, week|
           json.set! id do
             json.extract! week, :lapa, :progress, :lapa_sum, :progress_sum, :position
           end
         end
       end
+    end
+  end
+end
 
-      json.set! :subsectors do
-        subsectors[sector.id] ||= {}
-        subsectors[sector.id].each do |subsector|
-          json.set! subsector.id do
-            json.extract! subsector, :id, :sector_id, :name, :description, :position
+json.subsectors do
+  subsectors.each do |subsector|
+    json.set! subsector.id do
+      json.extract! subsector, :id, :sector_id, :name, :description, :position
+      json.activities activities_ids[subsector.id]
+    end
+  end
+end
 
-            json.set! :activities do
-              activities[subsector.id] ||= {}
-              activities[subsector.id].each do |activity|
-                json.set! activity.id do
-                  json.extract! activity, :id, :subsector_id, :sector_id, :name, :description, :count, :position
-                end
-              end
-            end
-          end
-        end
-      end
+json.activities do
+  activities.each do |activity|
+    json.set! activity.id do
+      json.extract! activity, :id, :subsector_id, :name, :description, :count, :position
     end
   end
 end

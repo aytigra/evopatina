@@ -7,7 +7,5 @@ class Subsector < ActiveRecord::Base
 
   validates :sector, :name, presence: true
 
-  def self.subsectors_by_sectors(user)
-    joins(:sector).where(sectors: { user_id: user.id }).group_by(&:sector_id)
-  end
+  scope :where_sectors, -> (sectors) { where(sector: sectors.map(&:id)).order(:sector_id, :position) }
 end

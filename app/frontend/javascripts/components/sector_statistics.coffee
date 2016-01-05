@@ -24,7 +24,7 @@ SectorStatistics = React.createClass
           div className: 'btns-left',
             Button
               tag: 'a'
-              href: WeeksStore.getCurrentWeek().weeks[id].route_path
+              href: WeeksStore.get_week(id).route_path
               size: 'xs'
               glyphicon: 'link'
           SectorProgressBar key: id, data: week

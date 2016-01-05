@@ -22,6 +22,11 @@ Style/LeadingCommentSpace:
 Style/SingleSpaceBeforeFirstArg:
   Enabled: false
 
+IndentationConsistency:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
+
 AllCops:
   Exclude:
     - 'lib/**/*'

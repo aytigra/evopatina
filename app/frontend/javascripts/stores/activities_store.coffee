@@ -7,23 +7,14 @@ ActivitiesStore = Marty.createStore
   displayName: 'ActivitiesStore'
   typingTimer: null
 
-  getInitialState: ->
-    activities: {}
+  get: (id) ->
+    WeeksStore.get_activity id
 
-  setInitialState: (data) ->
-    @setState
-      activities: data
+  set: (id, params = {}) ->
+    WeeksStore.update_activity id, params
 
-  get: (sector_id, subsector_id, id) ->
-    WeeksStore.get_activity sector_id, subsector_id, id
-
-  set: (sector_id, subsector_id, id, params = {}) ->
-    WeeksStore.update_activity sector_id, subsector_id, id, params
-
-
-
-  unset: (sector_id, subsector_id, id) ->
-    WeeksStore.delete_activity sector_id, subsector_id, id
+  unset: (id) ->
+    WeeksStore.delete_activity id
 
   handlers:
     create: ActivitiesConstants.ACTIVITY_CREATE
@@ -44,39 +35,24 @@ ActivitiesStore = Marty.createStore
 
   #create empty activity in subsector with placeholder ID
   create: (subsector) ->
-    i = 1
-    while @get(subsector.sector_id, subsector.id, "new_#{i}")?
-      i++
-    @set(subsector.sector_id, subsector.id,"new_#{i}",
-      id: 'new_' + i
-      subsector_id: subsector.id
-      name: ''
-      description: ''
-      editing: true
-      editing_count: false
-      count: 0
-      hidden: false
-      sector_id: subsector.sector_id
-      position: 9000000
-    )
-    @hasChanged()
+    WeeksStore.new_activity(subsector.id)
 
   edit: (activity) ->
-    @set(activity.sector_id, activity.subsector_id, activity.id,
+    @set(activity.id,
       editing: true
       name_old: activity.name
       description_old: activity.description
     )
 
   edit_count: (activity) ->
-    @set(activity.sector_id, activity.subsector_id, activity.id,
+    @set(activity.id,
       editing_count: true
     )
 
   cancel: (activity) ->
     if typeof activity.id is "string" && !activity.name_old
       #unset canceled and not saved yet new activity
-      @unset activity.sector_id, activity.subsector_id, activity.id
+      @unset activity.id
     else if activity.editing
       params =
         editing: false
@@ -85,56 +61,58 @@ ActivitiesStore = Marty.createStore
         description: activity.description_old
       @update(activity, params)
     else if activity.editing_count
-      @set(activity.sector_id, activity.subsector_id, activity.id,
+      @set(activity.id,
         editing_count: false
       )
 
   update_text: (activity, params) ->
-    @set activity.sector_id, activity.subsector_id, activity.id, params
-    clearTimeout @typingTimer
-    callback = => @update(activity, params)
-    @typingTimer = setTimeout(callback , 500)
+    @set activity.id, params
+    if typeof activity.id isnt "string"
+      clearTimeout @typingTimer
+      callback = => @update(activity, params)
+      @typingTimer = setTimeout(callback , 500)
 
   update: (activity, params) ->
-    @set activity.sector_id, activity.subsector_id, activity.id, params
+    @set activity.id, params
     #put to server
     if typeof activity.id isnt "string"
-      ActivitiesAPI.update @get(activity.sector_id, activity.subsector_id, activity.id)
+      ActivitiesAPI.update @get(activity.id)
 
   update_response: (activity, ok) ->
     if !ok
-      @set(activity.sector_id, activity.subsector_id, activity.id,
+      @set(activity.id,
         editing: true
         hidden: false
         have_errors: true
         errors: activity.errors
       )
     else
-      @set(activity.sector_id, activity.subsector_id, activity.id,
+      @set(activity.id,
         have_errors: false
         errors: {}
       )
 
   update_count: (activity, params) ->
-    params['week_id'] = WeeksStore.getCurrentWeek().id
-    @set activity.sector_id, activity.subsector_id, activity.id, params
-    ActivitiesAPI.update_count @get(activity.sector_id, activity.subsector_id, activity.id)
+    @set activity.id, params
+
+    ActivitiesAPI.update_count @get(activity.id), WeeksStore.getCurrentWeek().id
 
   update_count_response: (activity, ok) ->
     if !ok
-      @set(activity.sector_id, activity.subsector_id, activity.id,
+      @set(activity.id,
         editing_count: true
         hidden: false
         have_errors: true
         errors: activity.errors
       )
     else
-      @set(activity.sector_id, activity.subsector_id, activity.id,
+      @set(activity.id,
         have_errors: false
         errors: {}
       )
 
   save: (activity) ->
+    @typingTimer = null
     params =
       editing: false
       name_old: activity.name
@@ -146,21 +124,16 @@ ActivitiesStore = Marty.createStore
 
   create_response: (activity, ok) ->
     if !ok
-      @set(activity.sector_id, activity.subsector_id, activity.old_id,
+      @set(activity.old_id,
         editing: true
         have_errors: true
         errors: activity.errors
       )
     else
-      new_activity = @get(activity.sector_id, activity.subsector_id, activity.old_id).asMutable()
-      new_activity.id = activity.id
-      new_activity.have_errors = false
-      new_activity.errors = {}
-      @set activity.sector_id, activity.subsector_id, activity.id, new_activity
-      @unset activity.sector_id, activity.subsector_id, activity.old_id
+      WeeksStore.update_activity_id(activity.old_id, activity.id)
 
   destroy: (activity) ->
-    @set(activity.sector_id, activity.subsector_id, activity.id,
+    @set(activity.id,
       hidden: true
     )
     #delete to server
@@ -169,22 +142,22 @@ ActivitiesStore = Marty.createStore
 
   destroy_response: (activity, ok) ->
     if !ok
-      @set(activity.sector_id, activity.subsector_id, activity.id,
+      @set(activity.id,
         hidden: false
         have_errors: true
         errors: activity.errors
       )
     else
-      @unset activity.sector_id, activity.subsector_id, activity.id
+      @unset activity.id
 
   move: (activity, to) ->
     if to in ['up', 'down']
-      WeeksStore.move_activity activity.sector_id, activity.subsector_id, activity.id, to
+      WeeksStore.move_activity activity.id, to
       ActivitiesAPI.move(activity, to)
     if to is 'subsector'
       select_subsector(activity, WeeksStore.getSectors())
         .then (dest) =>
-          WeeksStore.move_activity activity.sector_id, activity.subsector_id, activity.id, to, dest
+          WeeksStore.move_activity activity.id, to, dest
           ActivitiesAPI.move({id: activity.id, subsector_id: dest.subsector_id}, 'subsector')
 
 

@@ -4,11 +4,12 @@ class FragmentsController < ApplicationController
 
   # PATCH/PUT /fragments/1.json
   def update
-    response_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: params[:sector_id] }
+    sector_id = @activity.sector.id
+    response_json = { id: @activity.id, subsector_id: @activity.subsector_id, sector_id: sector_id }
     fragment = Fragment.find_or_create(@activity, @week)
     fragment.count = params[:count].to_f
     if fragment.save
-      SectorWeek.recount_sector_week(params[:sector_id], @week.id)
+      SectorWeek.recount_sector_week(sector_id, @week.id)
       render json: response_json, status: :ok
     else
       response_json[:errors] = @activity.errors

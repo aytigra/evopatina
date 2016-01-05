@@ -7,13 +7,6 @@ SectorsStore = Marty.createStore
   displayName: 'SectorsStore'
   typingTimer: null
 
-  getInitialState: ->
-    sectors: {}
-
-  setInitialState: (data) ->
-    @setState
-      sectors: data
-
   get: (id) ->
     WeeksStore.get_sector id
 
@@ -77,9 +70,10 @@ SectorsStore = Marty.createStore
 
   update_text: (sector, params) ->
     @set sector.id, params
-    clearTimeout @typingTimer
-    callback = => @update(sector, params)
-    @typingTimer = setTimeout(callback , 500)
+    if typeof sector.id isnt "string"
+      clearTimeout @typingTimer
+      callback = => @update(sector, params)
+      @typingTimer = setTimeout(callback , 500)
 
   update: (sector, params) ->
     @set sector.id, params
@@ -101,6 +95,7 @@ SectorsStore = Marty.createStore
       )
 
   save: (sector) ->
+    @typingTimer = null
     prpams =
       editing: false
       name_old: sector.name

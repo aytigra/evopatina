@@ -4,7 +4,7 @@ class SectorWeek < ActiveRecord::Base
   validates :sector, :week_id, presence: true
 
   def self.sector_weeks_by_sectors(sectors, weeks)
-    raw = where(sector_id: sectors, week_id: weeks.map(&:id))
+    raw = where(sector_id: sectors.map(&:id), week_id: weeks.map(&:id))
 
     result = Hash.new { |h, k| h[k] = Hash.new { |hh, kk| hh[kk] = {} } }
     raw.each do |sw|
@@ -20,6 +20,7 @@ class SectorWeek < ActiveRecord::Base
       weeks.each do |week_id, progress|
         find_or_initialize_by(sector_id: sector, week_id: week_id).update(progress: progress)
       end
+      where(sector_id: sector.id).where.not(week_id: weeks.keys).update_all(progress: 0.0)
     end
   end
 
