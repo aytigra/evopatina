@@ -1,6 +1,7 @@
 class Activity < ActiveRecord::Base
   belongs_to :subsector
   has_many :fragments, dependent: :destroy
+  has_one :sector, through: :subsector
 
   include RankedModel
   ranks :row_order, column: :position, with_same: :subsector_id
