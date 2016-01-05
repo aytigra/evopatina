@@ -45,17 +45,16 @@ SubsectorsSelector = React.createClass
           sector.name
       )
       if withsubs
-        for subid, subsector of sector.subsectors
-          if subsector.id is @props.entry.subsector_id
-            continue
-
-          children.push(
-            div
-              className: 'selector-susector bg-info selector-clickable'
-              key: "subsector-#{subid}"
-              onClick: @_choose.bind(@, {sector_id: id, subsector_id: subid})
-              subsector.name
-          )
+        _.map sector.subsectors, (subid) =>
+          subsector = WeeksStore.get_subsector(subid)
+          if subsector.id isnt @props.entry.subsector_id
+            children.push(
+              div
+                className: 'selector-susector bg-info selector-clickable'
+                key: "subsector-#{subid}"
+                onClick: @_choose.bind(@, {sector_id: id, subsector_id: subid})
+                subsector.name
+            )
 
     destination_type = if withsubs then 'subsector' else 'sector'
 

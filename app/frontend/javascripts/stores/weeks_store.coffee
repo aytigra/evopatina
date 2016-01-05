@@ -250,11 +250,11 @@ WeeksStore = Marty.createStore
           "#{from_sector.id}":
             weeks:
               "#{week_id}":
-                progress: from_sector.weeks[week_id].progress - count
+                progress: from_sector.weeks[week_id].progress - activity.count
           "#{to_sector.id}":
             weeks:
               "#{week_id}":
-                progress: to_sector.weeks[week_id].progress + count
+                progress: to_sector.weeks[week_id].progress + activity.count
         @state.sectors = @state.sectors.merge(data, {deep: true})
 
       @hasChanged()
@@ -268,18 +268,16 @@ WeeksStore = Marty.createStore
     @state.UI.lapa_editing = !@state.UI.lapa_editing
     @hasChanged()
 
-
-  ## WANTFIX
   update_lapa: (lapa) ->
     week_id = @state.current_week.id
-    sectors = {}
     for sector_id, value of lapa
-      sectors[sector_id] =
-        weeks:
-          "#{week_id}":
-            lapa: value
+      data =
+        "#{sector_id}":
+          weeks:
+            "#{week_id}":
+              lapa: value
 
-    @state.current_week = @state.current_week.merge({sectors: sectors}, {deep: true})
+    @state.sectors = @state.sectors.merge(data, {deep: true})
     @hasChanged()
 
     clearTimeout @edit_lapa_timer
