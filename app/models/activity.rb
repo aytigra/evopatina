@@ -10,8 +10,14 @@ class Activity < ActiveRecord::Base
 
   validates :subsector, :name, presence: true
 
+  scope :counts_for, ->(day) do
+    a = arel_table
+    f = Fragment.arel_table
+    join = a.outer_join(f).on(f[:activity_id].eq(a[:id]).and(f[:week_id].eq(day.id)))
+    joins(join.join_sources).select(a[Arel.star], f[:count].as('count'))
+  end
+
   def count
-    fragment = fragments.first
-    fragment.present? ? fragment.count : 0.0
+    self[:count] || 0.0
   end
 end

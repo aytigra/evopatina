@@ -5,10 +5,12 @@ class DaysController < ApplicationController
   # GET /days/01-01-2015.json
   def show
     @day = Day.new params_date
-    @sectors = Sector.load_tree_for(current_user, @day).load
-    @subsectors = @sectors.map(&:subsectors).flatten
-    @activities = @subsectors.map(&:activities).flatten
+    @sectors = Sector.where(user: current_user)
     @progress = Fragment.progress_for_days([@day] + @day.previous_days)
+    @subsectors = Subsector.where(sector: @sectors.map(&:id))
+    @subsectors_ids = group_relation_ids_by(@subsectors, :sector_id)
+    @activities = Activity.where(subsector_id: @subsectors.map(&:id)).counts_for(@day)
+    @activities_ids = group_relation_ids_by(@activities, :subsector_id)
 
     respond_to do |format|
       format.html { render 'show' }
@@ -32,5 +34,9 @@ class DaysController < ApplicationController
       date = nil
     end
     date || Date.current
+  end
+
+  def group_relation_ids_by(relation, field)
+    relation.each_with_object(Hash.new { |h, k| h[k] = [] }) { |entry, h| h[entry[field]] << entry.id }
   end
 end

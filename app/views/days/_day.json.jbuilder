@@ -8,7 +8,7 @@ json.sectors do
     json.set! sector.id do
       json.extract! sector, :id, :name, :description, :icon, :color
       json.progress @progress[sector.id] || 0.0
-      json.subsectors sector.subsectors.map(&:id)
+      json.subsectors @subsectors_ids[sector.id]
     end
   end
 end
@@ -17,7 +17,7 @@ json.subsectors do
   @subsectors.each do |subsector|
     json.set! subsector.id do
       json.extract! subsector, :id, :sector_id, :name, :description
-      json.activities subsector.activities.map(&:id)
+      json.activities @activities_ids[subsector.id]
     end
   end
 end

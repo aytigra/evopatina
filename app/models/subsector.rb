@@ -1,4 +1,6 @@
 class Subsector < ActiveRecord::Base
+  default_scope { order(:position) }
+
   belongs_to :sector
   has_many :activities, dependent: :destroy
 
