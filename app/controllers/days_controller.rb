@@ -5,20 +5,11 @@ class DaysController < ApplicationController
   # GET /days/01-01-2015.json
   def show
     @day = Day.new params_date
-    @sectors = Sector.includes(:subsectors, :activities, :fragments)
-                     .where(user: current_user)
-                     .where(fragments: { week_id: [nil, @day.id] })
-                     .order('sectors.position, subsectors.position, activities.position')
-
+    @sectors = Sector.load_tree_for(current_user, @day)
     @subsectors = @sectors.map(&:subsectors).flatten
     @activities = @subsectors.map(&:activities).flatten
 
-    @json_locals = {
-      day: @day,
-      sectors: @sectors,
-      subsectors: @subsectors,
-      activities: @activities,
-    }
+    @json_locals = { day: @day, sectors: @sectors, subsectors: @subsectors, activities: @activities }
 
     respond_to do |format|
       format.html { render 'show' }
@@ -27,12 +18,6 @@ class DaysController < ApplicationController
   end
 
   private
-
-  def lapa_params
-    lapa_params = {}
-    params[:lapa].each { |k, v| lapa_params[k.to_i] = v.to_f }
-    lapa_params
-  end
 
   def params_date
     if !params[:date] || params[:date] == '0'
@@ -48,9 +33,5 @@ class DaysController < ApplicationController
       date = nil
     end
     date || Date.current
-  end
-
-  def group_relation_ids_by(relation, field)
-    relation.each_with_object(Hash.new { |h, k| h[k] = [] }) { |entry, h| h[entry[field]] << entry.id }
   end
 end

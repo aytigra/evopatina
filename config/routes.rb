@@ -10,10 +10,9 @@ Rails.application.routes.draw do
   resources :sectors
   put 'move_sector/:id', to: 'sectors#move', as: 'move_sector'
 
-  root 'weeks#show'
+  root 'days#show'
 
-  get 'weeks/:date', to: 'weeks#show', as: 'week'
-  patch 'weeks/:id', to: 'weeks#update'
+  get 'days/:date', to: 'days#show', as: 'week'
 
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'
 
