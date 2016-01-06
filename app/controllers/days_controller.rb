@@ -5,15 +5,14 @@ class DaysController < ApplicationController
   # GET /days/01-01-2015.json
   def show
     @day = Day.new params_date
-    @sectors = Sector.load_tree_for(current_user, @day)
+    @sectors = Sector.load_tree_for(current_user, @day).load
     @subsectors = @sectors.map(&:subsectors).flatten
     @activities = @subsectors.map(&:activities).flatten
-
-    @json_locals = { day: @day, sectors: @sectors, subsectors: @subsectors, activities: @activities }
+    @progress = Fragment.progress_for_days([@day] + @day.previous_days)
 
     respond_to do |format|
       format.html { render 'show' }
-      format.json { render partial: 'day', locals: @json_locals, status: :ok }
+      format.json { render partial: 'day', status: :ok }
     end
   end
 

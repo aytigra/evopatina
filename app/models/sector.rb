@@ -1,6 +1,4 @@
 class Sector < ActiveRecord::Base
-  attr_accessor :weeks
-
   belongs_to :user
   has_many :subsectors, dependent: :destroy
   has_many :activities, through: :subsectors
