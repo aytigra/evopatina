@@ -1,39 +1,29 @@
-class WeeksController < ApplicationController
+class DaysController < ApplicationController
   before_action :authenticate_user!
 
-  # GET /weeks/01-01-2015
-  # GET /weeks/01-01-2015.json
+  # GET /days/01-01-2015
+  # GET /days/01-01-2015.json
   def show
-    @week = Week.get_week params_date
-    @weeks = [@week] + @week.previous_weeks
-    @sectors = Sector.sectors_with_weeks(current_user, @weeks)
-    @subsectors = Subsector.where_sectors(@sectors)
-    @activities = Activity.with_fragments_count(@subsectors, @week)
+    @day = Day.new params_date
+    @sectors = Sector.includes(:subsectors, :activities, :fragments)
+                     .where(user: current_user)
+                     .where(fragments: { week_id: [nil, @day.id] })
+                     .order('sectors.position, subsectors.position, activities.position')
+
+    @subsectors = @sectors.map(&:subsectors).flatten
+    @activities = @subsectors.map(&:activities).flatten
 
     @json_locals = {
-      week: @week,
-      weeks: @weeks,
+      day: @day,
       sectors: @sectors,
       subsectors: @subsectors,
       activities: @activities,
-      subsectors_ids: group_relation_ids_by(@subsectors, :sector_id),
-      activities_ids: group_relation_ids_by(@activities, :subsector_id)
     }
 
     respond_to do |format|
       format.html { render 'show' }
-      format.json { render partial: 'week', locals: @json_locals, status: :ok }
+      format.json { render partial: 'day', locals: @json_locals, status: :ok }
     end
-  end
-
-  # PATCH /weeks/1.json
-  def update
-    week = Week.find params[:id]
-    lapa_params.each do |sector_id, lapa|
-      SectorWeek.find_or_initialize_by(sector_id: sector_id, week_id: week.id).update(lapa: lapa)
-    end
-
-    render json: {}, status: :ok
   end
 
   private
@@ -49,12 +39,12 @@ class WeeksController < ApplicationController
       date = nil
     elsif /(\d{2}-\d{2}-\d{4})/.match(params[:date])
       date = Date.strptime(params[:date], '%d-%m-%Y')
-      if date > Date.current.end_of_week
-        flash.notice = 'You can not control future, will show current week'
+      if date > Date.current.end_of_day
+        flash.notice = 'You can not control future, showing today'
         date = nil
       end
     else
-      flash.notice = 'Invalid date parameter, will show current week'
+      flash.notice = 'Invalid date parameter, showing today'
       date = nil
     end
     date || Date.current

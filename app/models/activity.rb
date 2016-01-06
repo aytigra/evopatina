@@ -1,4 +1,6 @@
 class Activity < ActiveRecord::Base
+  default_scope { order(:position) }
+
   belongs_to :subsector
   has_many :fragments, dependent: :destroy
   has_one :sector, through: :subsector
@@ -8,14 +10,8 @@ class Activity < ActiveRecord::Base
 
   validates :subsector, :name, presence: true
 
-  def self.with_fragments_count(subsectors, week)
-    week_id = week.id.to_i.to_s
-    fragments_join = 'LEFT JOIN fragments
-                      ON fragments.activity_id = activities.id
-                      AND fragments.week_id = ' + week_id
-    joins(fragments_join)
-      .where(subsector_id: subsectors.map(&:id))
-      .select('activities.*, fragments.count as count')
-      .order(:subsector_id, :position)
+  def count
+    fragment = fragments.first
+    fragment.present? ? fragment.count : 0.0
   end
 end

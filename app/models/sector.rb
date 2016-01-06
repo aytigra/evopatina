@@ -3,7 +3,8 @@ class Sector < ActiveRecord::Base
 
   belongs_to :user
   has_many :subsectors, dependent: :destroy
-  has_many :sector_weeks, dependent: :destroy
+  has_many :activities, through: :subsectors
+  has_many :fragments, through: :activities
 
   include RankedModel
   ranks :row_order, column: :position, with_same: :user_id
