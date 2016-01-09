@@ -21,11 +21,10 @@ WeeksStore = Marty.createStore
 
   setInitialState: (JSON, ok) ->
     if ok && not _.isEmpty(JSON)
-      @state.current_week = Immutable(JSON.current_week)
+      @state.current_week = Immutable(JSON.current_day)
       @state.sectors = Immutable(JSON.sectors)
       @state.subsectors = Immutable(JSON.subsectors)
       @state.activities = Immutable(JSON.activities)
-      @state.weeks = Immutable(JSON.weeks)
       @hasChanged()
     else
       alert('arrr! boat is sinking')
@@ -291,13 +290,9 @@ WeeksStore = Marty.createStore
     @state.current_week
 
   getCurrentSector: ->
-    sectors = @getSectors()
-    if sectors && (!@state.UI.current_sector || !sectors[@state.UI.current_sector])
-      position = 8388607
-      for id, sector of sectors
-        if sector.position < position
-          position = sector.position
-          @state.UI.current_sector = sector.id
+    sectors = @getCurrentWeek().sectors
+    if sectors && (!@state.UI.current_sector || !@state.sectors[@state.UI.current_sector])
+      @state.UI.current_sector = sectors[0]
     @state.UI.current_sector
 
   setCurrentSector: (sector)->

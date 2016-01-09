@@ -44,10 +44,10 @@ WeekContent = React.createClass
         className: 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
         sector: @props.sectors[current_sector]
 
-      SectorStatistics
-        className: 'sector-statistics col-lg-4 col-md-3' + stats_class
-        sector: @props.sectors[current_sector]
-        show: UI.show_stats
+      # SectorStatistics
+      #   className: 'sector-statistics col-lg-4 col-md-3' + stats_class
+      #   sector: @props.sectors[current_sector]
+      #   show: UI.show_stats
 
 
 

@@ -54,7 +54,7 @@ Sector = React.createClass
           SectorHeader key: "header-#{@props.sector.id}", sector: @props.sector
 
         SectorProgressBar
-          data: @props.sector.weeks[WeeksStore.getCurrentWeek().id]
+          progress: @props.sector.progress
           show_edit_lapa: @props.lapa_editing or @props.sector.editing
           edit_lapa_callback: @_onLapaChange
 

@@ -1,5 +1,5 @@
 div id="week-container" class="container-fluid"
 
   javascript:
-    window.WEEK_JSON = #{render('/days/day.json').html_safe} ;
+    window.DAY_JSON = #{render('/days/day.json').html_safe} ;
     window.I18n = #{I18n.backend.send(:translations)[I18n.locale][:frontend].to_json.html_safe} ;

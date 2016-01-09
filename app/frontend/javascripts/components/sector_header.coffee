@@ -16,14 +16,11 @@ SectorHeader = React.createClass
     WeeksActionCreators.show_sectors()
 
   render: ->
-    sector = @props.sector
-    status = EPutils.sector_status_icon(sector.weeks[WeeksStore.getCurrentWeek().id])
-
     div className: "sector-header toolbar", title: @props.sector.description,
       div
         className: "sector-name"
         onClick: @_onHideSectors
-        span {}, sector.name
+        span {}, @props.sector.name
 
       div className: 'btns-right',
         Button

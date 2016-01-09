@@ -56,7 +56,7 @@ $(document).on "ready, page:change", ->
   window.Cookies.set "timezone", jstz.determine().name(), { expires: 365, path: '/' }
 
   if week_container = document.getElementById('week-container')
-    WeeksStore.setInitialState(WEEK_JSON, true)
+    WeeksStore.setInitialState(DAY_JSON, true)
 
     # root react component
     React.render React.createElement(WeekContent, null), week_container
