@@ -3,7 +3,7 @@ Button = React.createFactory require('./button')
 EPutils = require '../ep_utils'
 
 SectorsActionCreators = require '../actions/sectors_actions'
-WeeksActionCreators = require '../actions/weeks_actions'
+UIActionCreators = require '../actions/ui_actions'
 
 SectorHeader = React.createClass
   displayName: 'SectorHeader'
@@ -13,7 +13,7 @@ SectorHeader = React.createClass
     SectorsActionCreators.edit @props.sector
 
   _onHideSectors: ->
-    WeeksActionCreators.show_sectors()
+    UIActionCreators.show_sectors()
 
   render: ->
     div className: "sector-header toolbar", title: @props.sector.description,

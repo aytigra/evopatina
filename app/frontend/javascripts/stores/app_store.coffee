@@ -1,5 +1,4 @@
-WeeksConstants = require '../constants/weeks_constants'
-WeeksAPI = require '../sources/weeks_api'
+UIConstants = require '../constants/ui_constants'
 Immutable = require 'seamless-immutable'
 
 AppStore = Marty.createStore
@@ -28,13 +27,9 @@ AppStore = Marty.createStore
       alert('arrr! boat is sinking')
 
   handlers:
-    setInitialState: WeeksConstants.WEEK_GET_RESPONSE
-    setCurrentSector: WeeksConstants.WEEK_SELECT_SECTOR
-    show_sectors: WeeksConstants.WEEK_SHOW_SECTORS
-    show_stats: WeeksConstants.WEEK_SHOW_STATS
-
-  loadWeek: (id) ->
-    WeeksAPI.get_week +id
+    setCurrentSector: UIConstants.UI_SELECT_SECTOR
+    show_sectors: UIConstants.UI_SHOW_SECTORS
+    show_stats: UIConstants.UI_SHOW_STATS
 
 
   new_sector: ->

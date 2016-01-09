@@ -1,7 +1,7 @@
 {div, span} = React.DOM
 Button = React.createFactory require('./button')
 Sticky = React.createFactory require('./sticky')
-WeeksActionCreators = require '../actions/weeks_actions'
+UIActionCreators = require '../actions/ui_actions'
 SectorsActionCreators = require '../actions/sectors_actions'
 
 WeekHeader = React.createClass
@@ -11,10 +11,10 @@ WeekHeader = React.createClass
     SectorsActionCreators.create null
 
   _onShowSectors: ->
-    WeeksActionCreators.show_sectors()
+    UIActionCreators.show_sectors()
 
   _onShowStats: ->
-    WeeksActionCreators.show_stats()
+    UIActionCreators.show_stats()
 
   render: ->
     if @props.UI.show_sectors

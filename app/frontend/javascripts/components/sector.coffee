@@ -5,7 +5,7 @@ SectorForm = React.createFactory require ('./sector_form')
 EmojiSelector = require './emoji_selector'
 SectorsActionCreators = require '../actions/sectors_actions'
 
-WeeksActionCreators = require '../actions/weeks_actions'
+UIActionCreators = require '../actions/ui_actions'
 
 Sector = React.createClass
   displayName: 'Sector'
@@ -16,7 +16,7 @@ Sector = React.createClass
     newProps.full isnt @props.full
 
   _onSectorSelect: ->
-    WeeksActionCreators.select_sector @props.sector if @props.sector.id != AppStore.getCurrentSector()
+    UIActionCreators.select_sector @props.sector if @props.sector.id != AppStore.getCurrentSector()
 
   _onIconSelect: (e)->
     react_modal EmojiSelector, { emoji: @props.sector.icon }
