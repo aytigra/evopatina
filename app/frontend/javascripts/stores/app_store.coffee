@@ -45,6 +45,11 @@ AppStore = Marty.createStore
   get_subsector: (subsector_id) ->
     @state.subsectors[subsector_id]
 
+  set_subsector: (id, params = {}) ->
+    data =
+      "#{id}": params
+    @state.subsectors = @state.subsectors.merge(data, {deep: true})
+
   get_activity: (activity_id) ->
     @state.activities[activity_id]
 
@@ -71,6 +76,12 @@ AppStore = Marty.createStore
       array.splice(pos, 1)
       array.push(element)
     array
+
+  sum_count: (activities) ->
+    count = 0
+    for aid in activities
+      count += @get_activity(aid).count
+    count
 
   # UI reducers
 
@@ -119,14 +130,13 @@ AppStore = Marty.createStore
       progress: 0
       editing: true
 
-    sectors = @get_day().sectors.asMutable()
-    sectors.push(sector_id)
-    @set_day { sectors: sectors }
+    @set_day
+      sectors: @get_day().sectors.concat(sector_id)
 
     @hasChanged()
 
   update_sector: (id, params = {}) ->
-    @set_sector params
+    @set_sector id, params
     @hasChanged()
 
   delete_sector: (id) ->
@@ -142,89 +152,69 @@ AppStore = Marty.createStore
 
   # subsectors reducers
 
-  update_subsector: (id, params = {}) ->
-    data =
-      "#{id}": params
-    @state.subsectors = @state.subsectors.merge(data, {deep: true})
-    # bubble changes up tree
-    @update_sector @get_subsector(id).sector_id, {uniq_ver: _.uniqueId('sector')}
-
   new_subsector: (sector_id) ->
     subsector_id = _.uniqueId('new_subsector')
-    data =
-      "#{subsector_id}":
-        id: subsector_id
-        sector_id: sector_id
-        name: ''
-        description: ''
-        activities: []
-        editing: true
-        show_hidden: false
+    @set_subsector subsector_id,
+      id: subsector_id
+      sector_id: sector_id
+      name: ''
+      description: ''
+      activities: []
+      editing: true
+      show_hidden: false
 
-    @state.subsectors = @state.subsectors.merge data, {deep: true}
-
-    subsectors = @get_sector(sector_id).subsectors.asMutable()
-    subsectors.push(subsector_id)
+    # bubble changes up tree
     @update_sector sector_id,
-      subsectors: subsectors
+      subsectors: @get_sector(sector_id).subsectors.concat(subsector_id)
+
+  update_subsector: (id, params = {}) ->
+    @set_subsector id, params
+    # bubble changes up tree
+    @update_sector @get_subsector(id).sector_id, {uniq_ver: _.uniqueId('sector')}
 
   update_subsector_id: (old_id, id) ->
     subsector = @get_subsector(old_id).asMutable()
     subsector.id = id
-    data =
-      "#{id}": subsector
-    @state.subsectors = @state.subsectors.merge(data, {deep: true})
+    @set_subsector id, subsector
 
     subsectors = @get_sector(subsector.sector_id).subsectors.asMutable()
     subsectors[subsectors.indexOf(old_id)] = id
+    # bubble changes up tree
     @update_sector subsector.sector_id,
       subsectors: subsectors
 
   delete_subsector: (id) ->
-    subsector = @get_subsector(id)
-    minus_count = 0
-    for aid in subsector.activities
-      minus_count += @get_activity(aid).count
-
-    sector = @state.sectors[subsector.sector_id]
-    @update_sector sector.id
+    minus_count = @sum_count(@get_subsector(id).activities)
+    sector = @get_sector(@get_subsector(id).sector_id)
+    # bubble changes up tree
+    @update_sector sector.id,
       subsectors: _.without(sector.subsectors, id)
       progress:  sector.progress - minus_count
 
-  move_subsector: (subsector_id, to, dest = null) ->
+  move_subsector: (id, to, dest = null) ->
+    subsector = @get_subsector(id)
+    from_sector = @get_sector(subsector.sector_id)
     if dest and dest.sector_id
-      subsector = @get_subsector(subsector_id)
-      from_sector = @state.sectors[subsector.sector_id]
-      to_sector = @state.sectors[dest.sector_id]
+      to_sector = @get_sector(dest.sector_id)
+      count = @sum_count(subsector.activities)
 
-      data =
-        "#{subsector_id}":
-          sector_id: dest.sector_id
-          editing: false
-      @state.subsectors = @state.subsectors.merge(data, {deep: true})
+      @set_subsector id,
+        sector_id: dest.sector_id
+        editing: false
 
-      count = 0
-      for aid in subsector.activities
-        count += @get_activity(aid).count
-
-      to_subsectors = to_sector.subsectors.asMutable()
-      to_subsectors.push(subsector_id)
-
-      data =
-        "#{from_sector.id}":
-          subsectors: _.without(from_sector.subsectors, subsector_id)
-          progress: from_sector.progress - count
-        "#{to_sector.id}":
-          subsectors: to_subsectors
-          progress: to_sector.progress + count
-      @state.sectors = @state.sectors.merge(data, {deep: true})
-
-      @hasChanged()
+      @set_sector from_sector.id,
+        subsectors: _.without(from_sector.subsectors, id)
+        progress: from_sector.progress - count
+      # bubble changes up tree
+      @update_sector to_sector.id,
+        subsectors: to_sector.subsectors.concat(id)
+        progress: to_sector.progress + count
     else
-      sector = @state.sectors[@get_subsector(subsector_id).sector_id]
-      @update_sector sector.id,
-        subsectors: @array_move_element(sector.subsectors.asMutable(), subsector_id, to)
+      # bubble changes up tree
+      @update_sector from_sector.id,
+        subsectors: @array_move_element(from_sector.subsectors.asMutable(), id, to)
 
+  # activities reducers
 
   new_activity: (subsector_id) ->
     activity_id = _.uniqueId('new_activity')
