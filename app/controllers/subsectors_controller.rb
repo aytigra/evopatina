@@ -23,7 +23,6 @@ class SubsectorsController < ApplicationController
   # DELETE /subsectors/1.json
   def destroy
     @subsector.destroy
-    SectorWeek.recount_sector(Sector.find_by_id @subsector.sector_id)
     render_response true
   end
 
@@ -39,12 +38,7 @@ class SubsectorsController < ApplicationController
       @subsector.sector_id = params[:sector_id].to_i
       @subsector.row_order_position = :last
     end
-    status_ok = @subsector.save
-    if status_ok && params[:to] == 'sector'
-      SectorWeek.recount_sector(Sector.find_by_id @subsector.sector_id)
-      SectorWeek.recount_sector(Sector.find_by_id from_sector_id)
-    end
-    render_response status_ok
+    render_response @subsector.save
   end
 
   private

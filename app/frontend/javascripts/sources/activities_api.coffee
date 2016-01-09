@@ -33,13 +33,13 @@ ActivitiesAPI = Marty.createStateSource
     .catch (error) ->
       alert error
 
-  update_count: (activity, week_id) ->
+  update_count: (activity, day_id) ->
     url = Routes.fragment_path activity.id, {format: 'json'}
     @put(
       url: url
       body:
         count: activity.count
-        week_id: week_id
+        day_id: day_id
     )
     .then(@status)
     .then (res) ->
