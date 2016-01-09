@@ -28,15 +28,11 @@ class SubsectorsController < ApplicationController
 
   # PUT /move_subsectors/1.json
   def move
-    from_sector_id = @subsector.sector_id
-    case params[:to]
-    when 'up'
-      @subsector.row_order_position = :up
-    when 'down'
-      @subsector.row_order_position = :down
-    when 'sector'
+    if params[:to] == 'sector' && params[:sector_id].to_i
       @subsector.sector_id = params[:sector_id].to_i
       @subsector.row_order_position = :last
+    elsif %w(up down first last).include? params[:to]
+      @subsector.row_order_position = params[:to]
     end
     render_response @subsector.save
   end

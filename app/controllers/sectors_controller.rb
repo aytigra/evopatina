@@ -23,11 +23,8 @@ class SectorsController < ApplicationController
 
   # PUT /move_sectors/1.json
   def move
-    case params[:to]
-    when 'up'
-      @sector.row_order_position = :up
-    when 'down'
-      @sector.row_order_position = :down
+    if %w(up down first last).include? params[:to]
+      @sector.row_order_position = params[:to]
     end
     render_response @sector.save
   end

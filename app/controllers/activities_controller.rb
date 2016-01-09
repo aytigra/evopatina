@@ -27,14 +27,11 @@ class ActivitiesController < ApplicationController
 
   # PUT /move_activity/1.json
   def move
-    case params[:to]
-    when 'up'
-      @activity.row_order_position = :up
-    when 'down'
-      @activity.row_order_position = :down
-    when 'subsector'
+    if params[:to] == 'subsector' && params[:subsector_id].to_i
       @activity.subsector_id = params[:subsector_id].to_i
       @activity.row_order_position = :last
+    elsif %w(up down first last).include? params[:to]
+      @activity.row_order_position = params[:to]
     end
     render_response @activity.save
   end
