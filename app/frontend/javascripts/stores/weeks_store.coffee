@@ -37,6 +37,26 @@ WeeksStore = Marty.createStore
     WeeksAPI.get_week +id
 
 
+  new_sector: ->
+    sector_id = _.uniqueId('new_sector')
+    data =
+      "#{sector_id}":
+        id: sector_id
+        name: ''
+        description: ''
+        icon: ''
+        color: ''
+        subsectors: []
+        progress: 0
+        editing: true
+
+    @state.sectors = @state.sectors.merge data, {deep: true}
+
+    sectors = @state.current_week.sectors.asMutable()
+    sectors.push(sector_id)
+    @state.current_week = @state.current_week.merge({ sectors: sectors }, {deep: true})
+    @hasChanged()
+
   update_sector: (id, params = {}) ->
     data =
       "#{id}": params
@@ -44,7 +64,9 @@ WeeksStore = Marty.createStore
     @hasChanged()
 
   delete_sector: (id) ->
-    @state.sectors = @state.sectors.without("#{id}")
+    data =
+      sectors: _.without(@state.current_week.sectors, id)
+    @state.current_week = @state.current_week.merge(data, {deep: true})
     @state.UI.current_sector = null
     @hasChanged()
 
@@ -264,7 +286,7 @@ WeeksStore = Marty.createStore
 
   getCurrentSector: ->
     sectors = @getCurrentWeek().sectors
-    if sectors && (!@state.UI.current_sector || !@state.sectors[@state.UI.current_sector])
+    if sectors && _.indexOf(sectors, @state.UI.current_sector) < 0
       @state.UI.current_sector = sectors[0]
     @state.UI.current_sector
 

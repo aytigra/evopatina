@@ -32,19 +32,7 @@ SectorsStore = Marty.createStore
 
   #create empty sector in sector with placeholder ID
   create: (sector) ->
-    i = 1
-    while @get("new_#{i}")?
-      i++
-    @set("new_#{i}",
-      id: 'new_' + i
-      name: ''
-      description: ''
-      icon: ''
-      color: ''
-      subsectors: []
-      progress: 0
-      editing: true
-    )
+    WeeksStore.new_sector()
 
   edit: (sector) ->
     @set(sector.id,
