@@ -7,9 +7,6 @@ SectorsActionCreators = require '../actions/sectors_actions'
 WeekHeader = React.createClass
   displayName: 'WeekHeader'
 
-  _onEditLapa: ->
-    WeeksActionCreators.edit_lapa @props.week
-
   _onSectorCreate: ->
     SectorsActionCreators.create null
 
@@ -49,12 +46,6 @@ WeekHeader = React.createClass
             add_class: sector_buttons_class
             glyphicon: 'plus', title: I18n.add + ' ' + I18n.sector
             span null, I18n.add_short + ' ' + I18n.sector_abbr
-          Button
-            tag: 'button', on_click: @_onEditLapa,
-            active: @props.UI.lapa_editing
-            add_class: sector_buttons_class
-            glyphicon: 'cog', title: I18n.edit + ' ' + I18n.lapa_whom
-            span null, I18n.edit_short + ' ' + I18n.lapa_whom
 
         div
           className: "col-lg-4 col-md-6 col-sm-7 #{week_width}"

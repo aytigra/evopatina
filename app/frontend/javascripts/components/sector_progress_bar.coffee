@@ -6,7 +6,6 @@ SectorProgressBar = React.createClass
   displayName: 'SectorProgressBar'
 
   render: ->
-    lapa = 1
     ratio = @props.progress / 1
     status = EPutils.sector_status_icon(ratio)
 

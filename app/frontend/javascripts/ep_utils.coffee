@@ -12,11 +12,7 @@ class EPutils
   round: (value, decimals) ->
     Number(Math.round(value+'e'+decimals)+'e-'+decimals)
 
-  sector_status_icon: (sector) ->
-    ratio = 0
-    if sector.lapa_sum > 0 && sector.progress_sum > 0
-      ratio = sector.progress_sum / sector.lapa_sum
-
+  sector_status_icon: (ratio) ->
     if ratio >= 1
       'heart'
     else if ratio >= 0.75 and ratio < 1

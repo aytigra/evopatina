@@ -37,7 +37,6 @@ WeekContent = React.createClass
           Sector
             key: sector.id, sector: sector
             current: sector.id == current_sector
-            lapa_editing: UI.lapa_editing
             full: UI.show_sectors
 
       SectorContent
