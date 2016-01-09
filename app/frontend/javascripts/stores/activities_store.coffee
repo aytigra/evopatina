@@ -1,6 +1,5 @@
 ActivitiesConstants = require '../constants/activities_constants'
 ActivitiesAPI = require '../sources/activities_api'
-WeeksStore = require './weeks_store'
 
 ActivitiesStore = Marty.createStore
   id: 'ActivitiesStore'
@@ -8,13 +7,13 @@ ActivitiesStore = Marty.createStore
   typingTimer: null
 
   get: (id) ->
-    WeeksStore.get_activity id
+    AppStore.get_activity id
 
   set: (id, params = {}) ->
-    WeeksStore.update_activity id, params
+    AppStore.update_activity id, params
 
   unset: (id) ->
-    WeeksStore.delete_activity id
+    AppStore.delete_activity id
 
   handlers:
     create: ActivitiesConstants.ACTIVITY_CREATE
@@ -35,7 +34,7 @@ ActivitiesStore = Marty.createStore
 
   #create empty activity in subsector with placeholder ID
   create: (subsector) ->
-    WeeksStore.new_activity(subsector.id)
+    AppStore.new_activity(subsector.id)
 
   edit: (activity) ->
     @set(activity.id,
@@ -95,7 +94,7 @@ ActivitiesStore = Marty.createStore
   update_count: (activity, params) ->
     @set activity.id, params
 
-    ActivitiesAPI.update_count @get(activity.id), WeeksStore.getCurrentWeek().id
+    ActivitiesAPI.update_count @get(activity.id), AppStore.getCurrentWeek().id
 
   update_count_response: (activity, ok) ->
     if !ok
@@ -130,7 +129,7 @@ ActivitiesStore = Marty.createStore
         errors: activity.errors
       )
     else
-      WeeksStore.update_activity_id(activity.old_id, activity.id)
+      AppStore.update_activity_id(activity.old_id, activity.id)
 
   destroy: (activity) ->
     @set(activity.id,
@@ -152,12 +151,12 @@ ActivitiesStore = Marty.createStore
 
   move: (activity, to) ->
     if to in ['up', 'down']
-      WeeksStore.move_activity activity.id, to
+      AppStore.move_activity activity.id, to
       ActivitiesAPI.move(activity, to)
     if to is 'subsector'
-      select_subsector(activity, WeeksStore.getSectors())
+      select_subsector(activity, AppStore.getSectors())
         .then (dest) =>
-          WeeksStore.move_activity activity.id, to, dest
+          AppStore.move_activity activity.id, to, dest
           ActivitiesAPI.move({id: activity.id, subsector_id: dest.subsector_id}, 'subsector')
 
 

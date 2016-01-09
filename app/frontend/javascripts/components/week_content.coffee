@@ -1,5 +1,4 @@
 {div} = React.DOM
-WeeksStore = require '../stores/weeks_store'
 
 WeekHeader = React.createFactory require('./week_header')
 Sector = React.createFactory require('./sector')
@@ -10,8 +9,8 @@ WeekContent = React.createClass
   displayName: 'WeekContent'
 
   render: ->
-    current_sector = WeeksStore.getCurrentSector()
-    UI = WeeksStore.UI()
+    current_sector = AppStore.getCurrentSector()
+    UI = AppStore.UI()
 
     sectors_class = ' col-xs-1'
     sector_content_class = ''
@@ -27,13 +26,13 @@ WeekContent = React.createClass
 
     div id: 'week-content', className: 'row',
       WeekHeader
-        week: WeeksStore.getCurrentWeek()
+        week: AppStore.getCurrentWeek()
         UI: UI
 
       div
         className: 'sector-list col-lg-4 col-md-3 col-sm-5' + sectors_class
-        _.map WeeksStore.getCurrentWeek().sectors, (sector_id) ->
-          sector = WeeksStore.get_sector(sector_id)
+        _.map AppStore.getCurrentWeek().sectors, (sector_id) ->
+          sector = AppStore.get_sector(sector_id)
           Sector
             key: sector.id, sector: sector
             current: sector.id == current_sector
@@ -51,7 +50,7 @@ WeekContent = React.createClass
 
 
 module.exports = Marty.createContainer WeekContent,
-  listenTo: [WeeksStore]
+  listenTo: [AppStore]
   fetch:
     sectors: ->
-      WeeksStore.getSectors()
+      AppStore.getSectors()

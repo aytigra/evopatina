@@ -2,7 +2,6 @@ Activity = require './activity'
 ActivitiesActionCreators = require '../actions/activities_actions'
 SubsectorForm = require './subsector_form'
 SubsectorsActionCreators = require '../actions/subsectors_actions'
-WeeksStore = require '../stores/weeks_store'
 
 Subsector = React.createClass
   displayName: 'Subsector'
@@ -33,7 +32,7 @@ Subsector = React.createClass
     have_hidden = false
 
     activities = _.map @props.subsector.activities, (id) ->
-      activity = WeeksStore.get_activity(id)
+      activity = AppStore.get_activity(id)
       <Activity key={activity.id} activity={activity}/> if not activity.hidden
 
     if @props.subsector.editing

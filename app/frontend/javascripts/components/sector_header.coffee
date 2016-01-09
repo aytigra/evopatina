@@ -1,7 +1,7 @@
 {div, span} = React.DOM
 Button = React.createFactory require('./button')
 EPutils = require '../ep_utils'
-WeeksStore = require '../stores/weeks_store'
+
 SectorsActionCreators = require '../actions/sectors_actions'
 WeeksActionCreators = require '../actions/weeks_actions'
 

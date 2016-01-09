@@ -1,4 +1,3 @@
-WeeksStore = require './stores/weeks_store'
 SectorsStore = require './stores/sectors_store'
 SubsectorsStore = require './stores/subsectors_store'
 ActivitiesStore = require './stores/activities_store'
@@ -56,7 +55,7 @@ $(document).on "ready, page:change", ->
   window.Cookies.set "timezone", jstz.determine().name(), { expires: 365, path: '/' }
 
   if week_container = document.getElementById('week-container')
-    WeeksStore.setInitialState(DAY_JSON, true)
+    AppStore.setInitialState(DAY_JSON, true)
 
     # root react component
     React.render React.createElement(WeekContent, null), week_container

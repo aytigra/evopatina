@@ -6,7 +6,6 @@ EmojiSelector = require './emoji_selector'
 SectorsActionCreators = require '../actions/sectors_actions'
 
 WeeksActionCreators = require '../actions/weeks_actions'
-WeeksStore = require '../stores/weeks_store'
 
 Sector = React.createClass
   displayName: 'Sector'
@@ -17,7 +16,7 @@ Sector = React.createClass
     newProps.full isnt @props.full
 
   _onSectorSelect: ->
-    WeeksActionCreators.select_sector @props.sector if @props.sector.id != WeeksStore.getCurrentSector()
+    WeeksActionCreators.select_sector @props.sector if @props.sector.id != AppStore.getCurrentSector()
 
   _onIconSelect: (e)->
     react_modal EmojiSelector, { emoji: @props.sector.icon }

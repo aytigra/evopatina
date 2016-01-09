@@ -1,7 +1,7 @@
 {div, span} = React.DOM
 SectorProgressBar = React.createFactory require('./sector_progress_bar')
 Button = React.createFactory require('./button')
-WeeksStore = require '../stores/weeks_store'
+
 EPutils = require '../ep_utils'
 
 SectorStatistics = React.createClass
@@ -24,7 +24,7 @@ SectorStatistics = React.createClass
           div className: 'btns-left',
             Button
               tag: 'a'
-              href: WeeksStore.get_week(id).route_path
+              href: AppStore.get_week(id).route_path
               size: 'xs'
               glyphicon: 'link'
           SectorProgressBar key: id, data: week

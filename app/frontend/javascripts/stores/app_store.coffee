@@ -2,9 +2,9 @@ WeeksConstants = require '../constants/weeks_constants'
 WeeksAPI = require '../sources/weeks_api'
 Immutable = require 'seamless-immutable'
 
-WeeksStore = Marty.createStore
-  id: 'WeeksStore'
-  displayName: 'WeeksStore'
+AppStore = Marty.createStore
+  id: 'AppStore'
+  displayName: 'AppStore'
 
   getInitialState: ->
     weeks: {}
@@ -322,4 +322,4 @@ WeeksStore = Marty.createStore
       array.push(element)
     array
 
-module.exports = WeeksStore
+module.exports = AppStore

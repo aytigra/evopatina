@@ -1,5 +1,4 @@
 Modal = require './modal'
-WeeksStore = require '../stores/weeks_store'
 
 Promise = $.Deferred
 {div, button, h4} = React.DOM
@@ -46,7 +45,7 @@ SubsectorsSelector = React.createClass
       )
       if withsubs
         _.map sector.subsectors, (subid) =>
-          subsector = WeeksStore.get_subsector(subid)
+          subsector = AppStore.get_subsector(subid)
           if subsector.id isnt @props.entry.subsector_id
             children.push(
               div
