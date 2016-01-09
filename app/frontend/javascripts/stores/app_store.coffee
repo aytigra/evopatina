@@ -26,50 +26,121 @@ AppStore = Marty.createStore
     else
       alert('arrr! boat is sinking')
 
+  # getters/setters
+
+  get_day: ->
+    @state.current_week
+
+  set_day: (params = {}) ->
+    @state.current_week = @state.current_week.merge(params, {deep: true})
+
+  get_sector: (sector_id) ->
+    @state.sectors[sector_id]
+
+  set_sector: (id, params = {}) ->
+    data =
+      "#{id}": params
+    @state.sectors = @state.sectors.merge(data, {deep: true})
+
+  get_subsector: (subsector_id) ->
+    @state.subsectors[subsector_id]
+
+  get_activity: (activity_id) ->
+    @state.activities[activity_id]
+
+  UI: ->
+    @state.UI
+
+  getSectors: ->
+    @state.sectors
+
+  # utils
+
+  array_move_element: (array, element, to) ->
+    pos = array.indexOf(element)
+    if to == 'up' && pos > 0
+      array[pos] = array[pos - 1]
+      array[pos - 1] = element
+    if to == 'down' && pos < array.length - 1
+      array[pos] = array[pos + 1]
+      array[pos + 1] = element
+    if to == 'first'
+      array.splice(pos, 1)
+      array.unshift(element)
+    if to == 'last'
+      array.splice(pos, 1)
+      array.push(element)
+    array
+
+  # UI reducers
+
   handlers:
     setCurrentSector: UIConstants.UI_SELECT_SECTOR
     show_sectors: UIConstants.UI_SHOW_SECTORS
     show_stats: UIConstants.UI_SHOW_STATS
 
+  getCurrentSector: ->
+    sectors = @get_day().sectors
+    if sectors && _.indexOf(sectors, @state.UI.current_sector) < 0
+      @state.UI.current_sector = sectors[0]
+    @state.UI.current_sector
+
+  setCurrentSector: (sector)->
+    @state.UI.current_sector = sector.id
+    @hasChanged()
+
+  show_sectors: ->
+    if @state.UI.show_sectors
+      @state.UI.show_sectors = false
+    else
+      @state.UI.show_sectors = true
+      @state.UI.show_stats = false
+    @hasChanged()
+
+  show_stats: ->
+    if @state.UI.show_stats
+      @state.UI.show_stats = false
+    else
+      @state.UI.show_stats = true
+      @state.UI.show_sectors = false
+    @hasChanged()
+
+  # sectors reducers
 
   new_sector: ->
     sector_id = _.uniqueId('new_sector')
-    data =
-      "#{sector_id}":
-        id: sector_id
-        name: ''
-        description: ''
-        icon: ''
-        color: ''
-        subsectors: []
-        progress: 0
-        editing: true
+    @set_sector sector_id,
+      id: sector_id
+      name: ''
+      description: ''
+      icon: ''
+      color: ''
+      subsectors: []
+      progress: 0
+      editing: true
 
-    @state.sectors = @state.sectors.merge data, {deep: true}
-
-    sectors = @state.current_week.sectors.asMutable()
+    sectors = @get_day().sectors.asMutable()
     sectors.push(sector_id)
-    @state.current_week = @state.current_week.merge({ sectors: sectors }, {deep: true})
+    @set_day { sectors: sectors }
+
     @hasChanged()
 
   update_sector: (id, params = {}) ->
-    data =
-      "#{id}": params
-    @state.sectors = @state.sectors.merge(data, {deep: true})
+    @set_sector params
     @hasChanged()
 
   delete_sector: (id) ->
-    data =
-      sectors: _.without(@state.current_week.sectors, id)
-    @state.current_week = @state.current_week.merge(data, {deep: true})
+    @set_day
+      sectors: _.without(@get_day().sectors, id)
     @state.UI.current_sector = null
     @hasChanged()
 
   move_sector: (id, to) ->
-    data =
-      sectors: @array_move_element(@state.current_week.sectors.asMutable(), id, to)
-    @state.current_week = @state.current_week.merge(data, {deep: true})
+    @set_day
+      sectors: @array_move_element(@get_day().sectors.asMutable(), id, to)
     @hasChanged()
+
+  # subsectors reducers
 
   update_subsector: (id, params = {}) ->
     data =
@@ -255,66 +326,5 @@ AppStore = Marty.createStore
       @update_subsector subsector.id,
         activities: @array_move_element(subsector.activities.asMutable(), id, to)
 
-
-  getCurrentWeek: ->
-    @state.current_week
-
-  getCurrentSector: ->
-    sectors = @getCurrentWeek().sectors
-    if sectors && _.indexOf(sectors, @state.UI.current_sector) < 0
-      @state.UI.current_sector = sectors[0]
-    @state.UI.current_sector
-
-  setCurrentSector: (sector)->
-    @state.UI.current_sector = sector.id
-    @hasChanged()
-
-  show_sectors: ->
-    if @state.UI.show_sectors
-      @state.UI.show_sectors = false
-    else
-      @state.UI.show_sectors = true
-      @state.UI.show_stats = false
-    @hasChanged()
-
-
-  show_stats: ->
-    if @state.UI.show_stats
-      @state.UI.show_stats = false
-    else
-      @state.UI.show_stats = true
-      @state.UI.show_sectors = false
-    @hasChanged()
-
-  UI: ->
-    @state.UI
-
-  getSectors: ->
-    @state.sectors
-
-  get_sector: (sector_id) ->
-    @state.sectors[sector_id]
-
-  get_subsector: (subsector_id) ->
-    @state.subsectors[subsector_id]
-
-  get_activity: (activity_id) ->
-    @state.activities[activity_id]
-
-  array_move_element: (array, element, to) ->
-    pos = array.indexOf(element)
-    if to == 'up' && pos > 0
-      array[pos] = array[pos - 1]
-      array[pos - 1] = element
-    if to == 'down' && pos < array.length - 1
-      array[pos] = array[pos + 1]
-      array[pos + 1] = element
-    if to == 'first'
-      array.splice(pos, 1)
-      array.unshift(element)
-    if to == 'last'
-      array.splice(pos, 1)
-      array.push(element)
-    array
 
 module.exports = AppStore

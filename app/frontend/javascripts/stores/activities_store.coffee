@@ -94,7 +94,7 @@ ActivitiesStore = Marty.createStore
   update_count: (activity, params) ->
     @set activity.id, params
 
-    ActivitiesAPI.update_count @get(activity.id), AppStore.getCurrentWeek().id
+    ActivitiesAPI.update_count @get(activity.id), AppStore.get_day().id
 
   update_count_response: (activity, ok) ->
     if !ok

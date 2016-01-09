@@ -26,12 +26,12 @@ WeekContent = React.createClass
 
     div id: 'week-content', className: 'row',
       WeekHeader
-        week: AppStore.getCurrentWeek()
+        week: AppStore.get_day()
         UI: UI
 
       div
         className: 'sector-list col-lg-4 col-md-3 col-sm-5' + sectors_class
-        _.map AppStore.getCurrentWeek().sectors, (sector_id) ->
+        _.map AppStore.get_day().sectors, (sector_id) ->
           sector = AppStore.get_sector(sector_id)
           Sector
             key: sector.id, sector: sector
