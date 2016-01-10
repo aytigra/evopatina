@@ -1,11 +1,10 @@
 {div, span} = React.DOM
-SectorProgressBar = React.createFactory require('./sector_progress_bar')
 Button = React.createFactory require('./button')
-
 EPutils = require '../ep_utils'
+LineChart = React.createFactory require("react-chartjs").Line
 
-SectorStatistics = React.createClass
-  displayName: 'SectorStatistics'
+Statistics = React.createClass
+  displayName: 'Statistics'
 
   shouldComponentUpdate: (newProps, newState) ->
     newProps.sector isnt @props.sector or
@@ -14,19 +13,23 @@ SectorStatistics = React.createClass
   render: ->
     div className: @props.className,
       div style: { paddingLeft: '20px' },
-        I18n.progress_history.replace '%{sector}', @props.sector.name
+        I18n.progress_history.replace '%{sector}', ''
 
-      EPutils.map_by_position @props.sector.weeks, (week, id) ->
+      _.map AppStore.get_day().days, (day) ->
         div
           className: 'toolbar',
           style: { paddingLeft: '20px' }
-          key: id,
+          key: day,
           div className: 'btns-left',
             Button
               tag: 'a'
-              href: AppStore.get_week(id).route_path
+              href: day
               size: 'xs'
               glyphicon: 'link'
-          SectorProgressBar key: id, data: week
+          day
 
-module.exports = SectorStatistics;
+      LineChart
+        data: AppStore.state.progres
+        options: {}
+
+module.exports = Statistics;

@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "~0.13.1",
     "react-sticky": "~2.3.0",
+    "react-chartjs": "^0.6.0",
     "marty": "~0.9.2",
     "classnames": "1.2.0",
     "jstimezonedetect": "~1.0.6",

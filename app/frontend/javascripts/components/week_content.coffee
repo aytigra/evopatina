@@ -3,7 +3,7 @@
 WeekHeader = React.createFactory require('./week_header')
 Sector = React.createFactory require('./sector')
 SectorContent = React.createFactory require('./sector_content')
-SectorStatistics = React.createFactory require('./sector_statistics')
+Statistics = React.createFactory require('./statistics')
 
 WeekContent = React.createClass
   displayName: 'WeekContent'
@@ -42,10 +42,9 @@ WeekContent = React.createClass
         className: 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
         sector: AppStore.get_sector(current_sector)
 
-      # SectorStatistics
-      #   className: 'sector-statistics col-lg-4 col-md-3' + stats_class
-      #   sector: AppStore.get_sector(current_sector)
-      #   show: UI.show_stats
+      Statistics
+        className: 'sector-statistics col-lg-4 col-md-3' + stats_class
+        sector: AppStore.get_sector(current_sector)
 
 
 
