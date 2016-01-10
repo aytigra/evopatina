@@ -5,9 +5,11 @@ class DaysController < ApplicationController
   # GET /days/01-01-2015.json
   def show
     @day = Day.new params_date
+    @days = ([@day] + @day.previous_days).map(&:id).reverse
     @sectors = Sector.where(user: current_user)
-    @progress = Fragment.progress_for_days([@day] + @day.previous_days)
-    @subsectors = Subsector.where(sector: @sectors.map(&:id))
+    @sectors_ids = @sectors.map(&:id)
+    @progress = Fragment.progress_for_days(@days, @sectors_ids)
+    @subsectors = Subsector.where(sector: @sectors_ids)
     @subsectors_ids = group_relation_ids_by(@subsectors, :sector_id)
     @activities = Activity.where(subsector_id: @subsectors.map(&:id)).counts_for(@day)
     @activities_ids = group_relation_ids_by(@activities, :subsector_id)

@@ -1,7 +1,7 @@
 class Day
   attr_reader :id, :date
 
-  PREV_DAYS_NUM = 2
+  PREV_DAYS_NUM = 9
   ROUTE_KEY = 'days'
 
   def initialize(date)
