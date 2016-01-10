@@ -1,5 +1,6 @@
 UIConstants = require '../constants/ui_constants'
 Immutable = require 'seamless-immutable'
+EPutils = require '../ep_utils'
 
 AppStore = Marty.createStore
   id: 'AppStore'
@@ -7,7 +8,7 @@ AppStore = Marty.createStore
 
   getInitialState: ->
     weeks: {}
-    current_week: {}
+    current_day: {}
     sectors: {}
     subsectors: {}
     activities: {}
@@ -18,7 +19,7 @@ AppStore = Marty.createStore
 
   setInitialState: (JSON, ok) ->
     if ok && not _.isEmpty(JSON)
-      @state.current_week = Immutable(JSON.current_day)
+      @state.current_day = Immutable(JSON.current_day)
       @state.sectors = Immutable(JSON.sectors)
       @state.subsectors = Immutable(JSON.subsectors)
       @state.activities = Immutable(JSON.activities)
@@ -29,10 +30,10 @@ AppStore = Marty.createStore
   # getters/setters
 
   get_day: ->
-    @state.current_week
+    @state.current_day
 
   set_day: (params = {}) ->
-    @state.current_week = @state.current_week.merge(params, {deep: true})
+    @state.current_day = @state.current_day.merge(params, {deep: true})
 
   get_sector: (id) ->
     @state.sectors[id]
@@ -61,27 +62,9 @@ AppStore = Marty.createStore
   UI: ->
     @state.UI
 
-  # utils
-
-  array_move_element: (array, element, to) ->
-    pos = array.indexOf(element)
-    if to == 'up' && pos > 0
-      array[pos] = array[pos - 1]
-      array[pos - 1] = element
-    if to == 'down' && pos < array.length - 1
-      array[pos] = array[pos + 1]
-      array[pos + 1] = element
-    if to == 'first'
-      array.splice(pos, 1)
-      array.unshift(element)
-    if to == 'last'
-      array.splice(pos, 1)
-      array.push(element)
-    array
-
-  sum_count: (activities) ->
+  subsector_count: (id) ->
     count = 0
-    for aid in activities
+    for aid in @get_subsector(id).activities
       count += @get_activity(aid).count
     count
 
@@ -149,7 +132,7 @@ AppStore = Marty.createStore
 
   move_sector: (id, to) ->
     @set_day
-      sectors: @array_move_element(@get_day().sectors.asMutable(), id, to)
+      sectors: EPutils.array_move_element(@get_day().sectors.asMutable(), id, to)
     @hasChanged()
 
   # subsectors reducers
@@ -186,19 +169,18 @@ AppStore = Marty.createStore
       subsectors: subsectors
 
   delete_subsector: (id) ->
-    minus_count = @sum_count(@get_subsector(id).activities)
     sector = @get_sector(@get_subsector(id).sector_id)
     # bubble changes up tree
     @update_sector sector.id,
       subsectors: _.without(sector.subsectors, id)
-      progress:  sector.progress - minus_count
+      progress:  sector.progress - @subsector_count(id)
 
   move_subsector: (id, to, dest = null) ->
     subsector = @get_subsector(id)
     from_sector = @get_sector(subsector.sector_id)
     if dest and dest.sector_id
       to_sector = @get_sector(dest.sector_id)
-      count = @sum_count(subsector.activities)
+      count = @subsector_count(id)
 
       @set_subsector id,
         sector_id: dest.sector_id
@@ -214,43 +196,34 @@ AppStore = Marty.createStore
     else
       # bubble changes up tree
       @update_sector from_sector.id,
-        subsectors: @array_move_element(from_sector.subsectors.asMutable(), id, to)
+        subsectors: EPutils.array_move_element(from_sector.subsectors.asMutable(), id, to)
 
   # activities reducers
 
   new_activity: (subsector_id) ->
     activity_id = _.uniqueId('new_activity')
-    data =
-      "#{activity_id}":
-        id: activity_id
-        subsector_id: subsector_id
-        name: ''
-        description: ''
-        editing: true
-        show_hidden: false
-        count: 0
+    @set_activity activity_id,
+      id: activity_id
+      subsector_id: subsector_id
+      name: ''
+      description: ''
+      editing: true
+      show_hidden: false
+      count: 0
 
-    @state.activities = @state.activities.merge data, {deep: true}
-
-    activities = @get_subsector(subsector_id).activities.asMutable()
-    activities.push(activity_id)
+    # bubble changes up tree
     @update_subsector subsector_id,
-      activities: activities
+      activities: @get_subsector(subsector_id).activities.concat(activity_id)
 
   update_activity: (id, params = {}) ->
-    activity = @get_activity id
+    activity = @get_activity(id)
     sector_id = @get_subsector(activity.subsector_id).sector_id
     count_change = if _.has(params, 'count') then params.count - activity.count else 0
     progress = @get_sector(sector_id).progress + count_change
 
-    data =
-      "#{id}": params
-    @state.activities = @state.activities.merge(data, {deep: true})
-
-    data =
-      "#{sector_id}":
-        progress: progress
-    @state.sectors = @state.sectors.merge(data, {deep: true})
+    @set_activity id, params
+    @set_sector sector_id,
+      progress: progress
 
     # bubble changes up tree
     @update_subsector activity.subsector_id, {uniq_ver: _.uniqueId('subsector')}
@@ -258,65 +231,52 @@ AppStore = Marty.createStore
   update_activity_id: (old_id, id) ->
     activity = @get_activity(old_id).asMutable()
     activity.id = id
-    data =
-      "#{id}": activity
-    @state.activities = @state.activities.merge(data, {deep: true})
+    @set_activity id, activity
 
     activities = @get_subsector(activity.subsector_id).activities.asMutable()
     activities[activities.indexOf(old_id)] = id
+    # bubble changes up tree
     @update_subsector activity.subsector_id,
       activities: activities
 
   delete_activity: (id) ->
     activity = @get_activity(id)
     subsector = @get_subsector(activity.subsector_id)
-    sector = @state.sectors[subsector.sector_id]
 
-    data =
-      "#{subsector.id}":
-        activities: _.without(subsector.activities, id)
-    @state.subsectors = @state.subsectors.merge(data, {deep: true})
-
-    @update_sector subsector.sector_id,
+    @set_sector subsector.sector_id,
       progress:  @get_sector(subsector.sector_id).progress - activity.count
 
+    # bubble changes up tree
+    @update_subsector subsector.id,
+      activities: _.without(subsector.activities, id)
+
+
   move_activity: (id, to, dest = null) ->
+    activity = @get_activity(id)
+    from_subsector = @get_subsector(activity.subsector_id)
     if dest and dest.subsector_id
-      activity = @get_activity(id)
-      from_subsector = @state.subsectors[activity.subsector_id]
-      to_subsector = @state.subsectors[dest.subsector_id]
+      to_subsector = @get_subsector(dest.subsector_id)
 
-      data =
-        "#{id}":
-          subsector_id: dest.subsector_id
-          editing: false
-      @state.activities = @state.activities.merge(data, {deep: true})
-
-      to_activities = to_subsector.activities.asMutable()
-      to_activities.push(id)
-
-      data =
-        "#{from_subsector.id}":
-          activities: _.without(from_subsector.activities, id)
-        "#{to_subsector.id}":
-          activities: to_activities
-      @state.subsectors = @state.subsectors.merge(data, {deep: true})
+      @set_activity id,
+        subsector_id: dest.subsector_id
+        editing: false
 
       if from_subsector.sector_id isnt to_subsector.sector_id
-        from_sector = @state.sectors[from_subsector.sector_id]
-        to_sector = @state.sectors[to_subsector.sector_id]
-        data =
-          "#{from_sector.id}":
-            progress: from_sector.progress - activity.count
-          "#{to_sector.id}":
-            progress: to_sector.progress + activity.count
-        @state.sectors = @state.sectors.merge(data, {deep: true})
+        from_sector = @get_sector(from_subsector.sector_id)
+        to_sector = @get_sector(to_subsector.sector_id)
+        @set_sector from_sector.id,
+          progress: from_sector.progress - activity.count
+        @set_sector to_sector.id,
+          progress: to_sector.progress + activity.count
 
-      @hasChanged()
+      @set_subsector from_subsector.id,
+        activities: _.without(from_subsector.activities, id)
+      # bubble changes up tree
+      @update_subsector to_subsector.id,
+        activities: to_subsector.activities.concat(id)
     else
-      subsector = @state.subsectors[@get_activity(id).subsector_id]
-      @update_subsector subsector.id,
-        activities: @array_move_element(subsector.activities.asMutable(), id, to)
-
+      # bubble changes up tree
+      @update_subsector from_subsector.id,
+        activities: EPutils.array_move_element(from_subsector.activities.asMutable(), id, to)
 
 module.exports = AppStore

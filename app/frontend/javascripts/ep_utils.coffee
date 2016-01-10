@@ -26,11 +26,25 @@ class EPutils
     else
       'arrow-down'
 
-
   # hash = { id: { position: x } }
   map_by_position: (hash, callback) ->
     Object.keys(hash).sort((a, b) -> hash[a].position - hash[b].position).map (key) ->
       callback(hash[key], key)
 
+  array_move_element: (array, element, to) ->
+    pos = array.indexOf(element)
+    if to == 'up' && pos > 0
+      array[pos] = array[pos - 1]
+      array[pos - 1] = element
+    if to == 'down' && pos < array.length - 1
+      array[pos] = array[pos + 1]
+      array[pos + 1] = element
+    if to == 'first'
+      array.splice(pos, 1)
+      array.unshift(element)
+    if to == 'last'
+      array.splice(pos, 1)
+      array.push(element)
+    array
 
 module.exports = new EPutils();
