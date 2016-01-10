@@ -16,6 +16,7 @@ AppStore = Marty.createStore
       current_sector: null
       show_sectors: false
       show_stats: false
+      stats_ver: null
 
   setInitialState: (JSON, ok) ->
     if ok && not _.isEmpty(JSON)
@@ -63,7 +64,7 @@ AppStore = Marty.createStore
   get_progress: (sector, day) ->
     if not day
       day = @get_day().id
-    @state.progress[sector][day]
+    if @state.progress[sector] then @state.progress[sector][day] else 0
 
   set_progress: (sector, day, progress) ->
     if not day
@@ -71,6 +72,7 @@ AppStore = Marty.createStore
     data =
       "#{sector}":
         "#{day}": progress
+    @redraw_stats()
     @state.progress = @state.progress.merge(data, {deep: true})
 
   get_sector_progress: (sector) ->
@@ -130,7 +132,11 @@ AppStore = Marty.createStore
     else
       @state.UI.show_stats = true
       @state.UI.show_sectors = false
+    @redraw_stats()
     @hasChanged()
+
+  redraw_stats: ->
+    @state.UI.stats_ver = _.uniqueId('stats_ver')
 
   # sectors reducers
 
@@ -249,10 +255,11 @@ AppStore = Marty.createStore
 
   update_activity: (id, params = {}) ->
     activity = @get_activity(id) # old activity
-    sector_id = @get_subsector(activity.subsector_id).sector_id
     # params.count - new count for activity
-    count_change = if _.has(params, 'count') then params.count - activity.count else 0
-    @change_progress sector_id, null, count_change
+    if _.has(params, 'count')
+      count_change =  params.count - activity.count
+      sector_id = @get_subsector(activity.subsector_id).sector_id
+      @change_progress sector_id, null, count_change
     @set_activity id, params
     # bubble changes up tree
     @update_subsector activity.subsector_id, {uniq_ver: _.uniqueId('subsector')}

@@ -12,6 +12,7 @@
     "react-chartjs": "^0.6.0",
     "marty": "~0.9.2",
     "classnames": "1.2.0",
+    "moment": "2.11.1",
     "jstimezonedetect": "~1.0.6",
     "seamless-immutable": "2.3.2",
     "react-color-picker": "2.1.9",
