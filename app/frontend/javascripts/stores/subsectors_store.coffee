@@ -121,7 +121,7 @@ SubsectorsStore = Marty.createStore
       AppStore.move_subsector subsector.id, to
       SubsectorsAPI.move(subsector, to)
     if to is 'sector'
-      select_sector(subsector, AppStore.getSectors())
+      select_sector(subsector)
         .then (dest) =>
           AppStore.move_subsector subsector.id, to, dest
           SubsectorsAPI.move({id: subsector.id, sector_id: dest.sector_id}, 'sector')

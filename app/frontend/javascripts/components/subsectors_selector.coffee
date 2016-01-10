@@ -11,7 +11,6 @@ SubsectorsSelector = React.createClass
 
   propTypes:
     entry: React.PropTypes.object.isRequired
-    sectors: React.PropTypes.object.isRequired
     type: React.PropTypes.string.isRequired
 
   _abort: ->
@@ -28,11 +27,12 @@ SubsectorsSelector = React.createClass
     children = []
     withsubs = @props.type is 'activity'
 
-    for id, sector of @props.sectors
+    _.map AppStore.get_day().sectors, (id) =>
+      sector = AppStore.get_sector(id)
       classname = 'selector-sector bg-success'
       if not withsubs
         if sector.id is @props.entry.sector_id
-            continue
+            return
         classname += ' selector-clickable'
         sector_onclick = @_choose.bind(@, {sector_id: id})
 

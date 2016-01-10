@@ -34,30 +34,32 @@ AppStore = Marty.createStore
   set_day: (params = {}) ->
     @state.current_week = @state.current_week.merge(params, {deep: true})
 
-  get_sector: (sector_id) ->
-    @state.sectors[sector_id]
+  get_sector: (id) ->
+    @state.sectors[id]
 
   set_sector: (id, params = {}) ->
     data =
       "#{id}": params
     @state.sectors = @state.sectors.merge(data, {deep: true})
 
-  get_subsector: (subsector_id) ->
-    @state.subsectors[subsector_id]
+  get_subsector: (id) ->
+    @state.subsectors[id]
 
   set_subsector: (id, params = {}) ->
     data =
       "#{id}": params
     @state.subsectors = @state.subsectors.merge(data, {deep: true})
 
-  get_activity: (activity_id) ->
-    @state.activities[activity_id]
+  get_activity: (id) ->
+    @state.activities[id]
+
+  set_activity: (id, params = {}) ->
+    data =
+      "#{id}": params
+    @state.activities = @state.activities.merge(data, {deep: true})
 
   UI: ->
     @state.UI
-
-  getSectors: ->
-    @state.sectors
 
   # utils
 

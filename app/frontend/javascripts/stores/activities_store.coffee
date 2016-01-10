@@ -154,7 +154,7 @@ ActivitiesStore = Marty.createStore
       AppStore.move_activity activity.id, to
       ActivitiesAPI.move(activity, to)
     if to is 'subsector'
-      select_subsector(activity, AppStore.getSectors())
+      select_subsector(activity)
         .then (dest) =>
           AppStore.move_activity activity.id, to, dest
           ActivitiesAPI.move({id: activity.id, subsector_id: dest.subsector_id}, 'subsector')

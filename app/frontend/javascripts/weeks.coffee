@@ -43,12 +43,12 @@ window.react_confirm = (message, options = {}) ->
   props = $.extend({message: message}, options)
   react_modal Confirm, props
 
-window.select_subsector = (activity, sectors) ->
-  props = { entry: activity, sectors: sectors, type: 'activity' }
+window.select_subsector = (activity) ->
+  props = { entry: activity, type: 'activity' }
   react_modal SubsectorsSelector, props
 
-window.select_sector = (subsector, sectors) ->
-  props = { entry: subsector, sectors: sectors, type: 'subsector' }
+window.select_sector = (subsector) ->
+  props = { entry: subsector, type: 'subsector' }
   react_modal SubsectorsSelector, props
 
 $(document).on "ready, page:change", ->

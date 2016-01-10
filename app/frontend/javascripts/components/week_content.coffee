@@ -40,17 +40,14 @@ WeekContent = React.createClass
 
       SectorContent
         className: 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
-        sector: @props.sectors[current_sector]
+        sector: AppStore.get_sector(current_sector)
 
       # SectorStatistics
       #   className: 'sector-statistics col-lg-4 col-md-3' + stats_class
-      #   sector: @props.sectors[current_sector]
+      #   sector: AppStore.get_sector(current_sector)
       #   show: UI.show_stats
 
 
 
 module.exports = Marty.createContainer WeekContent,
   listenTo: [AppStore]
-  fetch:
-    sectors: ->
-      AppStore.getSectors()
