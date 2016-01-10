@@ -73,6 +73,12 @@ AppStore = Marty.createStore
         "#{day}": progress
     @state.progress = @state.progress.merge(data, {deep: true})
 
+  get_sector_progress: (sector) ->
+    result = []
+    for day in @get_day().days
+      result.push @get_progress(sector, day)
+    result
+
   UI: ->
     @state.UI
 
