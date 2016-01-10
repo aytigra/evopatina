@@ -23,6 +23,7 @@ AppStore = Marty.createStore
       @state.sectors = Immutable(JSON.sectors)
       @state.subsectors = Immutable(JSON.subsectors)
       @state.activities = Immutable(JSON.activities)
+      @state.progress = Immutable(JSON.progress)
       @hasChanged()
     else
       alert('arrr! boat is sinking')
@@ -59,14 +60,38 @@ AppStore = Marty.createStore
       "#{id}": params
     @state.activities = @state.activities.merge(data, {deep: true})
 
+  get_progress: (sector, day) ->
+    if not day
+      day = @get_day().id
+    @state.progress[sector][day]
+
+  set_progress: (sector, day, progress) ->
+    if not day
+      day = @get_day().id
+    data =
+      "#{sector}":
+        "#{day}": progress
+    @state.progress = @state.progress.merge(data, {deep: true})
+
   UI: ->
     @state.UI
+
+  # some math
+
+  sector_status: (sector) ->
+    # TODO calculate status by last 3 days
+    @get_progress sector
 
   subsector_count: (id) ->
     count = 0
     for aid in @get_subsector(id).activities
       count += @get_activity(aid).count
     count
+
+  # progress reducers
+
+  change_progress: (sector, day, change) ->
+    @set_progress(sector, day, @get_progress(sector, day) + change)
 
   # UI reducers
 
@@ -170,10 +195,10 @@ AppStore = Marty.createStore
 
   delete_subsector: (id) ->
     sector = @get_sector(@get_subsector(id).sector_id)
+    @change_progress sector.id, null, -@subsector_count(id)
     # bubble changes up tree
     @update_sector sector.id,
       subsectors: _.without(sector.subsectors, id)
-      progress:  sector.progress - @subsector_count(id)
 
   move_subsector: (id, to, dest = null) ->
     subsector = @get_subsector(id)
@@ -186,13 +211,14 @@ AppStore = Marty.createStore
         sector_id: dest.sector_id
         editing: false
 
+      @change_progress from_sector.id, null, -count
+      @change_progress to_sector.id, null, count
+
       @set_sector from_sector.id,
         subsectors: _.without(from_sector.subsectors, id)
-        progress: from_sector.progress - count
       # bubble changes up tree
       @update_sector to_sector.id,
         subsectors: to_sector.subsectors.concat(id)
-        progress: to_sector.progress + count
     else
       # bubble changes up tree
       @update_sector from_sector.id,
@@ -216,15 +242,12 @@ AppStore = Marty.createStore
       activities: @get_subsector(subsector_id).activities.concat(activity_id)
 
   update_activity: (id, params = {}) ->
-    activity = @get_activity(id)
+    activity = @get_activity(id) # old activity
     sector_id = @get_subsector(activity.subsector_id).sector_id
+    # params.count - new count for activity
     count_change = if _.has(params, 'count') then params.count - activity.count else 0
-    progress = @get_sector(sector_id).progress + count_change
-
+    @change_progress sector_id, null, count_change
     @set_activity id, params
-    @set_sector sector_id,
-      progress: progress
-
     # bubble changes up tree
     @update_subsector activity.subsector_id, {uniq_ver: _.uniqueId('subsector')}
 
@@ -242,10 +265,7 @@ AppStore = Marty.createStore
   delete_activity: (id) ->
     activity = @get_activity(id)
     subsector = @get_subsector(activity.subsector_id)
-
-    @set_sector subsector.sector_id,
-      progress:  @get_sector(subsector.sector_id).progress - activity.count
-
+    @change_progress subsector.sector_id, null, -activity.count
     # bubble changes up tree
     @update_subsector subsector.id,
       activities: _.without(subsector.activities, id)
@@ -262,12 +282,8 @@ AppStore = Marty.createStore
         editing: false
 
       if from_subsector.sector_id isnt to_subsector.sector_id
-        from_sector = @get_sector(from_subsector.sector_id)
-        to_sector = @get_sector(to_subsector.sector_id)
-        @set_sector from_sector.id,
-          progress: from_sector.progress - activity.count
-        @set_sector to_sector.id,
-          progress: to_sector.progress + activity.count
+        @change_progress from_subsector.sector_id, null, -activity.count
+        @change_progress to_subsector.sector_id, null, activity.count
 
       @set_subsector from_subsector.id,
         activities: _.without(from_subsector.activities, id)

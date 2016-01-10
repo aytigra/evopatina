@@ -49,7 +49,7 @@ Sector = React.createClass
           SectorHeader key: "header-#{@props.sector.id}", sector: @props.sector
 
         SectorProgressBar
-          progress: @props.sector.progress
+          progress: AppStore.sector_status(@props.sector.id)
 
 
 module.exports = Sector;
