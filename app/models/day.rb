@@ -30,6 +30,10 @@ class Day
     date == Date.current.beginning_of_week
   end
 
+  def text
+    I18n.l(date, format: '%d %b %Y')
+  end
+
   def to_param
     date.strftime '%d-%m-%Y'
   end

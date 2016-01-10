@@ -26,7 +26,7 @@ WeekContent = React.createClass
 
     div id: 'week-content', className: 'row',
       WeekHeader
-        week: AppStore.get_day()
+        day: AppStore.get_day()
         UI: UI
 
       div

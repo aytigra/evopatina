@@ -13,7 +13,7 @@ Statistics = React.createClass
 
   render: ->
     labels =  _.map AppStore.get_day().days, (day) ->
-      moment(day, "YYYYMMDD").format('DD-MM-YYYY');
+      moment(day, "YYYYMMDD").format('DD-MM-YYYY')
 
     div className: @props.className,
       div className: 'stats-title',
@@ -21,6 +21,7 @@ Statistics = React.createClass
 
       _.map AppStore.get_day().sectors, (sector_id) =>
         sector = AppStore.get_sector(sector_id)
+        redraw = AppStore.UI().show_stats || @props.sector.id == sector.id
         div
           key: sector_id
           className: 'chart-line toolbar'
@@ -45,7 +46,7 @@ Statistics = React.createClass
               scaleShowVerticalLines: false
               responsive: true
               maintainAspectRatio: false
-            redraw: @props.sector.id == sector.id
+            redraw: redraw
 
 
 

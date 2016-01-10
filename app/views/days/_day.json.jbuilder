@@ -1,5 +1,5 @@
 json.current_day do
-  json.extract! @day, :id, :date, :route_path, :prev_path, :next_path
+  json.extract! @day, :id, :date, :route_path, :prev_path, :next_path, :text
   json.sectors @sectors_ids
   json.days @days
 end
