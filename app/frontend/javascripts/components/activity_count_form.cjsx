@@ -1,5 +1,5 @@
 ActivitiesActionCreators = require '../actions/activities_actions'
-ItemErrorsBlock = require './item_errors_block'
+ItemErrorsBlock = require './shared/item_errors_block'
 EPutils = require '../ep_utils'
 
 ActivityCountForm = React.createClass

@@ -3,8 +3,8 @@ SubsectorsStore = require './stores/subsectors_store'
 ActivitiesStore = require './stores/activities_store'
 
 WeekContent = require './components/week_content'
-Confirm = require './components/confirm'
-SubsectorsSelector = require './components/subsectors_selector'
+Confirm = require './components/shared/confirm'
+SubsectorsSelector = require './components/selectors/subsectors_selector'
 
 jstz = require 'jstimezonedetect'
 

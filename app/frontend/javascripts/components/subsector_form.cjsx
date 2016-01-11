@@ -1,5 +1,5 @@
 SubsectorsActionCreators = require '../actions/subsectors_actions'
-ItemErrorsBlock = require './item_errors_block'
+ItemErrorsBlock = require './shared/item_errors_block'
 
 SubsectorForm = React.createClass
   displayName: 'SubsectorForm'

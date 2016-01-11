@@ -1,5 +1,5 @@
 {div, span} = React.DOM
-Button = React.createFactory require('./button')
+Button = React.createFactory require('./shared/button')
 EPutils = require '../ep_utils'
 LineChart = React.createFactory require("react-chartjs").Line
 moment = require("moment")

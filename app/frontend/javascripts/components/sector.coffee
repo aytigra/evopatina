@@ -2,7 +2,7 @@
 SectorHeader = React.createFactory require ('./sector_header')
 SectorProgressBar = React.createFactory require ('./sector_progress_bar')
 SectorForm = React.createFactory require ('./sector_form')
-EmojiSelector = require './emoji_selector'
+EmojiSelector = require './selectors/emoji_selector'
 SectorsActionCreators = require '../actions/sectors_actions'
 
 UIActionCreators = require '../actions/ui_actions'

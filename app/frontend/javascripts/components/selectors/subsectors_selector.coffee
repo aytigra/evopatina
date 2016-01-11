@@ -1,4 +1,4 @@
-Modal = require './modal'
+Modal = require '../shared/modal'
 
 Promise = $.Deferred
 {div, button, h4} = React.DOM

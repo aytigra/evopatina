@@ -1,6 +1,6 @@
 {div} = React.DOM
 Subsector = React.createFactory require('./subsector')
-Button = React.createFactory require('./button')
+Button = React.createFactory require('./shared/button')
 SubsectorsActionCreators = require '../actions/subsectors_actions'
 
 SectorContent = React.createClass

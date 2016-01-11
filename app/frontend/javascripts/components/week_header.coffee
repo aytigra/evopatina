@@ -1,6 +1,6 @@
 {div, span} = React.DOM
-Button = React.createFactory require('./button')
-Sticky = React.createFactory require('./sticky')
+Button = React.createFactory require('./shared/button')
+Sticky = React.createFactory require('./shared/sticky')
 UIActionCreators = require '../actions/ui_actions'
 SectorsActionCreators = require '../actions/sectors_actions'
 moment = require("moment")
