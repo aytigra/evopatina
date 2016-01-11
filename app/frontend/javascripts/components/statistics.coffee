@@ -1,7 +1,5 @@
 {div, span} = React.DOM
-Button = React.createFactory require('./shared/button')
-EPutils = require '../ep_utils'
-LineChart = React.createFactory require("react-chartjs").Line
+SectorGraph = React.createFactory require('./sector_graph')
 moment = require("moment")
 
 Statistics = React.createClass
@@ -20,34 +18,13 @@ Statistics = React.createClass
         I18n.progress_history.replace '%{sector}', ''
 
       _.map AppStore.get_day().sectors, (sector_id) =>
-        sector = AppStore.get_sector(sector_id)
-        redraw = AppStore.UI().show_stats || @props.sector.id == sector.id
-        div
+        SectorGraph
           key: sector_id
-          className: 'chart-line toolbar'
-          div className: 'btns-left', sector.name
-          LineChart
-            data:
-              labels: labels
-              datasets: [
-                fillColor: sector.color || "rgba(220,220,220,0.2)"
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: AppStore.get_sector_progress(sector.id)
-              ]
-            options:
-              tooltipTemplate: "<%= value %>; <%=label%>"
-              tooltipCaretSize: 0
-              scaleFontSize: 0
-              scaleShowHorizontalLines: false
-              scaleShowVerticalLines: false
-              responsive: true
-              maintainAspectRatio: false
-            redraw: redraw
-
+          sector: AppStore.get_sector(sector_id)
+          progress: AppStore.get_progress(sector_id)
+          data: AppStore.get_sector_progress(sector_id)
+          labels: labels
+          redraw: @props.className
 
 
 module.exports = Statistics;

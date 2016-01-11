@@ -44,9 +44,7 @@ WeekContent = React.createClass
 
       Statistics
         className: 'sector-statistics col-lg-4 col-md-3' + stats_class
-        sector: AppStore.get_sector(current_sector)
         stats_ver: UI.stats_ver
-
 
 
 module.exports = Marty.createContainer WeekContent,
