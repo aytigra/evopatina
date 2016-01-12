@@ -1,4 +1,4 @@
-Modal = React.createFactory require('./modal')
+Modal = React.createFactory require('../shared/modal')
 
 Promise = $.Deferred
 {div, button, h4, ul, li, a, span} = React.DOM

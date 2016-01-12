@@ -29,6 +29,7 @@ var config = {
     new webpack.ProvidePlugin({
       'React': 'react',
       'Marty': 'marty',
+      'AppStore': sourcepath + '/stores/app_store',
       $: 'jquery',
       jQuery: 'jquery',
       _: 'underscore',

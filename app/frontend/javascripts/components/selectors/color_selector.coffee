@@ -1,4 +1,4 @@
-Modal = React.createFactory require('./modal')
+Modal = React.createFactory require('../shared/modal')
 ColorPicker = React.createFactory require('react-color-picker')
 
 Promise = $.Deferred

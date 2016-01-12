@@ -1,17 +1,16 @@
 {div} = React.DOM
-WeeksStore = require '../stores/weeks_store'
 
 WeekHeader = React.createFactory require('./week_header')
 Sector = React.createFactory require('./sector')
 SectorContent = React.createFactory require('./sector_content')
-SectorStatistics = React.createFactory require('./sector_statistics')
+Statistics = React.createFactory require('./statistics')
 
 WeekContent = React.createClass
   displayName: 'WeekContent'
 
   render: ->
-    current_sector = WeeksStore.getCurrentSector()
-    UI = WeeksStore.UI()
+    current_sector = AppStore.getCurrentSector()
+    UI = AppStore.UI()
 
     sectors_class = ' col-xs-1'
     sector_content_class = ''
@@ -27,32 +26,26 @@ WeekContent = React.createClass
 
     div id: 'week-content', className: 'row',
       WeekHeader
-        week: WeeksStore.getCurrentWeek()
+        day: AppStore.get_day()
         UI: UI
 
       div
         className: 'sector-list col-lg-4 col-md-3 col-sm-5' + sectors_class
-        _.map WeeksStore.getCurrentWeek().sectors, (sector_id) ->
-          sector = WeeksStore.get_sector(sector_id)
+        _.map AppStore.get_day().sectors, (sector_id) ->
+          sector = AppStore.get_sector(sector_id)
           Sector
             key: sector.id, sector: sector
             current: sector.id == current_sector
-            lapa_editing: UI.lapa_editing
             full: UI.show_sectors
 
       SectorContent
         className: 'sector-content col-lg-4 col-md-6 col-sm-7 col-xs-11' + sector_content_class
-        sector: @props.sectors[current_sector]
+        sector: AppStore.get_sector(current_sector)
 
-      SectorStatistics
+      Statistics
         className: 'sector-statistics col-lg-4 col-md-3' + stats_class
-        sector: @props.sectors[current_sector]
-        show: UI.show_stats
-
+        stats_ver: UI.stats_ver
 
 
 module.exports = Marty.createContainer WeekContent,
-  listenTo: [WeeksStore]
-  fetch:
-    sectors: ->
-      WeeksStore.getSectors()
+  listenTo: [AppStore]

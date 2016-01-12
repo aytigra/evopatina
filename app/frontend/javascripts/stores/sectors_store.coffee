@@ -1,6 +1,5 @@
 SectorsConstants = require '../constants/sectors_constants'
 SectorsAPI = require '../sources/sectors_api'
-WeeksStore = require './weeks_store'
 
 SectorsStore = Marty.createStore
   id: 'SectorsStore'
@@ -8,13 +7,13 @@ SectorsStore = Marty.createStore
   typingTimer: null
 
   get: (id) ->
-    WeeksStore.get_sector id
+    AppStore.get_sector id
 
   set: (id, params = {}) ->
-    WeeksStore.update_sector id, params
+    AppStore.update_sector id, params
 
   unset: (id) ->
-    WeeksStore.delete_sector id
+    AppStore.delete_sector id
 
   handlers:
     create: SectorsConstants.SECTOR_CREATE
@@ -32,23 +31,7 @@ SectorsStore = Marty.createStore
 
   #create empty sector in sector with placeholder ID
   create: (sector) ->
-    i = 1
-    while @get("new_#{i}")?
-      i++
-    @set("new_#{i}",
-      id: 'new_' + i
-      name: ''
-      description: ''
-      icon: ''
-      color: ''
-      subsectors: {}
-      weeks:
-        "#{WeeksStore.getCurrentWeek().id}":
-          lapa: 0
-          progress: 0
-      editing: true
-      position: 9000000
-    )
+    AppStore.new_sector()
 
   edit: (sector) ->
     @set(sector.id,
@@ -140,7 +123,7 @@ SectorsStore = Marty.createStore
 
   move: (sector, to) ->
     if to in ['up', 'down']
-      WeeksStore.move_sector sector.id, to
+      AppStore.move_sector sector.id, to
       SectorsAPI.move(sector, to)
 
   move_response: (sector, ok) ->

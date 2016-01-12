@@ -2,11 +2,10 @@
 SectorHeader = React.createFactory require ('./sector_header')
 SectorProgressBar = React.createFactory require ('./sector_progress_bar')
 SectorForm = React.createFactory require ('./sector_form')
-EmojiSelector = require './emoji_selector'
+EmojiSelector = require './selectors/emoji_selector'
 SectorsActionCreators = require '../actions/sectors_actions'
 
-WeeksActionCreators = require '../actions/weeks_actions'
-WeeksStore = require '../stores/weeks_store'
+UIActionCreators = require '../actions/ui_actions'
 
 Sector = React.createClass
   displayName: 'Sector'
@@ -14,14 +13,10 @@ Sector = React.createClass
   shouldComponentUpdate: (newProps, newState) ->
     newProps.sector isnt @props.sector or
     newProps.current isnt @props.current or
-    newProps.lapa_editing isnt @props.lapa_editing or
     newProps.full isnt @props.full
 
   _onSectorSelect: ->
-    WeeksActionCreators.select_sector @props.sector if @props.sector.id != WeeksStore.getCurrentSector()
-
-  _onLapaChange: (e)->
-    WeeksActionCreators.update_lapa {"#{@props.sector.id}": e.target.value}
+    UIActionCreators.select_sector @props.sector if @props.sector.id != AppStore.getCurrentSector()
 
   _onIconSelect: (e)->
     react_modal EmojiSelector, { emoji: @props.sector.icon }
@@ -54,9 +49,7 @@ Sector = React.createClass
           SectorHeader key: "header-#{@props.sector.id}", sector: @props.sector
 
         SectorProgressBar
-          data: @props.sector.weeks[WeeksStore.getCurrentWeek().id]
-          show_edit_lapa: @props.lapa_editing or @props.sector.editing
-          edit_lapa_callback: @_onLapaChange
+          progress: AppStore.sector_status(@props.sector.id)
 
 
 module.exports = Sector;

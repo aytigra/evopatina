@@ -1,23 +1,21 @@
 {div, span} = React.DOM
-Button = React.createFactory require('./button')
-Sticky = React.createFactory require('./sticky')
-WeeksActionCreators = require '../actions/weeks_actions'
+Button = React.createFactory require('./shared/button')
+Sticky = React.createFactory require('./shared/sticky')
+UIActionCreators = require '../actions/ui_actions'
 SectorsActionCreators = require '../actions/sectors_actions'
+moment = require("moment")
 
 WeekHeader = React.createClass
   displayName: 'WeekHeader'
-
-  _onEditLapa: ->
-    WeeksActionCreators.edit_lapa @props.week
 
   _onSectorCreate: ->
     SectorsActionCreators.create null
 
   _onShowSectors: ->
-    WeeksActionCreators.show_sectors()
+    UIActionCreators.show_sectors()
 
   _onShowStats: ->
-    WeeksActionCreators.show_stats()
+    UIActionCreators.show_stats()
 
   render: ->
     if @props.UI.show_sectors
@@ -49,12 +47,6 @@ WeekHeader = React.createClass
             add_class: sector_buttons_class
             glyphicon: 'plus', title: I18n.add + ' ' + I18n.sector
             span null, I18n.add_short + ' ' + I18n.sector_abbr
-          Button
-            tag: 'button', on_click: @_onEditLapa,
-            active: @props.UI.lapa_editing
-            add_class: sector_buttons_class
-            glyphicon: 'cog', title: I18n.edit + ' ' + I18n.lapa_whom
-            span null, I18n.edit_short + ' ' + I18n.lapa_whom
 
         div
           className: "col-lg-4 col-md-6 col-sm-7 #{week_width}"
@@ -62,25 +54,18 @@ WeekHeader = React.createClass
           div className: "week-navbar #{week_nav_class}",
             div className: 'btns-left',
               Button
-                tag: 'a', href: @props.week.prev_path, id: "prev-week-link"
-                glyphicon: 'arrow-left', title: I18n.prev.f + ' ' + I18n.week
+                tag: 'a', href: @props.day.prev_path, id: "prev-week-link"
+                glyphicon: 'arrow-left', title: I18n.prev.m + ' ' + I18n.day
 
             div className: 'week-info',
               div className: 'week-dates',
-                @props.week.begin_end_text
-              div {},
-                _.map @props.week.days, (day)->
-                  span
-                    key: day['date']
-                    className: "label label-#{day['status']}"
-                    span className: 'hidden-xs',
-                      day['name']
+                @props.day.text
 
             div className: 'btns-right',
-              if @props.week.next_path
+              if @props.day.next_path
                 Button
-                  tag: 'a', href: @props.week.next_path, id: "next-week-link"
-                  glyphicon: 'arrow-right', title: I18n.next.f + ' ' + I18n.week
+                  tag: 'a', href: @props.day.next_path, id: "next-week-link"
+                  glyphicon: 'arrow-right', title: I18n.next.m + ' ' + I18n.day
 
           div className: 'stats-navbar pull-right hidden-lg hidden-md', style: {marginRight: '-10px'},
             Button

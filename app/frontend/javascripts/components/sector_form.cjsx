@@ -1,6 +1,6 @@
 SectorsActionCreators = require '../actions/sectors_actions'
-ItemErrorsBlock = require './item_errors_block'
-ColorSelector = require './color_selector'
+ItemErrorsBlock = require './shared/item_errors_block'
+ColorSelector = require './selectors/color_selector'
 
 SectorForm = React.createClass
   displayName: 'SectorForm'

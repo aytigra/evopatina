@@ -1,5 +1,4 @@
-Modal = require './modal'
-WeeksStore = require '../stores/weeks_store'
+Modal = require '../shared/modal'
 
 Promise = $.Deferred
 {div, button, h4} = React.DOM
@@ -12,7 +11,6 @@ SubsectorsSelector = React.createClass
 
   propTypes:
     entry: React.PropTypes.object.isRequired
-    sectors: React.PropTypes.object.isRequired
     type: React.PropTypes.string.isRequired
 
   _abort: ->
@@ -29,11 +27,12 @@ SubsectorsSelector = React.createClass
     children = []
     withsubs = @props.type is 'activity'
 
-    for id, sector of @props.sectors
+    _.map AppStore.get_day().sectors, (id) =>
+      sector = AppStore.get_sector(id)
       classname = 'selector-sector bg-success'
       if not withsubs
         if sector.id is @props.entry.sector_id
-            continue
+            return
         classname += ' selector-clickable'
         sector_onclick = @_choose.bind(@, {sector_id: id})
 
@@ -46,7 +45,7 @@ SubsectorsSelector = React.createClass
       )
       if withsubs
         _.map sector.subsectors, (subid) =>
-          subsector = WeeksStore.get_subsector(subid)
+          subsector = AppStore.get_subsector(subid)
           if subsector.id isnt @props.entry.subsector_id
             children.push(
               div

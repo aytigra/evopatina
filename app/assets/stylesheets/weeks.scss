@@ -50,7 +50,7 @@
     @extend .toolbar;
     display: inline-block;
     .week-info {
-      line-height: 1;
+      line-height: 32px;
       padding-left: 32px;
       padding-right: 32px;
     }
@@ -151,7 +151,19 @@
 .sector-statistics {
   margin-top: 7px;
   padding-left: 10px;
-  padding-right: 5px;
+  padding-right: 10px;
+  .stats-title {
+    padding-left: 20px;
+  }
+
+  .chart-line {
+    height: 60px;
+    margin-top: 10px;
+    z-index: 1;
+    .btns-left {
+      padding-left: 20px;
+    }
+  }
 }
 
 .activity, .subsector {

@@ -1,6 +1,5 @@
 SubsectorsConstants = require '../constants/subsectors_constants'
 SubsectorsAPI = require '../sources/subsectors_api'
-WeeksStore = require './weeks_store'
 
 SubsectorsStore = Marty.createStore
   id: 'SubsectorsStore'
@@ -8,13 +7,13 @@ SubsectorsStore = Marty.createStore
   typingTimer: null
 
   get: (id) ->
-    WeeksStore.get_subsector id
+    AppStore.get_subsector id
 
   set: (id, params = {}) ->
-    WeeksStore.update_subsector id, params
+    AppStore.update_subsector id, params
 
   unset: (id) ->
-    WeeksStore.delete_subsector id
+    AppStore.delete_subsector id
 
   handlers:
     create: SubsectorsConstants.SUBSECTOR_CREATE
@@ -32,7 +31,7 @@ SubsectorsStore = Marty.createStore
 
   #create empty subsector in sector with placeholder ID
   create: (sector) ->
-    WeeksStore.new_subsector(sector.id)
+    AppStore.new_subsector(sector.id)
 
   edit: (subsector) ->
     @set(subsector.id,
@@ -54,7 +53,7 @@ SubsectorsStore = Marty.createStore
 
   update_text: (subsector, params) ->
     @set subsector.id, params
-    if typeof sector.id isnt "string"
+    if typeof subsector.id isnt "string"
       clearTimeout @typingTimer
       callback = => @update(subsector, params)
       @typingTimer = setTimeout(callback , 500)
@@ -97,7 +96,7 @@ SubsectorsStore = Marty.createStore
         errors: subsector.errors
       )
     else
-      WeeksStore.update_subsector_id(subsector.old_id, subsector.id)
+      AppStore.update_subsector_id(subsector.old_id, subsector.id)
 
   destroy: (subsector) ->
     @set(subsector.id,
@@ -119,12 +118,12 @@ SubsectorsStore = Marty.createStore
 
   move: (subsector, to) ->
     if to in ['up', 'down']
-      WeeksStore.move_subsector subsector.id, to
+      AppStore.move_subsector subsector.id, to
       SubsectorsAPI.move(subsector, to)
     if to is 'sector'
-      select_sector(subsector, WeeksStore.getSectors())
+      select_sector(subsector)
         .then (dest) =>
-          WeeksStore.move_subsector subsector.id, to, dest
+          AppStore.move_subsector subsector.id, to, dest
           SubsectorsAPI.move({id: subsector.id, sector_id: dest.sector_id}, 'sector')
 
 
