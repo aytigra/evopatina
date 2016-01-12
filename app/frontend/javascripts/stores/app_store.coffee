@@ -75,10 +75,10 @@ AppStore = Marty.createStore
     @redraw_stats()
     @state.progress = @state.progress.merge(data, {deep: true})
 
-  get_sector_progress: (sector) ->
+  get_sector_progress_data: (sector) ->
     result = []
     for day in @get_day().days
-      result.push @get_progress(sector, day)
+      result.push @get_progress(sector, day) * 100
     result
 
   UI: ->
@@ -87,8 +87,14 @@ AppStore = Marty.createStore
   # some math
 
   sector_status: (sector) ->
-    # TODO calculate status by last 3 days
-    @get_progress sector
+    days = @get_day().days.asMutable()
+    p1 = @get_progress sector, days.pop()
+    p2 = @get_progress sector, days.pop()
+    p3 = @get_progress sector, days.pop()
+    p2 = if p2 > 2/3 then 2/3 else p2
+    p3 = if p3 > 1/3 then 1/3 else p3
+    p1 + p2 + p3
+
 
   subsector_count: (id) ->
     count = 0

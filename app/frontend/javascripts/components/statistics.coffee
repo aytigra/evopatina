@@ -22,7 +22,7 @@ Statistics = React.createClass
           key: sector_id
           sector: AppStore.get_sector(sector_id)
           progress: AppStore.get_progress(sector_id)
-          data: AppStore.get_sector_progress(sector_id)
+          data: AppStore.get_sector_progress_data(sector_id)
           labels: labels
           redraw: @props.className
 
