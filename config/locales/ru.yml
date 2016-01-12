@@ -49,6 +49,7 @@ ru:
       by_month: За месяц
       by_epoch: За 100 дней(14 нед.)
       by_all: За все время
+      total: Всего
       popular_sectors: Популярные МН
       users_count: Пользователей
 
@@ -141,4 +142,4 @@ ru:
       addition: прибавить фрагментов
 
     stats_whom: статистику
-    progress_history: История прогресса по МН '%{sector}'
+    progress_history: История фрвгментов за последние дни

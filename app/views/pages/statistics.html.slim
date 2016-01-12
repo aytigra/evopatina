@@ -14,6 +14,12 @@
           td = @fragments_epoch[sector.id]
           td = @fragments_total[sector.id]
 
+      tr
+        th = t('.total')
+        td = @fragments_month.values.sum
+        td = @fragments_epoch.values.sum
+        td = @fragments_total.values.sum
+
   .row
     h4.text-center = t('.popular_sectors') + '(' + t("languages.#{I18n.locale}") + ')'
     table.table.table-hover

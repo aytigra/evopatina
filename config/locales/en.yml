@@ -49,6 +49,7 @@ en:
       by_month: Past month
       by_epoch: Past 100 days(14 weeks)
       by_all: From beginning
+      total: Total
       popular_sectors: Popular MDs
       users_count: Users
 
@@ -141,4 +142,4 @@ en:
       addition: addition fragments
 
     stats_whom: statistics
-    progress_history: Progress history for '%{sector}'
+    progress_history: Fragments history for last days

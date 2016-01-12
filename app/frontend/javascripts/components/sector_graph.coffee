@@ -25,7 +25,7 @@ SectorGraph = React.createClass
           ]
         options:
           datasetStroke: false
-          tooltipTemplate: "<%= value / 100 %>; <%=label%>"
+          tooltipTemplate: "<%= value / 100 %> on <%=label%>"
           tooltipCaretSize: 0
           scaleFontSize: 0
           scaleShowHorizontalLines: false
