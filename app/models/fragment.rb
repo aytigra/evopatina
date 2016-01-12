@@ -11,7 +11,11 @@ class Fragment < ActiveRecord::Base
   end
 
   def self.progress_for_days(days, sectors)
-    raw = joins(activity: :subsector).where(week_id: days).group(:week_id, :sector_id).sum(:count)
+    raw = joins(activity: :subsector)
+      .where(subsectors: { sector_id: sectors })
+      .where(week_id: days)
+      .group(:week_id, :sector_id)
+      .sum(:count)
     result = Hash.new { |h, k| h[k] = {} }
 
     sectors.each do |sector|
@@ -21,5 +25,13 @@ class Fragment < ActiveRecord::Base
     end
 
     result
+  end
+
+  def self.sum_by_sectors_from(sectors, date = 0)
+    joins(activity: :subsector)
+      .where(subsectors: { sector_id: sectors })
+      .where('week_id > ?', date)
+      .group(:sector_id)
+      .sum(:count)
   end
 end
