@@ -19,14 +19,18 @@ class PagesController < ApplicationController
 
   def statistics
     @sectors = Sector.where(user: current_user).order(:position).load
-    @fragments_month = fragments_from Week.new(Date.current - 4.weeks).id
-    @fragments_epoch = fragments_from Week.new(Date.current - 14.weeks).id
-    @fragments_total = fragments_from
+    @sectors_ids = @sectors.map(&:id)
+    @fragments_month = Fragment.sum_by_sectors_from @sectors_ids, Day.new(Date.current - 4.weeks).id
+    @fragments_epoch = Fragment.sum_by_sectors_from @sectors_ids, Day.new(Date.current - 100.days).id
+    @fragments_total = Fragment.sum_by_sectors_from @sectors_ids
 
     # get sector names with number of users, only for current locale and with some progress
-    @popular_sectors = Sector.joins(:user)
+    @popular_sectors = Sector.unscoped.joins(:user)
       .where(users: { locale: I18n.locale })
-      .where('(SELECT SUM("sector_weeks"."progress") FROM "sector_weeks" WHERE "sector_weeks"."sector_id" = "sectors"."id") > 0')
+      .where('(SELECT SUM("fragments"."count") FROM "fragments"
+                INNER JOIN "activities" ON "activities"."id" = "fragments"."activity_id"
+                INNER JOIN "subsectors" ON "subsectors"."id" = "activities"."subsector_id"
+                WHERE "subsectors"."sector_id" = "sectors"."id") > 0')
       .group(:name).order('count_id desc').limit(30).count('id')
   end
 
@@ -36,9 +40,5 @@ class PagesController < ApplicationController
 
   private
 
-  def fragments_from(date_id = 0)
-    SectorWeek.where(sector_id: @sectors.map(&:id))
-              .where('week_id > ?', date_id)
-              .group(:sector_id).sum(:progress)
-  end
+
 end
