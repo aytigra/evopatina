@@ -96,12 +96,7 @@ SectorsStore = Marty.createStore
         errors: sector.errors
       )
     else
-      new_sector = @get(sector.old_id).asMutable()
-      new_sector.id = sector.id
-      new_sector.have_errors = false
-      new_sector.errors = {}
-      @set sector.id, new_sector
-      @unset sector.old_id
+      AppStore.update_sector_id sector.old_id, sector.id
 
   destroy: (sector) ->
     @set(sector.id,

@@ -163,6 +163,19 @@ AppStore = Marty.createStore
 
     @hasChanged()
 
+  update_sector_id: (old_id, id) ->
+    sector = @get_sector(old_id).asMutable()
+    sector.id = id
+    @set_sector id, sector
+
+    sectors = @get_day().sectors.asMutable()
+    sectors[sectors.indexOf(old_id)] = id
+    @set_day
+      sectors: sectors
+    @state.UI.current_sector = id
+
+    @hasChanged()
+
   update_sector: (id, params = {}) ->
     @set_sector id, params
     @hasChanged()
