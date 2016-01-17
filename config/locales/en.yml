@@ -7,7 +7,7 @@ en:
       name: "intellect"
       description: "Development of intellectual abilities, erudition"
     id_3:
-      name: "mind"
+      name: "selection"
       description: "Mental development, freedom from negative emotions and experience of enlightened perceptions"
     id_4:
       name: "wealth"
@@ -16,8 +16,15 @@ en:
       name: "friends"
       description: "Forming a circle of interesting, close friends"
     id_6:
-      name: "entertainment"
+      name: "experiences"
       description: "Impressions, pleasure - sex, traveling, movies, books, music, chat, etc."
+    id_7:
+      name: "creation/research"
+      description: 'Creation or research of something new'
+    id_8:
+      name: "skills development"
+      description: 'Создание и поддержка навыков (например совершенствование своих умений в дайвинге, боксе, владения языками, науками и т.д. и т.п.)'
+
 
   languages:
     lang: "Language"
