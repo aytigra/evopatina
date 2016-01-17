@@ -72,14 +72,14 @@ ActivityCountForm = React.createClass
             value={@state.count_add}
             autoFocus={true}
           />
-          <label className='count-name'>fragment</label>
+          <label className='count-name'>{I18n.fragment}</label>
         </div>
         <div className='btns-right'>
-          <button onClick={@_onCancel} className="btn btn-default btn-sm" title={I18n.cancel}>
-            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </button>
           <button onClick={@_onSave} className="btn btn-default btn-sm" title={I18n.save}>
             <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </button>
+          <button onClick={@_onCancel} className="btn btn-default btn-sm" title={I18n.cancel}>
+            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </button>
         </div>
       </div>
