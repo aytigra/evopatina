@@ -53,6 +53,15 @@ ru:
       popular_sectors: Популярные МН
       users_count: Пользователей
 
+    statistics_sector:
+      fragments_by_sector: "Количество твоих фрагментов в МН '%{sector}'"
+      activities: КН
+      fragments: Фрагов
+      by_month: За месяц
+      by_epoch: За 100 дней(14 нед.)
+      by_all: За все время
+      go_back: Назад
+
   users:
     email: Эл. почта
     password: Пароль

@@ -34,6 +34,19 @@ class PagesController < ApplicationController
       .group(:name).order('count_id desc').limit(30).count('id')
   end
 
+  # get 'statistics/:id'
+  def statistics_sector
+    @sector = Sector.find(params[:id])
+    @subsectors = Subsector.where(sector_id: @sector.id)
+    @activities = Activity.where(subsector_id: @subsectors.map(&:id))
+    @activities_ids = @activities.map(&:id)
+    @activities_grouped = @activities.each_with_object(Hash.new { |h, k| h[k] = {} }) { |a, h| h[a.subsector_id][a.id] = a }
+
+    @fragments_month = Fragment.sum_by_activities_from @activities_ids, Day.new(Date.current - 4.weeks).id
+    @fragments_epoch = Fragment.sum_by_activities_from @activities_ids, Day.new(Date.current - 100.days).id
+    @fragments_total = Fragment.sum_by_activities_from @activities_ids
+  end
+
   def hello
     redirect_to root_path if user_signed_in?
   end

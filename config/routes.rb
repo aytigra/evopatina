@@ -32,8 +32,10 @@ Rails.application.routes.draw do
 
   get 'patina', to: 'pages#patina', as: 'patina'
   get 'about', to: 'pages#about', as: 'about'
-  get 'statistics', to: 'pages#statistics', as: 'statistics'
   get 'hello' => 'pages#hello', :as => :hello
+
+  get 'statistics', to: 'pages#statistics', as: 'statistics'
+  get 'statistics/:id', to: 'pages#statistics_sector', as: 'statistic'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

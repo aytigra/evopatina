@@ -53,6 +53,15 @@ en:
       popular_sectors: Popular MDs
       users_count: Users
 
+    statistics_sector:
+      fragments_by_sector: "Your number of fragments for in MD '%{sector}'"
+      activities: SD
+      fragments: Fragmets
+      by_month: Past month
+      by_epoch: Past 100 days(14 weeks)
+      by_all: From beginning
+      go_back: Go back
+
   users:
     email: E-mail
     password: Password

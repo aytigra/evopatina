@@ -1,0 +1,22 @@
+.container
+  .row
+    h4.text-center = t('.fragments_by_sector', sector: @sector.name)
+    table.table.table-hover.table-condensed
+      tr
+        th = t('.activities')
+        th = t('.by_month')
+        th = t('.by_epoch')
+        th = t('.by_all')
+
+      - @subsectors.each do |subsector|
+        tr.active
+          td colspan='4'
+            = subsector.name
+        - @activities_grouped[subsector.id].each do |id, activity|
+          tr
+            th = activity.name
+            td = @fragments_month[activity.id] || 0
+            td = @fragments_epoch[activity.id] || 0
+            td = @fragments_total[activity.id] || 0
+
+    = link_to t('.go_back'), statistics_path

@@ -34,4 +34,11 @@ class Fragment < ActiveRecord::Base
       .group(:sector_id)
       .sum(:count)
   end
+
+  def self.sum_by_activities_from(activities, date = 0)
+    where(activity_id: activities)
+      .where('week_id > ?', date)
+      .group(:activity_id)
+      .sum(:count)
+  end
 end

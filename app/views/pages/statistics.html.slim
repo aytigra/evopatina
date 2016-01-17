@@ -9,16 +9,16 @@
         th = t('.by_all')
       - @sectors.each do |sector|
         tr
-          th = sector.name
-          td = @fragments_month[sector.id]
-          td = @fragments_epoch[sector.id]
-          td = @fragments_total[sector.id]
+          th = link_to sector.name, statistic_path(sector.id)
+          td = @fragments_month[sector.id].round
+          td = @fragments_epoch[sector.id].round
+          td = @fragments_total[sector.id].round
 
       tr
         th = t('.total')
-        td = @fragments_month.values.sum
-        td = @fragments_epoch.values.sum
-        td = @fragments_total.values.sum
+        td = @fragments_month.values.sum.round
+        td = @fragments_epoch.values.sum.round
+        td = @fragments_total.values.sum.round
 
   .row
     h4.text-center = t('.popular_sectors') + '(' + t("languages.#{I18n.locale}") + ')'
@@ -30,5 +30,3 @@
         tr
           th = name
           td = count
-
-  layouts.navbar.languages.ru
