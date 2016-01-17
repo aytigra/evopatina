@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151127100759) do
+ActiveRecord::Schema.define(version: 20160117160256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20151127100759) do
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "fragments", force: :cascade do |t|
-    t.integer  "week_id",                   null: false
+    t.integer  "day_id",                    null: false
     t.integer  "activity_id",               null: false
     t.float    "count",       default: 0.0
     t.datetime "created_at",                null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20151127100759) do
   end
 
   add_index "fragments", ["activity_id"], name: "index_fragments_on_activity_id", using: :btree
-  add_index "fragments", ["week_id"], name: "index_fragments_on_week_id", using: :btree
+  add_index "fragments", ["day_id"], name: "index_fragments_on_day_id", using: :btree
 
   create_table "sector_weeks", force: :cascade do |t|
     t.integer  "sector_id",                null: false

@@ -3,18 +3,18 @@ class Fragment < ActiveRecord::Base
 
   scope :sector, ->(id) { joins(activity: :subsector).where(subsectors: { sector_id: id }) }
 
-  validates :activity, :week_id, presence: true
-  validates :activity, uniqueness: { scope: :week_id }
+  validates :activity, :day_id, presence: true
+  validates :activity, uniqueness: { scope: :day_id }
 
-  def self.find_or_create(activity, week)
-    where(activity: activity, week_id: week.id).first_or_create
+  def self.find_or_create(activity, day)
+    where(activity: activity, day_id: day.id).first_or_create
   end
 
   def self.progress_for_days(days, sectors)
     raw = joins(activity: :subsector)
       .where(subsectors: { sector_id: sectors })
-      .where(week_id: days)
-      .group(:week_id, :sector_id)
+      .where(day_id: days)
+      .group(:day_id, :sector_id)
       .sum(:count)
     result = Hash.new { |h, k| h[k] = {} }
 
@@ -30,14 +30,14 @@ class Fragment < ActiveRecord::Base
   def self.sum_by_sectors_from(sectors, date = 0)
     joins(activity: :subsector)
       .where(subsectors: { sector_id: sectors })
-      .where('week_id > ?', date)
+      .where('day_id > ?', date)
       .group(:sector_id)
       .sum(:count)
   end
 
   def self.sum_by_activities_from(activities, date = 0)
     where(activity_id: activities)
-      .where('week_id > ?', date)
+      .where('day_id > ?', date)
       .group(:activity_id)
       .sum(:count)
   end
