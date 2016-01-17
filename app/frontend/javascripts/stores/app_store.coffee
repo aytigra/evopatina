@@ -317,11 +317,11 @@ AppStore = Marty.createStore
         @change_progress from_subsector.sector_id, null, -activity.count
         @change_progress to_subsector.sector_id, null, activity.count
 
-      @set_subsector from_subsector.id,
-        activities: _.without(from_subsector.activities, id)
-      # bubble changes up tree
-      @update_subsector to_subsector.id,
+      @set_subsector to_subsector.id,
         activities: to_subsector.activities.concat(id)
+      # bubble changes up tree for visible sector
+      @update_subsector from_subsector.id,
+        activities: _.without(from_subsector.activities, id)
     else
       # bubble changes up tree
       @update_subsector from_subsector.id,
