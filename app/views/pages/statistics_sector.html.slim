@@ -15,8 +15,8 @@
         - @activities_grouped[subsector.id].each do |id, activity|
           tr
             th = activity.name
-            td = @fragments_month[activity.id] || 0
-            td = @fragments_epoch[activity.id] || 0
-            td = @fragments_total[activity.id] || 0
+            td = @fragments_month[activity.id].to_i
+            td = @fragments_epoch[activity.id].to_i
+            td = @fragments_total[activity.id].to_i
 
     = link_to t('.go_back'), statistics_path
