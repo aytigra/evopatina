@@ -40,13 +40,13 @@ WeekHeader = React.createClass
             tag: 'button', on_click: @_onShowSectors
             add_class: 'visible-xs-inline-block'
             active: @props.UI.show_sectors
-            glyphicon: 'chevron-right', title: I18n.show + ' ' + I18n.sector_abbr
+            glyphicon: 'chevron-right', title: I18n.header.show_sectors
 
           Button
             tag: 'button', on_click: @_onSectorCreate
             add_class: sector_buttons_class
-            glyphicon: 'plus', title: I18n.add + ' ' + I18n.sector
-            span null, I18n.add_short + ' ' + I18n.sector_abbr
+            glyphicon: 'plus', title: I18n.header.add_sector
+            span null, I18n.header.add_sector_short
 
         div
           className: "col-lg-4 col-md-6 col-sm-7 #{week_width}"
@@ -55,7 +55,7 @@ WeekHeader = React.createClass
             div className: 'btns-left',
               Button
                 tag: 'a', href: @props.day.prev_path, id: "prev-week-link"
-                glyphicon: 'arrow-left', title: I18n.prev.m + ' ' + I18n.day
+                glyphicon: 'arrow-left', title: I18n.header.prev_day
 
             div className: 'week-info',
               div className: 'week-dates',
@@ -65,13 +65,13 @@ WeekHeader = React.createClass
               if @props.day.next_path
                 Button
                   tag: 'a', href: @props.day.next_path, id: "next-week-link"
-                  glyphicon: 'arrow-right', title: I18n.next.m + ' ' + I18n.day
+                  glyphicon: 'arrow-right', title: I18n.header.next_day
 
           div className: 'stats-navbar pull-right hidden-lg hidden-md', style: {marginRight: '-10px'},
             Button
               tag: 'button', on_click: @_onShowStats
               active: @props.UI.show_stats
-              glyphicon: 'stats', title: I18n.show + ' ' + I18n.stats_whom
+              glyphicon: 'stats', title: I18n.header.show_stats
 
 
 module.exports = WeekHeader;

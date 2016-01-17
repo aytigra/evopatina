@@ -31,7 +31,7 @@ SubsectorForm = React.createClass
 
   _onDelete: ->
     if not _.isEmpty(@props.subsector.activities)
-      react_confirm I18n.subsector_notempty
+      react_confirm I18n.subsectors.notempty
         .then =>
           SubsectorsActionCreators.destroy @props.subsector
 
@@ -79,7 +79,7 @@ SubsectorForm = React.createClass
       <div className='list-form-body'>
         <textarea
           rows="3"
-          placeholder={I18n.add + ' ' +I18n.description}
+          placeholder={I18n.description_placeholder}
           onChange={@_onDescChange}
           value={@props.subsector.description}
         />
@@ -87,7 +87,7 @@ SubsectorForm = React.createClass
           <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onMove.bind(@, 'sector')} className="btn btn-default btn-sm" title={I18n.move_to + ' ' + I18n.sector}>
+          <button onClick={@_onMove.bind(@, 'sector')} className="btn btn-default btn-sm" title={I18n.subsectors.move_to}>
             <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
           </button>
           <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>

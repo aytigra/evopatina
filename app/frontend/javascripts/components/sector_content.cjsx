@@ -26,7 +26,7 @@ SectorContent = React.createClass
           size: 'sm'
           add_class: 'bg-info'
           glyphicon: 'plus'
-          title: I18n.add + ' ' + I18n.subsector
-          I18n.add + ' ' + I18n.subsector_abbr
+          title: I18n.sectors.add_subsector
+          I18n.sectors.add_subsector_short
 
 module.exports = SectorContent;

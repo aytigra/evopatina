@@ -1,0 +1,51 @@
+en:
+  frontend:
+    add: add
+    edit: edit
+    delete: delete
+    save: save
+    cancel: cancel
+    move_up: move up
+    move_down: move down
+    select_emoji: select emoji
+    select_color: select цвет
+    description_placeholder: add description
+
+    sector: main direction
+    subsector: tactical direction
+    activity: specific direction
+    fragment: fragment
+
+    header:
+      show_sectors: show main directions
+      show_stats: show stats
+      add_sector_short: add MD
+      add_sector: add main direction
+      prev_day: previous day
+      next_day: next day
+
+    sectors:
+      edit: edit main direction
+      notempty: 'will delete all nested TD, SD and their fragments'
+      add_subsector: add tactical direction
+      add_subsector_short: add TD
+
+    subsectors:
+      edit: edit tactical direction
+      move_to: move into other MD
+      notempty: will delete all nested SD and their fragments
+      add_activity: add specific direction
+
+    activities:
+      edit: edit specific direction
+      move_to: move into other TD
+      notempty: will delete all fragments of this SD
+
+    fragments:
+      add: +1 fragment
+      edit: edit number of fragments
+      current: current number of fragments
+      addition: addition fragments
+
+    stats:
+      progress_history: Fragments history for last days

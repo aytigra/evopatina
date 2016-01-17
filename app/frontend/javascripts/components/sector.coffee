@@ -33,7 +33,7 @@ Sector = React.createClass
       if @props.sector.editing
         div
           className: 'sector-icon-editing ' + if @props.full then '' else 'hidden-xs'
-          title:  I18n.select + ' ' + I18n.emoji
+          title:  I18n.select_emoji
           onClick: @_onIconSelect
           div null,
             @props.sector.icon

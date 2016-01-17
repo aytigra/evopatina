@@ -55,7 +55,7 @@ Activity = React.createClass
           </div>
           <label onClick={@_showDescription}>{@props.activity.name}</label>
           <div className='btns-right'>
-            <button onClick={@_onEdit} className="btn btn-default btn-sm" title={I18n.edit + ' ' + I18n.activity_whom}>
+            <button onClick={@_onEdit} className="btn btn-default btn-sm" title={I18n.activities.edit}>
               <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </button>
           </div>

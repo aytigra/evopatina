@@ -15,7 +15,7 @@ Statistics = React.createClass
 
     div className: @props.className,
       div className: 'stats-title',
-        I18n.progress_history
+        I18n.stats.progress_history
 
       _.map AppStore.get_day().sectors, (sector_id) =>
         SectorGraph

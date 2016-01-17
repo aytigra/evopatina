@@ -30,7 +30,9 @@ ActivityForm = React.createClass
       @_onCancel()
 
   _onDelete: ->
-    ActivitiesActionCreators.destroy @props.activity
+    react_confirm I18n.activities.notempty
+      .then =>
+        ActivitiesActionCreators.destroy @props.activity
 
   _onMove: (to) ->
     ActivitiesActionCreators.move @props.activity, to
@@ -73,7 +75,7 @@ ActivityForm = React.createClass
       <div className='list-form-body'>
         <textarea
           rows="4"
-          placeholder={I18n.add + ' ' +I18n.description}
+          placeholder={I18n.description_placeholder}
           onChange={@_onDescChange}
           value={@props.activity.description}
         />
@@ -81,7 +83,7 @@ ActivityForm = React.createClass
           <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
             <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
           </button>
-          <button onClick={@_onMove.bind(@, 'subsector')} className="btn btn-default btn-sm" title={I18n.move_to + ' ' + I18n.subsector}>
+          <button onClick={@_onMove.bind(@, 'subsector')} className="btn btn-default btn-sm" title={I18n.activities.move_to}>
             <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
           </button>
           <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>

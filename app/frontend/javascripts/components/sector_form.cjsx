@@ -32,7 +32,7 @@ SectorForm = React.createClass
 
   _onDelete: ->
     if not _.isEmpty(@props.sector.subsectors)
-      react_confirm I18n.sector_notempty
+      react_confirm I18n.sectors.notempty
         .then =>
           SectorsActionCreators.destroy @props.sector
 
@@ -93,12 +93,12 @@ SectorForm = React.createClass
         </div>
         <textarea
           rows="3"
-          placeholder={I18n.add + ' ' +I18n.description}
+          placeholder={I18n.description_placeholder}
           onChange={@_onDescChange}
           value={@props.sector.description}
         />
         <div className='btns-right'>
-          <button onClick={@_onColorSelect} className="btn btn-default btn-sm" title={I18n.select + ' ' + I18n.color}>
+          <button onClick={@_onColorSelect} className="btn btn-default btn-sm" title={I18n.select_color}>
             <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
             <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
               style={{opacity: '0', width: '100%'}}
