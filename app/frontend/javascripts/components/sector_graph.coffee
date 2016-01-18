@@ -9,29 +9,26 @@ SectorGraph = React.createClass
     newProps.redraw isnt @props.redraw
 
   render: ->
-    div className: 'chart-line toolbar',
-      div className: 'btns-left', @props.sector.name
+    div className: 'sector-graph',
       LineChart
         data:
           labels: @props.labels
           datasets: [
-            fillColor: @props.sector.color || "rgba(220,220,220,0.2)"
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
+            fillColor: @props.color || "rgba(220,220,220,0.2)"
+            strokeColor: @props.color || "rgba(220,220,220,1)",
+            pointColor: @props.color || "rgba(220,220,220,1)",
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
             data: @props.data
           ]
         options:
-          datasetStroke: false
           tooltipTemplate: "<%= value / 100 %> on <%=label%>"
           tooltipCaretSize: 0
-          scaleFontSize: 0
-          scaleShowHorizontalLines: false
-          scaleShowVerticalLines: false
           responsive: true
           maintainAspectRatio: false
+          showScale: false
+          animation: false
         redraw: true
 
 module.exports = SectorGraph;

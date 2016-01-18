@@ -10,21 +10,11 @@ Statistics = React.createClass
     newProps.className isnt @props.className
 
   render: ->
-    labels =  _.map AppStore.get_day().days, (day) ->
-      moment(day, "YYYYMMDD").format('DD-MM-YYYY')
-
     div className: @props.className,
       div className: 'stats-title',
-        I18n.stats.progress_history
+        I18n.stats.reactor_title
 
-      _.map AppStore.get_day().sectors, (sector_id) =>
-        SectorGraph
-          key: sector_id
-          sector: AppStore.get_sector(sector_id)
-          progress: AppStore.get_progress(sector_id)
-          data: AppStore.get_sector_progress_data(sector_id)
-          labels: labels
-          redraw: @props.className
-
+      div null,
+        'coming soon'
 
 module.exports = Statistics;

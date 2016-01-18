@@ -66,9 +66,7 @@
     margin-top: 5px;
     margin-left: -10px;
     margin-right: -15px;
-    padding-top: 5px;
     border: solid white 2px;
-    padding: 2px;
     position: relative;
     min-height: 55px;
   }
@@ -90,14 +88,16 @@
       border: 1px dashed black ;
     }
     .sector-full {
-      padding-left: 30px;
+      margin-left: 30px;
+      background-color: #fff;
     }
     .current-sector {
       border-color: #5F5F5F;
     }
     .sector-header {
-      margin-top: 5px;
       line-height: 18px;
+      padding-left: 5px;
+      padding-bottom: 2px;
       .btns-left span {
         margin-right: 5px;
       }
@@ -106,22 +106,8 @@
         font-weight: normal;
       }
     }
-    .sector-progress {
-      margin-top: 10px;
-      .progress {
-        margin-bottom: 0px;
-        margin-right: 20px;
-      }
-      .btns-right {
-        padding-right: 2px;
-      }
-    }
-
-    .lapa-edit-form {
-      input {
-        width: 40px;
-        height: 20px;
-      }
+    .sector-graph {
+      height: 50px;
     }
 
 
@@ -154,15 +140,6 @@
   padding-right: 10px;
   .stats-title {
     padding-left: 20px;
-  }
-
-  .chart-line {
-    height: 60px;
-    margin-top: 10px;
-    z-index: 1;
-    .btns-left {
-      padding-left: 20px;
-    }
   }
 }
 
@@ -282,7 +259,6 @@
   }
 
   .sector-form {
-    margin-top: 5px;
     .list-form-head {
       padding-left: 2px;
       input {

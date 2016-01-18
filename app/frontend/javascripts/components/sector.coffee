@@ -3,9 +3,12 @@ SectorHeader = React.createFactory require ('./sector_header')
 SectorProgressBar = React.createFactory require ('./sector_progress_bar')
 SectorForm = React.createFactory require ('./sector_form')
 EmojiSelector = require './selectors/emoji_selector'
-SectorsActionCreators = require '../actions/sectors_actions'
 
+SectorsActionCreators = require '../actions/sectors_actions'
 UIActionCreators = require '../actions/ui_actions'
+
+SectorGraph = React.createFactory require('./sector_graph')
+moment = require("moment")
 
 Sector = React.createClass
   displayName: 'Sector'
@@ -24,7 +27,14 @@ Sector = React.createClass
         SectorsActionCreators.update @props.sector,
           icon: emoji
 
+  _onEdit: (e) ->
+    e.preventDefault()
+    SectorsActionCreators.edit @props.sector
+
   render: ->
+    labels =  _.map AppStore.get_day().days, (day) ->
+      moment(day, "YYYYMMDD").format('DD-MM')
+
     div
       className: "sector row " + if @props.current then 'current-sector' else ''
       style: {backgroundColor: @props.sector.color}
@@ -46,10 +56,18 @@ Sector = React.createClass
         if @props.sector.editing
           SectorForm key: @props.sector.id, sector: @props.sector
         else
-          SectorHeader key: "header-#{@props.sector.id}", sector: @props.sector
+          SectorHeader
+            key: "header-#{@props.sector.id}"
+            sector: @props.sector
+            onEdit: @_onEdit
 
-        SectorProgressBar
-          progress: AppStore.sector_status(@props.sector.id)
+        SectorGraph
+          key: @props.sector.id
+          color: @props.sector.color
+          progress: AppStore.get_progress(@props.sector.id)
+          data: AppStore.get_sector_progress_data(@props.sector.id)
+          labels: labels
+          redraw: @props.full
 
 
 module.exports = Sector;
