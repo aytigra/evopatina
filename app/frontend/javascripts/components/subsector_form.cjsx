@@ -83,17 +83,19 @@ SubsectorForm = React.createClass
           onChange={@_onDescChange}
           value={@props.subsector.description}
         />
-        <div className='btns-right'>
-          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
-            <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-          </button>
-          <button onClick={@_onMove.bind(@, 'sector')} className="btn btn-default btn-sm" title={I18n.subsectors.move_to}>
-            <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
-          </button>
-          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>
-            <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-          </button>
-        </div>
+        {if typeof @props.subsector.id isnt "string"
+          <div className='btns-right'>
+            <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
+              <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+            </button>
+            <button onClick={@_onMove.bind(@, 'sector')} className="btn btn-default btn-sm" title={I18n.subsectors.move_to}>
+              <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
+            </button>
+            <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>
+              <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </button>
+          </div>
+        }
       </div>
       {errors_elem}
     </div>

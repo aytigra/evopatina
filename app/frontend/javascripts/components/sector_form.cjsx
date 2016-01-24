@@ -97,21 +97,23 @@ SectorForm = React.createClass
           onChange={@_onDescChange}
           value={@props.sector.description}
         />
-        <div className='btns-right'>
-          <button onClick={@_onColorSelect} className="btn btn-default btn-sm" title={I18n.select_color}>
-            <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
-            <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
-              style={{opacity: '0', width: '100%'}}
-              ref='color_input'/>
-          </button>
+        {if typeof @props.sector.id isnt "string"
+          <div className='btns-right'>
+            <button onClick={@_onColorSelect} className="btn btn-default btn-sm" title={I18n.select_color}>
+              <span className="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+              <input type='color' onChange=@_onNativeColorSelect value={@props.sector.color}
+                style={{opacity: '0', width: '100%'}}
+                ref='color_input'/>
+            </button>
 
-          <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
-            <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-          </button>
-          <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>
-            <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-          </button>
-        </div>
+            <button onClick={@_onMove.bind(@, 'up')} className="btn btn-default btn-sm" title={I18n.move_up}>
+              <span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+            </button>
+            <button onClick={@_onMove.bind(@, 'down')} className="btn btn-default btn-sm" title={I18n.move_down}>
+              <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </button>
+          </div>
+        }
       </div>
       {errors_elem}
     </div>
