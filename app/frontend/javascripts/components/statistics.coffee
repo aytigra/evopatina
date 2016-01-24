@@ -17,18 +17,17 @@ Statistics = React.createClass
     UIActionCreators.set_reactor_fragments_per_day(e.target.value)
 
   render: ->
-    console.log @props.reactor_fragments_per_day
     div className: @props.className,
       div null,
         ReactorStats
-          data: AppStore.state.progress
-          redraw: @props.full
+          stats_ver: @props.stats_ver
+          redraw: @props.className
           fragments: @props.reactor_fragments_per_day
           on_fragments_change: @onFragmentsChange
 
       div null,
         RadarStats
-          data: AppStore.state.progress
-          redraw: @props.full
+          stats_ver: @props.stats_ver
+          redraw: @props.className
 
 module.exports = Statistics;

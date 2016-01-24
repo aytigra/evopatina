@@ -5,7 +5,7 @@ ReactorStats = React.createClass
   displayName: 'ReactorStats'
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.data isnt @props.data or
+    newProps.stats_ver isnt @props.stats_ver or
     newProps.redraw isnt @props.redraw or
     newProps.fragments isnt @props.fragments
 

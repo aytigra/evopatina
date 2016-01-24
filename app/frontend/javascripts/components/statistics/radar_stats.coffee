@@ -5,7 +5,7 @@ RadarStats = React.createClass
   displayName: 'RadarStats'
 
   shouldComponentUpdate: (newProps, newState) ->
-    newProps.data isnt @props.data or
+    newProps.stats_ver isnt @props.stats_ver or
     newProps.redraw isnt @props.redraw
 
   render: ->
