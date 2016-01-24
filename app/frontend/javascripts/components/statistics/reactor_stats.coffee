@@ -15,6 +15,8 @@ ReactorStats = React.createClass
       label: AppStore.get_sector(sector).name
 
     div className: '',
+      div className: 'reactor-title text-center', I18n.stats.reactor_title
+      div className: 'reactor-fragments text-center', I18n.stats.reactor_fragments
       PolarAreaChart
         data: data
         options:

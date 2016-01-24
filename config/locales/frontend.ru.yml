@@ -49,4 +49,6 @@ ru:
 
     stats:
       progress_history: История фрагментов за последние дни
-      reactor_title: Статус реактора
+      reactor_title: Активность реактора
+      reactor_fragments: 'если выполнять фрагментов в день: 2'
+      radar_title: 'Распределение усилий за 10 дней'

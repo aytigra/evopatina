@@ -50,3 +50,5 @@ en:
     stats:
       progress_history: Fragments history for last days
       reactor_title: Reactor status
+      reactor_fragments: 'if you do fragments per day: 2'
+      radar_title: 'Efforts distribution during last 10 days'

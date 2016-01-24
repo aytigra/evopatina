@@ -16,6 +16,7 @@ RadarStats = React.createClass
       AppStore.sector_progress_sum(sector)
 
     div className: '',
+      div className: 'stats-name text-center', I18n.stats.radar_title
       RadarChart
         data:
           labels: labels

@@ -13,9 +13,6 @@ Statistics = React.createClass
 
   render: ->
     div className: @props.className,
-      div className: 'stats-title',
-        I18n.stats.reactor_title
-
       div null,
         ReactorStats
           data: AppStore.state.progress
@@ -23,11 +20,6 @@ Statistics = React.createClass
 
       div null,
         RadarStats
-          data: AppStore.state.progress
-          redraw: @props.full
-
-      div null,
-        DonutStats
           data: AppStore.state.progress
           redraw: @props.full
 
