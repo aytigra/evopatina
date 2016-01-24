@@ -1,4 +1,4 @@
-{div, span} = React.DOM
+{div, span, input} = React.DOM
 PolarAreaChart = React.createFactory require("react-chartjs").PolarArea
 
 ReactorStats = React.createClass
@@ -6,7 +6,8 @@ ReactorStats = React.createClass
 
   shouldComponentUpdate: (newProps, newState) ->
     newProps.data isnt @props.data or
-    newProps.redraw isnt @props.redraw
+    newProps.redraw isnt @props.redraw or
+    newProps.fragments isnt @props.fragments
 
   render: ->
     data = _.map AppStore.get_day().sectors, (sector) ->
@@ -16,7 +17,14 @@ ReactorStats = React.createClass
 
     div className: '',
       div className: 'reactor-title text-center', I18n.stats.reactor_title
-      div className: 'reactor-fragments text-center', I18n.stats.reactor_fragments
+      div className: 'reactor-fragments text-center',
+        I18n.stats.reactor_fragments
+        input
+          style:
+            width: '30px'
+          onChange: @props.on_fragments_change
+          value: @props.fragments
+
       PolarAreaChart
         data: data
         options:

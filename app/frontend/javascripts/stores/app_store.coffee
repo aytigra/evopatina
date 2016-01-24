@@ -86,7 +86,6 @@ AppStore = Marty.createStore
     length = (@get_day().sectors.length / @state.UI.reactor_fragments_per_day).toFixed()
     length = if length < 1 then 1 else length
     length = if length > days.length then days.length else length
-    console.log length
 
     total = 0
     _.map [length..1], (num) =>
@@ -125,6 +124,7 @@ AppStore = Marty.createStore
     setCurrentSector: UIConstants.UI_SELECT_SECTOR
     show_sectors: UIConstants.UI_SHOW_SECTORS
     show_stats: UIConstants.UI_SHOW_STATS
+    set_reactor_fragments_per_day: UIConstants.UI_SET_REACTOR_FRAGMENTS_PER_DAY
 
   getCurrentSector: ->
     sectors = @get_day().sectors
@@ -155,6 +155,11 @@ AppStore = Marty.createStore
 
   redraw_stats: ->
     @state.UI.stats_ver = _.uniqueId('stats_ver')
+
+  set_reactor_fragments_per_day: (fragments) ->
+    fragments = if Number.isNaN(parseFloat(fragments)) then 0 else Math.abs(parseFloat(fragments))
+    @state.UI.reactor_fragments_per_day = fragments
+    @hasChanged()
 
   # sectors reducers
 
