@@ -17,6 +17,7 @@ AppStore = Marty.createStore
       show_sectors: false
       show_stats: false
       stats_ver: null
+      reactor_fragments_per_day: 2
 
   setInitialState: (JSON, ok) ->
     if ok && not _.isEmpty(JSON)
@@ -75,12 +76,6 @@ AppStore = Marty.createStore
     @redraw_stats()
     @state.progress = @state.progress.merge(data, {deep: true})
 
-  get_sector_progress_data: (sector) ->
-    result = []
-    for day in @get_day().days
-      result.push @get_progress(sector, day) * 100
-    result
-
   UI: ->
     @state.UI
 
@@ -88,13 +83,30 @@ AppStore = Marty.createStore
 
   sector_status: (sector) ->
     days = @get_day().days.asMutable()
-    p1 = @get_progress sector, days.pop()
-    p2 = @get_progress sector, days.pop()
-    p3 = @get_progress sector, days.pop()
-    p2 = if p2 > 2/3 then 2/3 else p2
-    p3 = if p3 > 1/3 then 1/3 else p3
-    p1 + p2 + p3
+    length = (@get_day().sectors.length / @state.UI.reactor_fragments_per_day).toFixed()
+    length = if length < 1 then 1 else length
+    length = if length > days.length then days.length else length
+    console.log length
 
+    total = 0
+    _.map [length..1], (num) =>
+      p = @get_progress sector, days.pop()
+      total += if p > num/length then num/length else p
+
+    total = (total * 100).toFixed()
+    if total > 100 then 100 else total
+
+  get_sector_progress_data: (sector) ->
+    result = []
+    for day in @get_day().days
+      result.push @get_progress(sector, day) * 100
+    result
+
+  sector_progress_sum: (sector) ->
+    result = 0
+    for day in @get_day().days
+      result += @get_progress(sector, day) * 100
+    result
 
   subsector_count: (id) ->
     count = 0

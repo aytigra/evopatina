@@ -1,5 +1,7 @@
 {div, span} = React.DOM
-SectorGraph = React.createFactory require('./sector_graph')
+ReactorStats = React.createFactory require('./statistics/reactor_stats')
+RadarStats = React.createFactory require('./statistics/radar_stats')
+DonutStats = React.createFactory require('./statistics/donut_stats')
 moment = require("moment")
 
 Statistics = React.createClass
@@ -15,6 +17,18 @@ Statistics = React.createClass
         I18n.stats.reactor_title
 
       div null,
-        'coming soon'
+        ReactorStats
+          data: AppStore.state.progress
+          redraw: @props.full
+
+      div null,
+        RadarStats
+          data: AppStore.state.progress
+          redraw: @props.full
+
+      div null,
+        DonutStats
+          data: AppStore.state.progress
+          redraw: @props.full
 
 module.exports = Statistics;
