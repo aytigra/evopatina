@@ -21,11 +21,11 @@ AppStore = Marty.createStore
 
   setInitialState: (JSON, ok) ->
     if ok && not _.isEmpty(JSON)
-      @state.current_day = Immutable(JSON.current_day)
-      @state.sectors = Immutable(JSON.sectors)
-      @state.subsectors = Immutable(JSON.subsectors)
-      @state.activities = Immutable(JSON.activities)
-      @state.progress = Immutable(JSON.progress)
+      @state.current_day = Immutable(JSON.current_day || {})
+      @state.sectors = Immutable(JSON.sectors || {})
+      @state.subsectors = Immutable(JSON.subsectors || {})
+      @state.activities = Immutable(JSON.activities || {})
+      @state.progress = Immutable(JSON.progress || {})
       @hasChanged()
     else
       alert('arrr! boat is sinking')
