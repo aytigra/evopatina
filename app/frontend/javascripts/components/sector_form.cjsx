@@ -32,7 +32,7 @@ SectorForm = React.createClass
 
   _onDelete: ->
     if not _.isEmpty(@props.sector.subsectors)
-      react_confirm I18n.sectors.notempty
+      react_confirm I18n.sectors.notempty.replace('%{name}', @props.sector.name)
         .then =>
           SectorsActionCreators.destroy @props.sector
 

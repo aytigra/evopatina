@@ -30,7 +30,7 @@ ActivityForm = React.createClass
       @_onCancel()
 
   _onDelete: ->
-    react_confirm I18n.activities.notempty
+    react_confirm I18n.activities.notempty.replace('%{name}', @props.activity.name)
       .then =>
         ActivitiesActionCreators.destroy @props.activity
 

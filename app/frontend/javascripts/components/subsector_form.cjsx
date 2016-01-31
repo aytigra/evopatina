@@ -31,7 +31,7 @@ SubsectorForm = React.createClass
 
   _onDelete: ->
     if not _.isEmpty(@props.subsector.activities)
-      react_confirm I18n.subsectors.notempty
+      react_confirm I18n.subsectors.notempty.replace('%{name}', @props.subsector.name)
         .then =>
           SubsectorsActionCreators.destroy @props.subsector
 

@@ -26,20 +26,20 @@ en:
 
     sectors:
       edit: edit main direction
-      notempty: 'will delete all nested TD, SD and their fragments'
+      notempty: 'will delete "%{name}", all nested TD, SD and their fragments'
       add_subsector: add tactical direction
       add_subsector_short: add TD
 
     subsectors:
       edit: edit tactical direction
       move_to: move into other MD
-      notempty: will delete all nested SD and their fragments
+      notempty: 'will delete "%{name}", all nested SD and their fragments'
       add_activity: add specific direction
 
     activities:
       edit: edit specific direction
       move_to: move into other TD
-      notempty: will delete all fragments of this SD
+      notempty: 'will delete "%{name}" and all fragments of this SD'
 
     fragments:
       add: +1 fragment
