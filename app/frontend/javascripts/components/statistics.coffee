@@ -17,7 +17,9 @@ Statistics = React.createClass
     UIActionCreators.set_reactor_fragments_per_day(e.target.value)
 
   render: ->
-    div className: @props.className,
+    div
+      className: @props.className
+      key: @props.className # hack for rerender on UI.show_stats change
       div null,
         ReactorStats
           stats_ver: @props.stats_ver
