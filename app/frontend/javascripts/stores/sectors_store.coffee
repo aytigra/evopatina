@@ -42,20 +42,22 @@ SectorsStore = Marty.createStore
 
   cancel: (sector) ->
     if typeof sector.id is "string" && !sector.name_old
-      #unset canceled and not saved yet new sector
+      #unset new empty cancelled sector
       @unset sector.id
     else
-      prpams =
+      @set sector.id,
         editing: false
         name: sector.name_old
         description: sector.description_old
-      @update(sector, prpams)
+
+      if sector.name_old != sector.name || sector.description_old != sector.description
+        SectorsAPI.update @get(sector.id)
 
   update_text: (sector, params) ->
     @set sector.id, params
     if typeof sector.id isnt "string"
       clearTimeout @typingTimer
-      callback = => @update(sector, params)
+      callback = => SectorsAPI.update @get(sector.id)
       @typingTimer = setTimeout(callback , 500)
 
   update: (sector, params) ->
@@ -79,11 +81,11 @@ SectorsStore = Marty.createStore
 
   save: (sector) ->
     @typingTimer = null
-    prpams =
+    @update sector,
       editing: false
       name_old: sector.name
       description_old: sector.description
-    @update(sector, prpams)
+
     if typeof sector.id is "string"
       #create to server, replase ID on success
       SectorsAPI.create(sector)

@@ -50,25 +50,26 @@ ActivitiesStore = Marty.createStore
 
   cancel: (activity) ->
     if typeof activity.id is "string" && !activity.name_old
-      #unset canceled and not saved yet new activity
+      #unset new empty cancelled activity
       @unset activity.id
     else if activity.editing
-      params =
+      @set activity.id,
         editing: false
         editing_count: false
         name: activity.name_old
         description: activity.description_old
-      @update(activity, params)
+
+      if activity.name_old != activity.name || activity.description_old != activity.description
+        ActivitiesAPI.update @get(activity.id)
     else if activity.editing_count
-      @set(activity.id,
+      @set activity.id,
         editing_count: false
-      )
 
   update_text: (activity, params) ->
     @set activity.id, params
     if typeof activity.id isnt "string"
       clearTimeout @typingTimer
-      callback = => @update(activity, params)
+      callback = => ActivitiesAPI.update @get(activity.id)
       @typingTimer = setTimeout(callback , 500)
 
   update: (activity, params) ->
@@ -112,11 +113,11 @@ ActivitiesStore = Marty.createStore
 
   save: (activity) ->
     @typingTimer = null
-    params =
+    @update activity,
       editing: false
       name_old: activity.name
       description_old: activity.description
-    @update(activity, params)
+
     if typeof activity.id is "string"
       #create to server, replase ID on success
       ActivitiesAPI.create(activity)

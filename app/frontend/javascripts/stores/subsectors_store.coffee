@@ -42,20 +42,22 @@ SubsectorsStore = Marty.createStore
 
   cancel: (subsector) ->
     if typeof subsector.id is "string" && !subsector.name_old
-      #unset canceled and not saved yet new subsector
+      #unset new empty cancelled subsector
       @unset subsector.id
     else
-      params =
+      @set subsector.id,
         editing: false
         name: subsector.name_old
         description: subsector.description_old
-      @update(subsector, params)
+
+      if subsector.name_old != subsector.name || subsector.description_old != subsector.description
+        SubsectorsAPI.update @get(subsector.id)
 
   update_text: (subsector, params) ->
     @set subsector.id, params
     if typeof subsector.id isnt "string"
       clearTimeout @typingTimer
-      callback = => @update(subsector, params)
+      callback = => SubsectorsAPI.update @get(subsector.id)
       @typingTimer = setTimeout(callback , 500)
 
   update: (subsector, params) ->
@@ -79,11 +81,11 @@ SubsectorsStore = Marty.createStore
 
   save: (subsector) ->
     @typingTimer = null
-    prpams =
+    @update subsector,
       editing: false
       name_old: subsector.name
       description_old: subsector.description
-    @update(subsector, prpams)
+
     if typeof subsector.id is "string"
       #create to server, replase ID on success
       SubsectorsAPI.create(subsector)
