@@ -16,7 +16,7 @@ ActiveAdmin.register User do
       Activity.joins(subsector: :sector).where(sectors: { user_id: user.id }).count
     end
     column "Progress" do |user|
-      SectorWeek.joins(:sector).where(sectors: { user_id: user.id }).sum(:progress)
+      Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).sum(:count)
     end
     column :locale
     column :sign_in_count
