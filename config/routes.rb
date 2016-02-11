@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   get 'patina', to: 'pages#patina', as: 'patina'
   get 'about', to: 'pages#about', as: 'about'
+  get 'how_to', to: 'pages#how_to', as: 'how_to'
   get 'hello' => 'pages#hello', :as => :hello
 
   get 'statistics', to: 'pages#statistics', as: 'statistics'

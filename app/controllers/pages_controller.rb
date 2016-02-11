@@ -2,6 +2,9 @@ class PagesController < ApplicationController
   def about
   end
 
+  def how_to
+  end
+
   # GET /patina
   # GET /patina.json
   def patina
