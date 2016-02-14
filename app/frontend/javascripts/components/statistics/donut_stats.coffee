@@ -10,7 +10,7 @@ DonutStats = React.createClass
 
   render: ->
     data = _.map AppStore.get_day().sectors, (sector) ->
-      value: AppStore.sector_progress_sum(sector),
+      value: Math.abs(AppStore.sector_progress_sum(sector)),
       color: AppStore.get_sector(sector).color || "rgba(220,220,220,0.5)",
       label: AppStore.get_sector(sector).name
 

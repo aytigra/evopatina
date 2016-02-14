@@ -13,7 +13,7 @@ RadarStats = React.createClass
       AppStore.get_sector(sector).name
 
     data = _.map AppStore.get_day().sectors, (sector) ->
-      AppStore.sector_progress_sum(sector)
+      Math.abs(AppStore.sector_progress_sum(sector))
 
     div className: '',
       div className: 'stats-name text-center', I18n.stats.radar_title
