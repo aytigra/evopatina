@@ -19,6 +19,7 @@
 //= require bootstrap/alert
 //= require nprogress
 //= require nprogress-turbolinks
+//= require growlyflash
 //= require js-routes
 //= require turbolinks
 //= require bundle-weeks
