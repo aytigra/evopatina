@@ -37,8 +37,10 @@ en:
     print: "Print"
     statistics: Statistics
     about: What is this?
+    instruction: How to?
     feedback: Feedback
     hello: Hello
+    vk_group: VK group
 
   layouts:
     navbar:

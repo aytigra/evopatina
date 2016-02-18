@@ -39,6 +39,7 @@ ru:
     instruction: Как пользоваться?
     feedback: Обратная связь
     hello: Привет
+    vk_group: Группа ВК
 
   layouts:
     navbar:
@@ -77,7 +78,7 @@ ru:
     shared:
       links:
         login: Войти
-        signup: Рагистрация
+        signup: Регистрация
         forgot_pass: Восстановление пароля
         forgot_pass_send: Отправить инструкцию по сбросу пароля
         miss_confirm_letter: Повторно отправить письмо подтверждения эл. почты
