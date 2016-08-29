@@ -18,6 +18,9 @@ ActiveAdmin.register User do
     column "Progress" do |user|
       Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).sum(:count)
     end
+    column "Last activity" do |user|
+      Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).last.try(:created_at)
+    end
     column :locale
     column :sign_in_count
     column :current_sign_in_at
