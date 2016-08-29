@@ -13,10 +13,12 @@ class Day
     new(Date.strptime(id.to_s, '%Y%m%d'))
   end
 
-  def previous_days
+  def previous_days(days_num = nil)
+    days_num ||= PREV_DAYS_NUM
+
     return @previous_days if @previous_days
 
-    @previous_days = (1..PREV_DAYS_NUM).map do |i|
+    @previous_days = (1..days_num).map do |i|
       self.class.new(date - i.day)
     end
     @previous_days

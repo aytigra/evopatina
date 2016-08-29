@@ -35,6 +35,18 @@ class PagesController < ApplicationController
                 INNER JOIN "subsectors" ON "subsectors"."id" = "activities"."subsector_id"
                 WHERE "subsectors"."sector_id" = "sectors"."id") > 0')
       .group(:name).order('count_id desc').limit(30).count('id')
+
+    # users activity over time
+
+    @last_month_days = [Day.new(Date.current)] + Day.new(Date.current).previous_days(30)
+
+    @fragnets_by_days Fragment.where(day_id: @last_month_days.map(&:id))
+      .group(:day_id)
+      .sum(:count)
+
+    @users_by_days = User.joins(sectors: { subsectors: { activities: :fragments } })
+      .where(fragments: { day_id: @last_month_days.map(&:id) })
+      .distinct.group(:day_id).count(:id)
   end
 
   # get 'statistics/:id'

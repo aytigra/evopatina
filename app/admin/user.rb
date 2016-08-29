@@ -19,7 +19,12 @@ ActiveAdmin.register User do
       Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).sum(:count)
     end
     column "Last activity" do |user|
-      Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).last.try(:created_at)
+      lastf = Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).last
+      if last.present?
+        time_ago_in_words last.created_at
+      else
+        'never'
+      end
     end
     column :locale
     column :sign_in_count
