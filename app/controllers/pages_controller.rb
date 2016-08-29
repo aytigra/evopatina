@@ -40,7 +40,7 @@ class PagesController < ApplicationController
 
     @last_month_days = [Day.new(Date.current)] + Day.new(Date.current).previous_days(30)
 
-    @fragnets_by_days Fragment.where(day_id: @last_month_days.map(&:id))
+    @fragnets_by_days = Fragment.where(day_id: @last_month_days.map(&:id))
       .group(:day_id)
       .sum(:count)
 
