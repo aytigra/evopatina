@@ -20,8 +20,8 @@ ActiveAdmin.register User do
     end
     column "Last activity" do |user|
       lastf = Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).last
-      if last.present?
-        time_ago_in_words last.created_at
+      if lastf.present?
+        time_ago_in_words lastf.created_at
       else
         'never'
       end
