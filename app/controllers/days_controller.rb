@@ -27,6 +27,7 @@ class DaysController < ApplicationController
     @fragments = Fragment.includes(activity: { subsector: :sector })
                          .where(day_id: @days.map(&:id), activities: { subsector_id: @subsectors })
                          .where.not(count: 0)
+                         .order(Sector.arel_table[:position], Subsector.arel_table[:position], Activity.arel_table[:position])
                          .group_by(&:day_id)
 
     next_day = Day.new(@day.date + @days.length.day)
