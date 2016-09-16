@@ -387,8 +387,20 @@
 }
 
 #summary {
+  table tbody {
+    border: solid #e7e7e7 1px
+  }
+  @media (min-width: $screen-xs-max) {
+    table {
+      width: 70%;
+      margin: 0 auto;
+    }
+  }
   .fragment-count {
     width: 5%;
+  }
+  .fragment-label {
+    width: 20%;
   }
   td, th {
     border-style: none;

@@ -24,7 +24,7 @@ class DaysController < ApplicationController
     @day = Day.new params_date
     @days = ([@day] + @day.previous_days)
     @subsectors = Subsector.where(sector: Sector.where(user: current_user))
-    @fragments = Fragment.includes(:activity)
+    @fragments = Fragment.includes(activity: { subsector: :sector })
                          .where(day_id: @days.map(&:id), activities: { subsector_id: @subsectors })
                          .where.not(count: 0)
                          .group_by(&:day_id)

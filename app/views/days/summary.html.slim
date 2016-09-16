@@ -9,13 +9,18 @@
 
 
   - @days.each do |day|
-    h4 = "#{day.text}:"
     table.table.table-condensed
-      - if @fragments[day.id]
-        - @fragments[day.id].each do |fragment|
-          tr
-            th.fragment-count = fragment.count
-            td = fragment.activity.name
-      - else
+      thead
         tr
-          td prosrano
+          td colspan=3
+            h4 = "#{day.text}:"
+      tbody
+        - if @fragments[day.id]
+          - @fragments[day.id].each do |fragment|
+            tr
+              th.fragment-count = fragment.count
+              td = fragment.activity.name
+              td.fragment-label style="background-color: #{fragment.activity.subsector.sector.color}" = "#{fragment.activity.subsector.name}[#{fragment.activity.subsector.sector.name}]"
+        - else
+          tr
+            td prosrano
