@@ -16,9 +16,11 @@ nav class="navbar navbar-default"
 
       - if user_signed_in?
         ul class="nav navbar-nav"
+          = nav_link t("links.summary"), summary_path
+
+        ul class="nav navbar-nav"
           = nav_link t("links.patina"), patina_path
 
-      - if user_signed_in?
         ul class="nav navbar-nav"
           = nav_link t("links.statistics"), statistics_path
 

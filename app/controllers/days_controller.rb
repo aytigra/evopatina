@@ -20,6 +20,20 @@ class DaysController < ApplicationController
     end
   end
 
+  def summary
+    @day = Day.new params_date
+    @days = ([@day] + @day.previous_days)
+    @subsectors = Subsector.where(sector: Sector.where(user: current_user))
+    @fragments = Fragment.includes(:activity)
+                         .where(day_id: @days.map(&:id), activities: { subsector_id: @subsectors })
+                         .where.not(count: 0)
+                         .group_by(&:day_id)
+
+    next_day = Day.new(@day.date + @days.length.day)
+    @next_link = next_day.date >= Date.current.beginning_of_day ? "/summary/" : "/summary/#{next_day.to_param}"
+
+  end
+
   private
 
   def params_date

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   get 'days/:date', to: 'days#show', as: 'week'
 
+  get '/summary/(:date)', to: 'days#summary', as: 'summary'
+
   put 'fragments/:id', to: 'fragments#update', as: 'fragment'
 
   devise_for :users, skip: [:sessions],

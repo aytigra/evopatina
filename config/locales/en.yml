@@ -33,6 +33,7 @@ en:
 
   links:
     home: "Home"
+    summary: Summary
     patina: "Spectrum"
     print: "Print"
     statistics: Statistics

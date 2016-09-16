@@ -1,0 +1,21 @@
+#summary.container
+  h4.text-center
+    = link_to "/summary/#{@days.last.prev_day.to_param}"
+      span.glyphicon.glyphicon-arrow-left aria-hidden='true'
+    span<> = "#{@days.last.text} - #{@days.first.text}"
+    - if @next_link && params[:date]
+      = link_to @next_link
+        span.glyphicon.glyphicon-arrow-right aria-hidden='true'
+
+
+  - @days.each do |day|
+    h4 = "#{day.text}:"
+    table.table.table-condensed
+      - if @fragments[day.id]
+        - @fragments[day.id].each do |fragment|
+          tr
+            th.fragment-count = fragment.count
+            td = fragment.activity.name
+      - else
+        tr
+          td prosrano

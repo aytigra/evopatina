@@ -24,8 +24,12 @@ class Day
     @previous_days
   end
 
-  def previous
+  def prev_day
     self.class.new(date - 1.day)
+  end
+
+  def next_day
+    self.class.new(date + 1.day) if date < Date.current.beginning_of_day
   end
 
   def current?
@@ -45,10 +49,10 @@ class Day
   end
 
   def prev_path
-    self.class.new(date - 1.day).route_path
+    prev_day.route_path
   end
 
   def next_path
-    self.class.new(date + 1.day).route_path if date < Date.current.beginning_of_day
+    next_day.route_path if next_day
   end
 end
