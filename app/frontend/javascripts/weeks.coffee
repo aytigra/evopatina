@@ -5,6 +5,7 @@ ActivitiesStore = require './stores/activities_store'
 WeekContent = require './components/week_content'
 Confirm = require './components/shared/confirm'
 SubsectorsSelector = require './components/selectors/subsectors_selector'
+SectorGraph = require './components/statistics/activity_graph'
 
 jstz = require 'jstimezonedetect'
 
@@ -59,3 +60,10 @@ $(document).on "ready, page:change", ->
 
     # root react component
     React.render React.createElement(WeekContent, null), week_container
+
+  if statistics_chart_container = document.getElementById('statistics-chart-container')
+    statistics_chart = React.createElement SectorGraph,
+      color: '#a0a'
+      data: ACTIVITY_JSON
+
+    React.render statistics_chart, statistics_chart_container

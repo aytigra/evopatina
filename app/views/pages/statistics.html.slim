@@ -21,6 +21,12 @@
         td = @fragments_total.values.sum.to_i
 
   .row
+    h4.text-center = t('.activity_for_month')
+    #statistics-chart-container
+      javascript:
+        window.ACTIVITY_JSON = #{render('/pages/activity.json').html_safe};
+
+  .row
     h4.text-center = t('.popular_sectors') + '(' + t("languages.#{I18n.locale}") + ')'
     table.table.table-hover
       tr

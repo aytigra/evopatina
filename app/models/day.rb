@@ -40,6 +40,10 @@ class Day
     I18n.l(date, format: '%d %b %Y')
   end
 
+  def text_short
+    I18n.l(date, format: '%d %b')
+  end
+
   def to_param
     date.strftime '%d-%m-%Y'
   end

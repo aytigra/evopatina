@@ -61,6 +61,7 @@ ru:
       total: Всего
       popular_sectors: Популярные МН
       users_count: Пользователей
+      activity_for_month: Активность пользователей за последний месяц
 
     statistics_sector:
       fragments_by_sector: "Количество твоих фрагментов в МН '%{sector}'"

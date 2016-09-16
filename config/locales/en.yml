@@ -62,6 +62,7 @@ en:
       total: Total
       popular_sectors: Popular MDs
       users_count: Users
+      activity_for_month: Users activity for last month
 
     statistics_sector:
       fragments_by_sector: "Your number of fragments for in MD '%{sector}'"
