@@ -5,9 +5,10 @@ ActivitiesStore = require './stores/activities_store'
 WeekContent = require './components/week_content'
 Confirm = require './components/shared/confirm'
 SubsectorsSelector = require './components/selectors/subsectors_selector'
-SectorGraph = require './components/statistics/activity_graph'
+ActivityGraph = require './components/statistics/activity_graph'
 
 jstz = require 'jstimezonedetect'
+moment = require 'moment'
 
 Marty.HttpStateSource.addHook(
   priority: 1
@@ -62,8 +63,14 @@ $(document).on "ready, page:change", ->
     React.render React.createElement(WeekContent, null), week_container
 
   if statistics_chart_container = document.getElementById('statistics-chart-container')
-    statistics_chart = React.createElement SectorGraph,
+    statistics_chart = React.createElement ActivityGraph,
       color: '#a0a'
       data: ACTIVITY_JSON
 
     React.render statistics_chart, statistics_chart_container
+
+  # reload page on the new day, if current day displayed
+  window.onblur = ->
+    window.onfocus = ->
+      if window.location.pathname == '/' && DAY_JSON.current_day.id && DAY_JSON.current_day.id < moment().format('YYYYMMDD')
+        location.reload(true)
