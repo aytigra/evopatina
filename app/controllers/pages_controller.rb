@@ -44,9 +44,13 @@ class PagesController < ApplicationController
       .group(:day_id)
       .sum(:count)
 
+    @fragmets_by_days = @last_month_days.map { |d| @fragmets_by_days[d.id] || 0 }
+
     @users_by_days = User.joins(sectors: { subsectors: { activities: :fragments } })
       .where(fragments: { day_id: @last_month_days.map(&:id) })
       .distinct.group(:day_id).count(:id)
+
+    @users_by_days = @last_month_days.map { |d| @users_by_days[d.id] || 0 }
   end
 
   # get 'statistics/:id'
