@@ -15,9 +15,9 @@ ru:
     subsector: тактическое направление
     activity: конкретное направление
     fragment: фрагмент
-    my_fragments: Твои фрагменты
-    all_fragments: Все фрагменты
-    users: Пользователи
+    my_fragments: твои фрагменты
+    all_fragments: все фрагменты
+    users: пользователи
 
     header:
       show_sectors: показать магистральные направления
