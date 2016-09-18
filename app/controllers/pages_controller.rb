@@ -40,17 +40,12 @@ class PagesController < ApplicationController
 
     @last_month_days = [Day.new(Date.current)] + Day.new(Date.current).previous_days(30)
 
-    @fragmets_by_days = Fragment.where(day_id: @last_month_days.map(&:id))
-      .group(:day_id)
-      .sum(:count)
-
-    @fragmets_by_days = @last_month_days.map { |d| @fragmets_by_days[d.id] || 0 }
+    @fragmets_by_days = Fragment.sum_by_days(@last_month_days)
+    @my_fragmets_by_days = Fragment.sum_by_days(@last_month_days, current_user)
 
     @users_by_days = User.joins(sectors: { subsectors: { activities: :fragments } })
       .where(fragments: { day_id: @last_month_days.map(&:id) })
       .distinct.group(:day_id).count(:id)
-
-    @users_by_days = @last_month_days.map { |d| @users_by_days[d.id] || 0 }
   end
 
   # get 'statistics/:id'

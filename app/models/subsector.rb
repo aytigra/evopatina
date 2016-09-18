@@ -8,4 +8,6 @@ class Subsector < ActiveRecord::Base
   ranks :row_order, column: :position, with_same: :sector_id
 
   validates :sector, :name, presence: true
+
+  scope :user, ->(id) { where(sector: Sector.unscoped.where(user_id: id)) }
 end

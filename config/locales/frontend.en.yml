@@ -15,6 +15,9 @@ en:
     subsector: tactical direction
     activity: specific direction
     fragment: fragment
+    my_fragments: Your fragments
+    all_fragments: All fragments
+    users: Users
 
     header:
       show_sectors: show main directions

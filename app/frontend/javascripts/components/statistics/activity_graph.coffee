@@ -13,18 +13,27 @@ ActivityGraph = React.createClass
           labels: @props.data.labels
           datasets: [
             {
-              label: 'Fragments'
-              strokeColor: '#a0a'
-              pointColor: '#a0a'
+              label: I18n.my_fragments
+              strokeColor: '#2ecc71'
+              pointColor: '#2ecc71'
+              pointStrokeColor: "#fff"
+              pointHighlightFill: "#fff"
+              pointHighlightStroke: "rgba(220,220,220,1)"
+              data: @props.data.my_fragments
+            }
+            {
+              label: I18n.all_fragments
+              strokeColor: '#f1c40f'
+              pointColor: '#f1c40f'
               pointStrokeColor: "#fff"
               pointHighlightFill: "#fff"
               pointHighlightStroke: "rgba(220,220,220,1)"
               data: @props.data.fragments
             }
             {
-              label: 'Users'
-              strokeColor: '#0a0'
-              pointColor: '#0a0'
+              label: I18n.users
+              strokeColor: '#3498db'
+              pointColor: '#3498db'
               pointStrokeColor: "#fff"
               pointHighlightFill: "#fff"
               pointHighlightStroke: "rgba(220,220,220,1)"
@@ -32,14 +41,12 @@ ActivityGraph = React.createClass
             }
           ]
         options:
-          tooltipTemplate: "<%= value %> on <%=label%>"
           tooltipCaretSize: 0
           responsive: true
           maintainAspectRatio: false
           showScale: true
           scaleShowLabels: true
           animation: false
-          legend: ['Fragments', 'Users']
           datasetFill:false
 
         redraw: true

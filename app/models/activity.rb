@@ -10,6 +10,8 @@ class Activity < ActiveRecord::Base
 
   validates :subsector, :name, presence: true
 
+  scope :user, ->(id) { where(subsector: Subsector.unscoped.user(id)) }
+
   scope :counts_for, ->(day) do
     a = arel_table
     f = Fragment.arel_table

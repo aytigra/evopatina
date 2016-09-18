@@ -2,6 +2,7 @@ class Fragment < ActiveRecord::Base
   belongs_to :activity
 
   scope :sector, ->(id) { joins(activity: :subsector).where(subsectors: { sector_id: id }) }
+  scope :user, ->(id) { where(activity: Activity.unscoped.user(id)) }
 
   validates :activity, :day_id, presence: true
   validates :activity, uniqueness: { scope: :day_id }
@@ -40,5 +41,12 @@ class Fragment < ActiveRecord::Base
       .where('day_id > ?', date)
       .group(:activity_id)
       .sum(:count)
+  end
+
+  def self.sum_by_days(days, user = nil)
+    scope = Fragment.where(day_id: days.map(&:id))
+    scope = scope.user(user.id) if user && user.is_a?(User)
+
+    scope.group(:day_id).sum(:count)
   end
 end
