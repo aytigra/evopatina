@@ -13,13 +13,13 @@ ActiveAdmin.register User do
     id_column
     column :email
     column "Activities" do |user|
-      Activity.joins(subsector: :sector).where(sectors: { user_id: user.id }).count
+      Activity.user(user.id).count
     end
     column "Progress" do |user|
-      Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).sum(:count)
+      Fragment.user(user.id).sum(:count)
     end
     column "Last activity" do |user|
-      lastf = Fragment.joins(activity: { subsector: :sector }).where(sectors: { user_id: user.id }).last
+      lastf = Fragment.user(user.id).last
       if lastf.present?
         time_ago_in_words lastf.created_at
       else

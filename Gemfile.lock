@@ -262,6 +262,8 @@ GEM
     rdoc (4.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rollbar (2.13.3)
+      multi_json
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -381,6 +383,7 @@ DEPENDENCIES
   rails (= 4.2.7.1)
   rails_12factor
   ranked-model
+  rollbar
   rspec-rails
   ruby_gntp
   sass-rails (~> 5.0)
