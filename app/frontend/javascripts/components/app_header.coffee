@@ -19,9 +19,7 @@ AppHeader = React.createClass
 
   componentDidMount: ->
     date_button = React.findDOMNode(this.refs.day_datepicker)
-    $(date_button).datepicker(
-      endDate: '0d'
-    ).on 'changeDate', (e) ->
+    $(date_button).datepicker(window.DATEPICKER_OPTIONS).on 'changeDate', (e) ->
       Turbolinks.visit('/days/' + moment(e.date).format('DD-MM-YYYY'))
 
   render: ->

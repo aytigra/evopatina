@@ -56,10 +56,15 @@ window.select_sector = (subsector) ->
 $(document).on "ready, page:change", ->
   window.Cookies.set "timezone", jstz.determine().name(), { expires: 365, path: '/' }
 
+  current_day = moment(DAY_JSON.current_day.id, 'YYYYMMDD')
+  window.DATEPICKER_OPTIONS =
+    todayHighlight: true
+    endDate: '0d'
+    startDate: '-100d'
+    defaultViewDate: { year: current_day.year(), month: current_day.month(), day: current_day.date() }
+
   if $('.sumary-datepicker-JS').length
-    $('.sumary-datepicker-JS').datepicker(
-      endDate: '0d'
-    ).on 'changeDate', (e) ->
+    $('.sumary-datepicker-JS').datepicker(window.DATEPICKER_OPTIONS).on 'changeDate', (e) ->
       Turbolinks.visit('/summary/' + moment(e.date).format('DD-MM-YYYY'))
 
   if week_container = document.getElementById('week-container')
