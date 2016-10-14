@@ -8,7 +8,7 @@ gem 'pg'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', '~> 1.0.0.pre4'
 gem 'devise'
 gem 'slim'
 gem 'slim-rails'
