@@ -49,4 +49,16 @@ class Fragment < ActiveRecord::Base
 
     scope.group(:day_id).sum(:count)
   end
+
+  def self.compact_old_fragments
+    day101 = Day.new(Date.current - 101.days)
+    old_fragments_counts = where('day_id < ?', day101.id).group(:activity_id).sum(:count)
+    old_fragments_counts.each do |activity_id, sum|
+      transaction do
+        cumulative_fragment = where(activity_id: activity_id, day_id: day101.id).first_or_create
+        cumulative_fragment.update_attribute(:count, sum)
+        where(activity_id: activity_id).where('day_id < ?', day101.prev_day.id).delete_all
+      end
+    end
+  end
 end
