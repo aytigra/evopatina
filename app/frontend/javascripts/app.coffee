@@ -59,6 +59,8 @@ $(document).on "ready, page:change", ->
   current_day = moment(DAY_JSON.current_day.id, 'YYYYMMDD')
   window.DATEPICKER_OPTIONS =
     todayHighlight: true
+    maxViewMode: 1
+    orientation: 'bottom right'
     endDate: '0d'
     startDate: '-100d'
     defaultViewDate: { year: current_day.year(), month: current_day.month(), day: current_day.date() }

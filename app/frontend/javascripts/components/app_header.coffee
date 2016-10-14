@@ -54,7 +54,7 @@ AppHeader = React.createClass
             span null, I18n.header.add_sector_short
 
         div
-          className: "col-lg-4 col-md-6 col-sm-7 #{app_width}"
+          className: "col-lg-4 col-md-6 col-sm-7 #{app_width} text-center"
           style: {marginRight: '-13px', paddingLeft: '12px'}
           div className: "day-navbar #{app_nav_class}",
             div className: 'btns-left',
@@ -62,11 +62,11 @@ AppHeader = React.createClass
                 tag: 'a', href: @props.day.prev_path, id: "prev-day-link"
                 glyphicon: 'arrow-left', title: I18n.header.prev_day
 
-            div className: 'day-info',
+            div className: "day-info #{ if @props.day.next_path then 'day-info-x2' else '' }",
               div className: 'day-dates',
                 @props.day.text
 
-            div className: 'btns-right',
+            div className: "btns-right",
               Button
                 tag: 'button', id: 'day-datepicker', ref: 'day_datepicker'
                 glyphicon: 'calendar', title: I18n.header.datepicker
