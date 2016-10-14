@@ -63,17 +63,10 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'evopatina.herokuapp.com' }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "evopatina.herokuapp.com",
-    authentication: "plain",
-    user_name: ENV["EMAIL_NAME"],
-    password: ENV["EMAIL_PASS"],
-    enable_starttls_auto: true
-  }
+  config.action_mailer.default_url_options = { host: 'evopatina.space' }
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { :api_token => ENV['POSTMARK_API_TOKEN'] }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true

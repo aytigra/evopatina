@@ -1,18 +1,18 @@
 == This is an app for self improvement.
-Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal weekly program.
-Get it? %)
+Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal dayly program... Check this) http://evopatina.space/about
 
 ==== Cool stuff
 * responsive layout.
 * reactive UI with optimistic updates
 * Internationalization support
 * usage of RESTapi, React Flux architecture and immutable data
-
+* dynamic charts and statistics
 
 ==== Status
 
-It pretty much works, demonstration user:
+It works, not much users, though...
+Demonstration user:
 
-* site http://evopatina.herokuapp.com/
+* site http://evopatina.space
 * test login: test@mail.com
 * test pass: qwerqwer
