@@ -6,11 +6,11 @@ var sourcepath = path.join(__dirname, 'app', 'frontend', 'javascripts');
 var config = {
   context: __dirname,
   entry: [
-    sourcepath + '/weeks.coffee'
+    sourcepath + '/app.coffee'
   ],
   output: {
     path: path.join(__dirname, 'app', 'assets', 'javascripts'),
-    filename: "bundle-weeks.self.js",
+    filename: "bundle-app.self.js",
     publicPath: "/assets/",
   },
   resolve: {

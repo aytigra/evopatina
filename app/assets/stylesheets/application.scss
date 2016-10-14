@@ -15,13 +15,14 @@
 @import "bootstrap-sprockets";
 $screen-lg: 1600px;
 @import "bootstrap";
+@import "bootstrap-datepicker";
 @import "growlyflash";
 @import 'nprogress';
 @import 'nprogress-bootstrap';
 @import 'colorpicker';
 @import 'layout';
 @import 'user';
-@import 'weeks';
+@import 'app';
 
 /* shuld use import now
  *= require_tree .

@@ -2,7 +2,7 @@ SectorsStore = require './stores/sectors_store'
 SubsectorsStore = require './stores/subsectors_store'
 ActivitiesStore = require './stores/activities_store'
 
-WeekContent = require './components/week_content'
+AppContent = require './components/app_content'
 Confirm = require './components/shared/confirm'
 SubsectorsSelector = require './components/selectors/subsectors_selector'
 ActivityGraph = require './components/statistics/activity_graph'
@@ -56,11 +56,17 @@ window.select_sector = (subsector) ->
 $(document).on "ready, page:change", ->
   window.Cookies.set "timezone", jstz.determine().name(), { expires: 365, path: '/' }
 
+  if $('.sumary-datepicker-JS').length
+    $('.sumary-datepicker-JS').datepicker(
+      endDate: '0d'
+    ).on 'changeDate', (e) ->
+      Turbolinks.visit('/summary/' + moment(e.date).format('DD-MM-YYYY'))
+
   if week_container = document.getElementById('week-container')
     AppStore.setInitialState(DAY_JSON, true)
 
     # root react component
-    React.render React.createElement(WeekContent, null), week_container
+    React.render React.createElement(AppContent, null), week_container
 
   if statistics_chart_container = document.getElementById('statistics-chart-container')
     statistics_chart = React.createElement ActivityGraph,
@@ -74,3 +80,6 @@ $(document).on "ready, page:change", ->
     window.onfocus = ->
       if window.location.pathname == '/' && DAY_JSON.current_day.id && DAY_JSON.current_day.id < moment().format('YYYYMMDD')
         location.reload(true)
+
+$(document).on 'page:change', -> NProgress.done()
+$(document).on 'page:restore', -> NProgress.remove()

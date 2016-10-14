@@ -17,6 +17,7 @@ Button = React.createClass
 
     React.DOM[@props.tag]
       id: @props.id
+      ref: @props.ref
       href: @props.href
       type: @props.type
       title: @props.title

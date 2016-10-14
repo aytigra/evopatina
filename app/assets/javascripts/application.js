@@ -17,9 +17,10 @@
 //= require bootstrap/tab
 //= require bootstrap/collapse
 //= require bootstrap/alert
+//= require bootstrap-datepicker
 //= require nprogress
 //= require nprogress-turbolinks
 //= require growlyflash
 //= require js-routes
 //= require turbolinks
-//= require bundle-weeks
+//= require bundle-app

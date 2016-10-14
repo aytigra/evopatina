@@ -30,7 +30,7 @@
   margin-bottom: 0;
 }
 
-#week-content {
+#app-content {
   padding-top: 34px;
 }
 
@@ -43,16 +43,16 @@
   width: 100%;
 }
 
-#week-header{
+#app-header{
   height: 34px;
 
-  .week-navbar {
+  .day-navbar {
     @extend .toolbar;
     display: inline-block;
-    .week-info {
+    .day-info {
       line-height: 32px;
       padding-left: 32px;
-      padding-right: 32px;
+      padding-right: 76px;
     }
 
   }

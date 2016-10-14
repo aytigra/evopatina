@@ -1,12 +1,12 @@
 {div} = React.DOM
 
-WeekHeader = React.createFactory require('./week_header')
+AppHeader = React.createFactory require('./app_header')
 Sector = React.createFactory require('./sector')
 SectorContent = React.createFactory require('./sector_content')
 Statistics = React.createFactory require('./statistics')
 
-WeekContent = React.createClass
-  displayName: 'WeekContent'
+AppContent = React.createClass
+  displayName: 'AppContent'
 
   render: ->
     current_sector = AppStore.getCurrentSector()
@@ -24,8 +24,8 @@ WeekContent = React.createClass
       sector_content_class = ' hidden-sm hidden-xs'
       stats_class = ' col-sm-7 col-xs-11'
 
-    div id: 'week-content', className: 'row',
-      WeekHeader
+    div id: 'app-content', className: 'row',
+      AppHeader
         day: AppStore.get_day()
         UI: UI
 
@@ -48,5 +48,5 @@ WeekContent = React.createClass
         reactor_fragments_per_day: UI.reactor_fragments_per_day
 
 
-module.exports = Marty.createContainer WeekContent,
+module.exports = Marty.createContainer AppContent,
   listenTo: [AppStore]
