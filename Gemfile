@@ -47,7 +47,7 @@ gem 'rollbar'
 gem 'postmark-rails'
 
 group :development do
-  gem 'guard-rspec'
+  gem 'guard-rspec', '~> 4.7.3'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'better_errors'
@@ -59,7 +59,7 @@ group :development, :test do
   gem 'thin'
   gem 'factory_girl_rails'
   gem 'pry-rails'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.5'
   gem 'ruby_gntp'
 end
 
