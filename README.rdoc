@@ -1,5 +1,6 @@
 == This is an app for self improvement.
-Lists of evolutionary activities, with counters and visualisation of weekly progress of activities relative to minimal dayly program... Check this) http://evopatina.space/about
+Lists of evolutionary activities, with counters and visualisation of weekly progress relative to minimal dayly program
+http://evopatina.herokuapp.com/about
 
 ==== Cool stuff
 * responsive layout.
@@ -13,6 +14,6 @@ Lists of evolutionary activities, with counters and visualisation of weekly prog
 It works, not much users, though...
 Demonstration user:
 
-* site http://evopatina.space
+* link http://evopatina.herokuapp.com
 * test login: test@mail.com
 * test pass: qwerqwer
